@@ -1,3 +1,4 @@
+import 'package:hnh/domain/repositories/user_repository.dart';
 import 'package:hnh/domain/usecases/usecase.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:rxdart/rxdart.dart';
