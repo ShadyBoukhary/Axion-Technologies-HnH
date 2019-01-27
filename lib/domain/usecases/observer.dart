@@ -1,5 +1,5 @@
 abstract class Observer<T> {
   void onNext(T);
   void onComplete();
-  void onError();
+  void onError(e);
 }

@@ -45,6 +45,13 @@ class HomePageView extends State<HomePage> implements View {
               "${_controller.counter}",
               style: Theme.of(context).textTheme.display1,
             ),
+            RaisedButton(
+              child: Text("Get User"),
+              onPressed: () { callHandler(_controller.getUser); },
+            ),
+            Text(
+              'Name: ${_controller.currentUser?.firstName} ${_controller.currentUser?.lastName}'
+            )
           ],
         ),
       ),

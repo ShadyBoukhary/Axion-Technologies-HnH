@@ -11,14 +11,14 @@ class UserUseCase extends UseCase<User, UserUseCaseParams> {
 
   @override
   Future<Observable<User>> buildUseCaseObservable(UserUseCaseParams params) async {
-    final StreamController controller = StreamController();
+    final StreamController<User> controller = StreamController();
     try {
       User user = await _userRepository.getUser(params._uid);
       controller.add(user);
       controller.close();
     } catch (e) {
+      print(e);
       controller.addError(e);
-      controller.close();
     }
     return Observable(controller.stream);
   }

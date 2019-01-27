@@ -25,6 +25,9 @@ abstract class UseCase<T, Params> {
   }
 
   void _addSubscription(StreamSubscription subscription) {
+    if (_disposables.isDisposed) {
+      _disposables = CompositeSubscription();
+    }
     _disposables.add(subscription);
   }
 }
