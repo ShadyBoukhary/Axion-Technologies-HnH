@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
              name: Copy Android Licenses
-             command: cp -r licenses/. $ANDROID_HOME/licenses
+             command: cp -r resources/android/licenses/. $ANDROID_HOME/licenses
       - run: 
              name: build fix
              command: touch ~/.android/repositories.cfg
