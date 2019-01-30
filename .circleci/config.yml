@@ -5,7 +5,7 @@ jobs:
       - image: cirrusci/flutter
     steps:
       - checkout:
-            post: - cp -r licenses/. $ANDROID_HOME/licenses
+            post: cp -r licenses/. $ANDROID_HOME/licenses
       - run: 
              name: build fix
              command: touch ~/.android/repositories.cfg
