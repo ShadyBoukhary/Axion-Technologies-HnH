@@ -8,7 +8,6 @@ class DataUserRepository implements UserRepository {
   static final DataUserRepository _instance = DataUserRepository._internal();
 
   DataUserRepository._internal();
-
   // get singleton instance
   factory DataUserRepository() => _instance;
 
