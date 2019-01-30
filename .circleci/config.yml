@@ -5,6 +5,9 @@ jobs:
       - image: cirrusci/flutter
     steps:
       - checkout
+      - run: 
+             name: build fix
+             command: touch ~/.android/repositories.cfg
       - run: flutter doctor
       - run: flutter test 
       - run: flutter -v build apk --target lib/app/main.dart  
