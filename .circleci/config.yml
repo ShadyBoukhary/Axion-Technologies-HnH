@@ -5,6 +5,12 @@ jobs:
       - image: cirrusci/flutter
     steps:
       - checkout
+      - run:
+             name: Copy Android Licenses
+             command: cp -r resources/android/licenses/. $ANDROID_HOME/licenses
+      - run: 
+             name: build fix
+             command: touch ~/.android/repositories.cfg
       - run: flutter doctor
       - run: flutter test 
-      - run: flutter -v build apk
+      - run: flutter -v build apk --target lib/app/main.dart  
