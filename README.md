@@ -1,14 +1,14 @@
-# hnh
+# HnH
 
-A new Flutter project.
+The Hotter'n Hell Mobile Application
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Become familiar with the Clean Architecture.
 
-A few resources to get you started if this is your first Flutter project:
+Documentation
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
+- [The Clean Architecture for Flutter](./docs/clean_architecture.md)
 - [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
 
 For help getting started with Flutter, view our 
