@@ -14,7 +14,9 @@ class HomePage extends StatefulWidget {
 class HomePageView extends State<HomePage> implements View {
   HomeController _controller;
 
-  HomePageView(this._controller);
+  HomePageView(this._controller) {
+    WidgetsBinding.instance.addObserver(_controller);
+  }
 
   void callHandler(Function fn) {
     setState(() {
