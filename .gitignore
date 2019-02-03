@@ -74,3 +74,4 @@ build/
 # Backend
 node_modules/
 package-lock.json
+config.ts
