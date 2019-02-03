@@ -18,10 +18,10 @@ class HomeController extends Controller {
     _userPresenter = UserPresenter(_dataUserRepository);
     _counter = 0;
     _hidden = true;
-    _initListeners();
+    initListeners();
   }
 
-  void _initListeners() {
+  void initListeners() {
     _userPresenter.getUserOnNext = (User user) {
       _currentUser = user;
       _hidden = false;

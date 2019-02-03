@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend server fo HnH",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
+    "prod": "tsc && node ./build/app.js"
+  },
+  "author": "Shady Boukhary",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.1",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mongoose": "^5.3.12",
+    "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.9",
+    "ts-node-dev": "^1.0.0-pre.32",
+    "typescript": "^3.3.1"
+  }
+}
