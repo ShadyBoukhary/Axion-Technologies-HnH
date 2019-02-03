@@ -15,7 +15,7 @@ const User = model<IUser, IUserModel>('User', UserSchema);
 export async function getUsers(req: Request, res: Response) {
     console.log('hi');
     try {
-        let usersDoc: Document[] = await User.find({});
+        let usersDoc: Document[] = await User.find({}).exec();
         console.log(usersDoc);
         res.status(200);
         res.json(usersDoc);
@@ -27,18 +27,22 @@ export async function getUsers(req: Request, res: Response) {
 export function createUser(req: Request, res: Response, next: NextFunction) {
     console.log(req.body);
     console.log(req.body.email);
-
-    if (req.body.email === null || req.body.password === null || req.body.firstName === null || req.body.lastName === null || req.body.department === null || req.body.title === null || req.body.phone === null || req.body.office === null) {
-        res.statusCode = 400;
-        var error = new Error('Missing fields');
-        return next(error);
+    console.log(req.body.firstName);
+    if (!req.body.email || !req.body.password) {
+        res.status(400).send({
+            'status': '400',
+            'message': 'Missing Fields',
+            'statusText': 'Bad Request'
+        });
+        return next(new Error('Missing Fields'));
     }
+    req.body.firstName = req.body.lastName = 'Unspecified';
 
     let newUser = new User(req.body);
     newUser.save(function (err, user) {
         if (err) {
             if (err.code === 11000) {
-                res.send({
+                res.status(400).send({
                     'status': '400',
                     'message': 'User already exists.',
                     'statusText': 'Bad Request'
@@ -115,6 +119,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
                 auth: true
             });
         } catch (error) {
+            res.status(404);
+            res.statusMessage = 'No user with this email is registerd.'
             return next(error);
         }
 
