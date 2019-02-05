@@ -27,10 +27,10 @@ class LoginController extends Controller {
     _userEmail = "";
     _userPassword = "";
 
-    _initListeners();
+    initListeners();
   }
 
-  void _initListeners() {
+  void initListeners() {
 
   }
 
