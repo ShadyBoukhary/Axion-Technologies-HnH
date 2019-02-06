@@ -153,24 +153,30 @@ class LoginPageView extends State<LoginPage> implements View {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 50.0),
-                            child: new Container(
-                              width: 320.0,
-                              height: 50.0,
-                              alignment: FractionalOffset.center,
-                              decoration: new BoxDecoration(
-                                  color: Color.fromRGBO(230, 38, 39, 1.0),
-                                  borderRadius:
-                                      new BorderRadius.circular(25.0)),
-                              child: new Text("Sign In",
-                                  style: new TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w300,
-                                      letterSpacing: 0.4)),
+                            child: GestureDetector(
+                              onTap: () {
+                                _controller.login(context);
+                              },
+                              child: Container(
+                                width: 320.0,
+                                height: 50.0,
+                                alignment: FractionalOffset.center,
+                                decoration: new BoxDecoration(
+                                    color: Color.fromRGBO(230, 38, 39, 1.0),
+                                    borderRadius:
+                                        new BorderRadius.circular(25.0)),
+                                child: new Text("Sign In",
+                                    style: new TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w300,
+                                        letterSpacing: 0.4)),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            padding:
+                                const EdgeInsets.only(top: 15.0, bottom: 15.0),
                             child: Column(
                               children: <Widget>[
                                 Text(

@@ -6,25 +6,18 @@ class HomeController extends Controller {
 
   UserPresenter _userPresenter;
   DataUserRepository _dataUserRepository;
-  int _counter;
   User _currentUser;
-  bool _hidden; // hide user UI until retrieved
-  bool get hidden => _hidden;
   User get currentUser => _currentUser;
-  int get counter => _counter;
 
   HomeController() {
     _dataUserRepository = DataUserRepository();
     _userPresenter = UserPresenter(_dataUserRepository);
-    _counter = 0;
-    _hidden = true;
     initListeners();
   }
 
   void initListeners() {
     _userPresenter.getUserOnNext = (User user) {
       _currentUser = user;
-      _hidden = false;
     };
 
     _userPresenter.getUserOnError = () {
@@ -39,8 +32,8 @@ class HomeController extends Controller {
   void getUser() {
     _userPresenter.getUser('does-not-matter-id-for-testing');
   }
-  
-  void incrementCounter() {
-    _counter++;
-  } 
+
+  void logout(context) {
+    print("HAHAHA No function yet!!")
+  }
 }

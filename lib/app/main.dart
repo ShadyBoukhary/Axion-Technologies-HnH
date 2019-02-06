@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home/home_view.dart';
-import 'package:hnh/app/login/login_view.dart';
+import 'login/login_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(title: 'Flutter Demo Home Page'),
       debugShowCheckedModeBanner: false,
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => new HomePage(),
+        '/login': (BuildContext context) => new LoginPage(),
+      }
     );
   }
 }
