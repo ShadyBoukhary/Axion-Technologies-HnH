@@ -9,17 +9,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginPage(title: 'Flutter Demo Home Page'),
-      debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new HomePage(),
-        '/login': (BuildContext context) => new LoginPage(),
-      }
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.red,
+          accentColor: Colors.redAccent,
+          primarySwatch: Colors.red,
+          fontFamily: 'Poppins',
+        ),
+        home: LoginPage(title: 'Flutter Demo Home Page'),
+        debugShowCheckedModeBanner: false,
+        routes: <String, WidgetBuilder>{
+          '/home': (BuildContext context) => new HomePage(),
+          '/login': (BuildContext context) => new LoginPage(),
+        });
   }
 }
-
