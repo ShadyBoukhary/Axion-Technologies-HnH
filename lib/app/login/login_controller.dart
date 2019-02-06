@@ -4,9 +4,9 @@
 // import 'package:hnh/app/abstract/controller.dart';
 // class LoginController extends Controller { 
 //   LoginController() {
-//     _initListeners();
+//     initListeners();
 //   }
-//   void _initListeners() {
+//   void initListeners() {
 //   }
 // }
 
