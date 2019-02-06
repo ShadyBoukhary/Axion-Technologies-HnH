@@ -19,7 +19,7 @@ abstract class Controller with WidgetsBindingObserver {
         break;
     }
   }
-
+  void initListeners();
   void onInActive() {}
   void onPaused() {}
   void onResumed() {}
