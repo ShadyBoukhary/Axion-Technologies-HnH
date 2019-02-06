@@ -31,19 +31,17 @@ class LoginController extends Controller {
   }
 
   void _initListeners() {
-
+    
   }
 
   void _register() {
-
+    
   }
 
   void _login() {
-
   }
 
   void _forgotPassword() {
 
   }
-
 }

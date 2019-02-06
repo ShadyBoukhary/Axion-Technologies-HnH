@@ -141,13 +141,16 @@ class LoginPageView extends State<LoginPage> implements View {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Text(
-                                  "Forgot password?",
-                                  style: new TextStyle(
-                                    color: Color.fromRGBO(230, 38, 39, 0.8),
-                                    fontSize: 14.0,
+                                new GestureDetector(
+                                  onTap: () {},
+                                  child: Text(
+                                    "Forgot password?",
+                                    style: new TextStyle(
+                                      color: Color.fromRGBO(230, 38, 39, 0.8),
+                                      fontSize: 14.0,
+                                    ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -158,9 +161,9 @@ class LoginPageView extends State<LoginPage> implements View {
                               height: 50.0,
                               alignment: FractionalOffset.center,
                               decoration: new BoxDecoration(
-                                  color: Color.fromRGBO(230, 38, 39, 1.0),
-                                  borderRadius:
-                                      new BorderRadius.circular(25.0)),
+                                color: Color.fromRGBO(230, 38, 39, 1.0),
+                                borderRadius: new BorderRadius.circular(25.0),
+                              ),
                               child: new Text("Sign In",
                                   style: new TextStyle(
                                       color: Colors.white,
@@ -170,16 +173,20 @@ class LoginPageView extends State<LoginPage> implements View {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            padding:
+                                const EdgeInsets.only(top: 15.0, bottom: 15.0),
                             child: Column(
                               children: <Widget>[
-                                Text(
-                                  "No account? Create one.",
-                                  style: new TextStyle(
-                                    color: Color.fromRGBO(230, 38, 39, 0.8),
-                                    fontSize: 18.0,
+                                new GestureDetector(
+                                  onTap: () {},
+                                  child: Text(
+                                    "No account? Create one.",
+                                    style: new TextStyle(
+                                      color: Color.fromRGBO(230, 38, 39, 0.8),
+                                      fontSize: 18.0,
+                                    ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
