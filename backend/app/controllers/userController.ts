@@ -68,12 +68,18 @@ export function getUser(req: Request, res: Response) {
             res.status(404);
             res.json({
                 'status': '404',
-                'message': 'User not found'
+                'message': 'User not found',
+                'statusText': 'Not found'
             });
 
         } else {
             res.status(200);
-            res.json(user);
+            res.send({
+                'uid': user._id,
+                'email': user.email,
+                'firstName': user.firstName,
+                'lastName': user.lastName
+            });
         }
     });
 };
@@ -81,7 +87,7 @@ export function getUser(req: Request, res: Response) {
 export function updateUser(req: Request, res: Response) {
     console.log(req.params.userId);
     console.log(req.body);
-    User.findOneAndUpdate({ _id: req.params.userId }, { 'firstName': req.body.firstName, 'lastName': req.body.lastName, 'department': req.body.department, 'title': req.body.title, 'phone': req.body.phone, 'office': req.body.office }, { new: true }, function (err, user) {
+    User.findOneAndUpdate({ _id: req.params.uid }, { 'firstName': req.body.firstName, 'lastName': req.body.lastName }, { new: true }, function (err, user) {
         if (err) {
             res.send(err);
         } else {
@@ -93,7 +99,7 @@ export function updateUser(req: Request, res: Response) {
 };
 
 export function deleteUser(req: Request, res: Response) {
-    User.remove({ _id: req.params.userId }, (err) => {
+    User.remove({ _id: req.params.uid }, (err) => {
         if (err) {
             res.send(err);
         } else {
@@ -113,14 +119,23 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             let user: IUser = await User.authenticate(req.body.email, req.body.password);
             let token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: 1000000 });
             res.status(200).send({
-                userId: user._id,
-                firstName: user.firstName,
+                user: {
+                    uid: user._id,
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                },
                 token: token,
                 auth: true
             });
         } catch (error) {
-            res.status(404);
-            res.statusMessage = 'No user with this email is registerd.'
+            res.status(400);
+            res.statusMessage = error;
+            res.send({
+                'status': 400,
+                'message': error,
+                'statusText': 'Bad Request'
+            });
             return next(error);
         }
 
