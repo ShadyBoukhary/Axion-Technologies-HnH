@@ -9,10 +9,14 @@ import 'package:logging/logging.dart';
 import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'dart:io';
 
+/// `DataAuthenticationRepository` is the implementation of `AuthenticationRepository` present
+/// in the Domain layer. It communicates with the server, making API calls to register, login, logout, and
+/// store a `User`.
 class DataAuthenticationRepository implements AuthenticationRepository {
+
   // Members
-  static DataAuthenticationRepository _instance =
-      DataAuthenticationRepository._internal();
+  /// Singleton object of `DataAuthenticationRepository`
+  static DataAuthenticationRepository _instance = DataAuthenticationRepository._internal();
   Logger _logger;
 
   // Constructors
@@ -28,21 +32,33 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
   // AuthenticationRepository Methods
 
-  void register({@required String username, @required String password}) async {
+  /// Registers a `User` using a [username] and a [password] by making an API call to the server.
+  /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
+  Future<void> register({@required String username, @required String password}) async {
     try {
-      http.Response response = await http.post(Constants.usersRoute,
-          body: {'email': username, 'password': password});
+      http.Response response = await http.post(Constants.usersRoute, body: {'email': username, 'password': password});
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      // check whether registration was successful
+      if (response.statusCode != 200) {
+        throw APIException(body['message'], response.statusCode, body['statusText']);
+      }
+      _logger.finest('Registration is successful');
     } catch (error) {
+      _logger.finest('Could not register new user.', error);
       rethrow;
     }
   }
 
-  Future<void> authenticate(
-      {@required String username, @required String password}) async {
+  /// Logs in a `User` using a [username] and a [password] by making an API call to the server.
+  /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
+  /// When successful, it attempts to save the credentials of the `User` to local storage by
+  /// calling [_saveCredentials]. Throws an `Exception` if an Internet connection cannot be
+  /// established. Throws a `ClientException` if the http object fails.
+  Future<void> authenticate({@required String username, @required String password}) async {
     try {
       // invoke http request to login and convert body to map
-      http.Response response = await http.post(Constants.loginRoute,
-          body: {'email': username, 'password': password});
+      http.Response response = await http.post(Constants.loginRoute, body: {'email': username, 'password': password});
       Map<String, dynamic> body = jsonDecode(response.body);
 
       // if the user was not authenticated, throw error
@@ -65,6 +81,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     }
   }
 
+  /// Returns whether the current `User` is authenticated.
   Future<bool> isAuthenticated() async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -75,8 +92,10 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     }
   }
 
-  void resetPassword() {}
-
+  void resetPassword() {
+    throw Exception('Not implemented.');
+  }
+  /// Logs the current `User` out by clearing credentials.
   void logout() async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -88,17 +107,14 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     }
   }
 
+  /// Returns the current authenticated `User` from `SharedPreferences`.
   Future<User> getCurrentUser() async {
-    try {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      User user = User.fromMap(jsonDecode(preferences.getString(Constants.userKey)));
-      return user;
-    } catch (error) {
-      _logger.severe('Could not retrieve current user.', error);
-      rethrow;
-    }
-  }
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    User user = User.fromMap(jsonDecode(preferences.getString(Constants.userKey)));
+    return user;
 
+  }
+  /// Saves the [token] and the [user] in `SharedPreferences`.
   void _saveCredentials({@required String token, @required User user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();

@@ -6,10 +6,10 @@ import 'package:hnh/domain/entities/user.dart';
 abstract class AuthenticationRepository {
 
   /// Registers a new user using the provided [username] and [password]
-  void register({@required String username, @required String password});
+  Future<void> register({@required String username, @required String password});
 
   /// Authenticates a user using his [username] and [password]
-  void authenticate({@required String username, @required String password});
+  Future<void> authenticate({@required String username, @required String password});
 
   /// Returns a `Future<bool>` whether the current user is authenticated
   Future<bool> isAuthenticated();

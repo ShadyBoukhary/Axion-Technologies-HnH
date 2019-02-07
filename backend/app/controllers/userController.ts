@@ -53,7 +53,12 @@ export function createUser(req: Request, res: Response, next: NextFunction) {
 
         }
         res.status(200);
-        res.json(user);
+        res.send({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            uid: user._id,
+            email: user.email
+        });
     });
 };
 
