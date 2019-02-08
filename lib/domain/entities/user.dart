@@ -1,7 +1,6 @@
 class User {
   String _firstName;
   String _lastName;
-  String _email;
   String _uid;
   String _email;
 
