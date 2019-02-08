@@ -26,66 +26,90 @@ class HhDrawer extends StatelessWidget {
                 image: AssetImage('assets/img/drawer_bg.jpg'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.4), BlendMode.dstATop)),
+                    Colors.black.withOpacity(0.3), BlendMode.dstATop)),
           ),
         ),
         ListTile(
           title: Text(
             "Schedule",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.calendar_today),
+          trailing: Icon(
+            Icons.calendar_today,
+            size: 22.0,
+          ),
         ),
         ListTile(
           title: Text(
             "Registration",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.class_),
+          trailing: Icon(
+            Icons.class_,
+            size: 22.0,
+          ),
         ),
         ListTile(
           title: Text(
             "Lodging",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.hotel),
+          trailing: Icon(
+            Icons.hotel,
+            size: 22.0,
+          ),
         ),
         ListTile(
           title: Text(
             "Dining",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.local_dining),
+          trailing: Icon(
+            Icons.local_dining,
+            size: 22.0,
+          ),
         ),
         Divider(),
         ListTile(
           title: Text(
             "Sponsors",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.people),
+          trailing: Icon(
+            Icons.people,
+            size: 22.0,
+          ),
         ),
         ListTile(
           title: Text(
             "About",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.info),
+          trailing: Icon(
+            Icons.info,
+            size: 22.0,
+          ),
         ),
         Divider(),
         ListTile(
           title: Text(
             "Settings",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.settings),
+          trailing: Icon(
+            Icons.settings,
+            size: 22.0,
+          ),
         ),
         ListTile(
           title: Text(
             "Logout",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
-          trailing: Icon(Icons.exit_to_app),
+          trailing: Icon(
+            Icons.exit_to_app,
+            size: 22.0,
+          ),
         ),
       ],
     );

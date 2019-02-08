@@ -25,7 +25,7 @@ class Countdown extends StatelessWidget {
                       color: Colors.black,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.7),
+                          color: Colors.black.withOpacity(0.6),
                           blurRadius: 10.0,
                           spreadRadius: 3.0,
                           offset: Offset(0.0, 5.0),
