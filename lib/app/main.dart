@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home/home_view.dart';
+import 'package:logging/logging.dart';
 import 'login/login_view.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+  MyApp() { initLogger(); }
+
   @override
   Widget build(BuildContext context) {
 
@@ -28,5 +32,13 @@ class MyApp extends StatelessWidget {
           '/home': (BuildContext context) => new HomePage(),
           '/login': (BuildContext context) => new LoginPage(),
         });
+  }
+
+  void initLogger() {
+    Logger.root.level = Level.ALL;
+    Logger.root.onRecord.listen((record) {
+      print('${record.loggerName}: ${record.level.name}: ${record.message}');
+    });
+    Logger.root.info("Logger initialized.");
   }
 }

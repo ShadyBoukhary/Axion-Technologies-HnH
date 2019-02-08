@@ -22,10 +22,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   // Constructors
   DataAuthenticationRepository._internal() {
     _logger = Logger('DataAuthenticationRepository');
-    Logger.root.level = Level.ALL;
-    Logger.root.onRecord.listen((record) {
-      print('${record.loggerName}: ${record.level.name}: ${record.message}');
-    });
   }
 
   factory DataAuthenticationRepository() => _instance;
@@ -45,7 +41,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       }
       _logger.finest('Registration is successful');
     } catch (error) {
-      _logger.finest('Could not register new user.', error);
+      _logger.warning('Could not register new user.', error);
       rethrow;
     }
   }
