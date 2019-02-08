@@ -1,8 +1,8 @@
 class User {
   String _firstName;
   String _lastName;
-  String _email;
   String _uid;
+  String _email;
 
   String get firstName => _firstName;
   String get lastName => _lastName;
@@ -17,4 +17,19 @@ class User {
     _uid = user._uid;
     _email = user._email;
   }
+
+  User.fromMap(Map<String, dynamic> map) {
+    _firstName = map['firstName'];
+    _lastName = map['lastName'];
+    _uid = map['uid'];
+    _email = map['email'];
+  }
+
+  Map<String, dynamic> toMap() =>
+    {
+      'firstName': _firstName,
+      'lastName': _lastName,
+      'uid': _uid,
+      'email': _email
+    };
 }

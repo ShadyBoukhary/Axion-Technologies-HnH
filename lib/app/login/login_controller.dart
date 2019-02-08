@@ -37,7 +37,7 @@ class LoginController extends Controller {
   }
 
   void _register() {
-
+    
   }
 
   void login(context) {
@@ -47,5 +47,4 @@ class LoginController extends Controller {
   void _forgotPassword() {
 
   }
-
 }
