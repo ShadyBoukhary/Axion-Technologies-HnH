@@ -42,6 +42,6 @@ abstract class UseCase<T, Params> {
 }
 
 /// A special type of [UseCase] that does not return any value
-abstract class Completable<Params> extends UseCase<void, Params> {
+abstract class CompletableUseCase<Params> extends UseCase<void, Params> {
   Future<Observable<void>> buildUseCaseObservable(Params params);
 }
