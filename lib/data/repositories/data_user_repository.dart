@@ -17,7 +17,7 @@ class DataUserRepository implements UserRepository {
     // testing only
     // todo: remove when implementing actual method
     Completer completer = Completer<User>();
-    completer.complete(User('Shady', 'Boukhary', '876fsa-af35ra-3asdf-4dasd', 'adasd'));
+    completer.complete(User('Shady', 'Boukhary', '876fsa-af35ra-3asdf-4dasd', 'sfdsjk@test.com'));
     return completer.future;
 
   }
