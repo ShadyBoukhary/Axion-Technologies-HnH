@@ -17,7 +17,6 @@ export const UserSchema = new Schema({
         required: true
     },
 
-    userId: Number,
     firstName: String,
     lastName: String,
 });
