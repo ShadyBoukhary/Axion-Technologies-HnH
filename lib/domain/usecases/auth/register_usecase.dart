@@ -13,7 +13,7 @@ class RegisterUseCase extends CompletableUseCase<RegisterUseCaseParams> {
   // Constructors
   RegisterUseCase(this._authenticationRepository);
 
-  /// Builds the `Observable` to be subscribed to by the `Presenter`
+  
   @override
   Future<Observable<User>> buildUseCaseObservable(RegisterUseCaseParams params) async {
     final StreamController<User> controller = StreamController();
