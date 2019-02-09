@@ -1,5 +1,7 @@
 # HnH
 
+[![Development](https://circleci.com/gh/ShadyBoukhary/Software-Engineering-4143-Project/tree/development.svg?style=svg)](https://circleci.com/gh/ShadyBoukhary/Software-Engineering-4143-Project/tree/development)
+
 The Hotter'n Hell Mobile Application
 
 ## Getting Started
