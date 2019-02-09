@@ -28,11 +28,11 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
   // AuthenticationRepository Methods
 
-  /// Registers a `User` using a [username] and a [password] by making an API call to the server.
+  /// Registers a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
-  Future<void> register({@required String username, @required String password}) async {
+  Future<void> register({@required String email, @required String password}) async {
     try {
-      http.Response response = await http.post(Constants.usersRoute, body: {'email': username, 'password': password});
+      http.Response response = await http.post(Constants.usersRoute, body: {'email': email, 'password': password});
       Map<String, dynamic> body = jsonDecode(response.body);
 
       // check whether registration was successful
@@ -46,15 +46,15 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     }
   }
 
-  /// Logs in a `User` using a [username] and a [password] by making an API call to the server.
+  /// Logs in a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
   /// When successful, it attempts to save the credentials of the `User` to local storage by
   /// calling [_saveCredentials]. Throws an `Exception` if an Internet connection cannot be
   /// established. Throws a `ClientException` if the http object fails.
-  Future<void> authenticate({@required String username, @required String password}) async {
+  Future<void> authenticate({@required String email, @required String password}) async {
     try {
       // invoke http request to login and convert body to map
-      http.Response response = await http.post(Constants.loginRoute, body: {'email': username, 'password': password});
+      http.Response response = await http.post(Constants.loginRoute, body: {'email': email, 'password': password});
       Map<String, dynamic> body = jsonDecode(response.body);
 
       // if the user was not authenticated, throw error
@@ -62,6 +62,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
         throw APIException(
             body['message'], response.statusCode, body['statusText']);
       }
+      _logger.finest('Login Successful.');
       // convert json to User and save credentials in local storage
       User user = User.fromMap(body['user']);
       _saveCredentials(token: body['token'], user: user);

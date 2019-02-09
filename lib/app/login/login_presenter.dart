@@ -1,50 +1,57 @@
-import 'package:hnh/domain/repositories/user_repository.dart';
-import 'package:hnh/domain/usecases/user_usercase.dart';
+import 'package:hnh/domain/repositories/authentication_repository.dart';
+import 'package:hnh/domain/usecases/auth/login_usecase.dart';
 import 'package:hnh/domain/usecases/observer.dart';
-import 'package:hnh/domain/entities/user.dart';
-
+import 'package:flutter/foundation.dart';
 class LoginPresenter {
-  UserRepository _userRepository;
-  UserUseCase _userUseCase;
-  Function loginOnNext;
+
+  AuthenticationRepository _authenticationRepository;
+  LoginUseCase _loginUseCase;
+
+  // Controller Callback functions
   Function loginOnComplete;
   Function loginOnError;
 
-  LoginPresenter(this._userRepository) {
-    _userUseCase = UserUseCase(_userRepository);
+  LoginPresenter(this._authenticationRepository) {
+    // Initialize the [UseCase] with the appropriate repository
+    _loginUseCase = LoginUseCase(_authenticationRepository);
   }
 
+  /// Disposed of the [LoginUseCase] and unsubscribes
   void _dispose() {
-    _userUseCase.dispose();
+    _loginUseCase.dispose();
   }
 
-  void getUser(String uid) {
-    //_userUseCase.execute(_GetUserUseCaseObserver(this), UserUseCaseParams(uid));
+  /// Login using the [email] and [password] provided
+  void login({@required String email, @required String password}) {
+    _loginUseCase.execute(_LoginUserCaseObserver(this), LoginUseCaseParams(email, password));
   }
 }
 
-class _GetUserUseCaseObserver implements Observer<void> {
+/// The [Observer] used to observe the `Observable` of the [LoginUseCase]
+class _LoginUserCaseObserver implements Observer<void> {
 
+  // The above presenter
   LoginPresenter _loginPresenter;
 
-  _GetUserUseCaseObserver(this._loginPresenter);
+  _LoginUserCaseObserver(this._loginPresenter);
 
-  void onNext(ignore) {
-    // any cleaning or preparation goes here before invoking callback
-    _loginPresenter.loginOnNext();
-  }
+  /// implement if the `Observable` emits a value
+  void onNext(ignore) {}
+
+  /// Login is successfull, trigger event in [LoginController]
   void onComplete() {
     // any cleaning or preparation goes here
     _loginPresenter._dispose();
-    if (_loginPresenter.loginOnComplete != null) {
-      _loginPresenter.loginOnComplete();
-    }
+    _loginPresenter.loginOnComplete();
+
   }
+
+  /// Login was unsuccessful, trigger event in [LoginController]
   void onError(e) {
     // any cleaning or preparation goes here
     _loginPresenter._dispose();
     if (_loginPresenter.loginOnError != null) {
-      _loginPresenter.loginOnError();
+      _loginPresenter.loginOnError(e);
     }
   }
 }

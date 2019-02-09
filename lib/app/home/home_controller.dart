@@ -32,8 +32,6 @@ class HomeController extends Controller {
   }
 
   void getUser() async {
-    await DataAuthenticationRepository().register(username: 'shsady', password: 'shadya');
-    _userPresenter.getUser('does-not-matter-id-for-testing');
   }
 
   void logout(context) {

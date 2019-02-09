@@ -18,7 +18,7 @@ class RegisterUseCase extends CompletableUseCase<RegisterUseCaseParams> {
   Future<Observable<User>> buildUseCaseObservable(RegisterUseCaseParams params) async {
     final StreamController<User> controller = StreamController();
     try {
-      await _authenticationRepository.register(username: params._username, password: params._password);
+      await _authenticationRepository.register(email: params._email, password: params._password);
       controller.close();
     } catch (e) {
       print(e);
@@ -30,8 +30,8 @@ class RegisterUseCase extends CompletableUseCase<RegisterUseCaseParams> {
 
 /// The parameters required for the [RegisterUseCase]
 class RegisterUseCaseParams {
-  String _username;
+  String _email;
   String _password;
 
-  RegisterUseCaseParams(this._username, this._password);
+  RegisterUseCaseParams(this._email, this._password);
 }
