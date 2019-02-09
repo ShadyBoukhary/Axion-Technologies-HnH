@@ -32,4 +32,11 @@ class User {
       'uid': _uid,
       'email': _email
     };
+
+    @override
+    operator ==(dynamic user) => user is User && _uid == user._uid;
+
+    @override
+    int get hashCode => _firstName.hashCode ^ _lastName.hashCode ^ _uid.hashCode ^ _email.hashCode;
+    
 }
