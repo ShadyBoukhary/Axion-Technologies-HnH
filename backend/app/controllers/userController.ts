@@ -146,7 +146,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     } else {
         var err = new Error('All fields are required.');
-        //res.status = 400;
+        res.statusMessage = err.message;
+        res.status(400).send({
+            'status': 400,
+            'message': err.message,
+            'statusText': 'Bad Request'
+        });
 
         return next(err);
     }
