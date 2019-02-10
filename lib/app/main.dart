@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: "Hotter'n Hell",
         theme: ThemeData(
           brightness: Brightness.dark,
           primaryColor: Colors.red,
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
           ),
         ),
-        home: LoginPage(title: 'Flutter Demo Home Page'),
+        home: LoginPage(title: "Hotter'n Hell"),
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => new HomePage(),

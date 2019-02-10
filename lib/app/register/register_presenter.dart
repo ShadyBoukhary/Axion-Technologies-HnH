@@ -19,7 +19,7 @@ class RegisterPresenter {
     _registerUserCase.dispose();
   }
 
-  void register({@required String firstName, String lastName, String email, String password}) {
+  void register({@required String firstName, @required String lastName, @required String email, @required String password}) {
     _registerUserCase.execute(_RegisterUserCaseObserver(this),
     RegisterUserCaseParams(firstName, lastName, email, password));
   }

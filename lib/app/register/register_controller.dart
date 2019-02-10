@@ -12,8 +12,6 @@ class RegisterController extends Controller {
 
   AuthenticationRepository _authenticationRepository;
   RegisterPresenter _registerPresenter;
-  User _currentUser;
-  User get currentUser => _currentUser;
 
   RegisterController() {
     // _authenticationRepository = AuthenticationRepository();
@@ -40,9 +38,9 @@ class RegisterController extends Controller {
     _context = context;
 
     _registerPresenter.register(
-      firstName: _firstName, 
-      lastName: _lastName, 
-      email: _userEmail, 
-      password: _userPassword);
+        firstName: _firstName,
+        lastName: _lastName,
+        email: _userEmail,
+        password: _userPassword);
   }
 }

@@ -32,7 +32,7 @@ class LoginController extends Controller {
   /// Login is successful
   void _loginOnComplete() {
     // TODO: Dismiss any loading events then navigate
-    Navigator.of(_context).pushNamed('/home');
+    Navigator.of(_context).pushReplacementNamed('/home');
   }
   
   void _loginOnError(e) {
@@ -50,6 +50,7 @@ class LoginController extends Controller {
   }
 
   void register(context) {
+    _context = context;
     Navigator.of(_context).pushNamed('/register');
   }
 
