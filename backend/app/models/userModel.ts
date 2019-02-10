@@ -17,7 +17,6 @@ export const UserSchema = new Schema({
         required: true
     },
 
-    userId: Number,
     firstName: String,
     lastName: String,
 });
@@ -60,9 +59,9 @@ UserSchema.static('authenticate', async (email: string, password: string) => {
 
     try {
         let user = await User.findOne({email: email});
-        if (user == null) throw "User not found."
+        if (user == null) throw "No user with this email is registerd on our system."
         let match = await user.comparePassword(password);
-        if (!match) throw "Wrong password.";
+        if (!match) throw "The password provided is incorrect.";
         return user;
     } catch (error) {
         console.log(error);
