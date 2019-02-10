@@ -6,7 +6,7 @@ import 'package:hnh/domain/entities/user.dart';
 abstract class AuthenticationRepository {
 
   /// Registers a new user using the provided [username] and [password]
-  Future<void> register({@required String email, @required String password});
+  Future<void> register({@required String firstName, String lastName, String email, @required String password});
 
   /// Authenticates a user using his [username] and [password]
   Future<void> authenticate({@required String email, @required String password});

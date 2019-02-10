@@ -35,6 +35,7 @@ class HomeController extends Controller {
   }
 
   void logout(context) {
+    // TODO: Sign out user
     print("HAHAHA No function yet!!");
   }
 }
