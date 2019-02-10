@@ -2,9 +2,6 @@ import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/login/login_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
-import 'package:hnh/app/main.dart';
-// import 'package:hnh/data/repositories/data_user_repository.dart';
-// import 'package:hnh/domain/entities/user.dart';
 
 class LoginController extends Controller {
 

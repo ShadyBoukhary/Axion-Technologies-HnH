@@ -32,7 +32,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
   Future<void> register({@required String firstName, @required String lastName, @required String email, @required String password}) async {
     try {
-      http.Response response = await http.post(Constants.usersRoute, body: {'email': email, 'password': password});
+      http.Response response = await http.post(Constants.usersRoute, body: {'firstName': firstName, 'lastName': lastName,'email': email, 'password': password});
       Map<String, dynamic> body = jsonDecode(response.body);
 
       // check whether registration was successful
