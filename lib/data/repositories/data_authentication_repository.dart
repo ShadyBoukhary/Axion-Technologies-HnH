@@ -13,10 +13,10 @@ import 'dart:io';
 /// in the Domain layer. It communicates with the server, making API calls to register, login, logout, and
 /// store a `User`.
 class DataAuthenticationRepository implements AuthenticationRepository {
-
   // Members
   /// Singleton object of `DataAuthenticationRepository`
-  static DataAuthenticationRepository _instance = DataAuthenticationRepository._internal();
+  static DataAuthenticationRepository _instance =
+      DataAuthenticationRepository._internal();
   Logger _logger;
 
   // Constructors
@@ -30,14 +30,24 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
   /// Registers a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
-  Future<void> register({@required String firstName, @required String lastName, @required String email, @required String password}) async {
+  Future<void> register(
+      {@required String firstName,
+      @required String lastName,
+      @required String email,
+      @required String password}) async {
     try {
-      http.Response response = await http.post(Constants.usersRoute, body: {'firstName': firstName, 'lastName': lastName,'email': email, 'password': password});
+      http.Response response = await http.post(Constants.usersRoute, body: {
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email,
+        'password': password
+      });
       Map<String, dynamic> body = jsonDecode(response.body);
 
       // check whether registration was successful
       if (response.statusCode != 200) {
-        throw APIException(body['message'], response.statusCode, body['statusText']);
+        throw APIException(
+            body['message'], response.statusCode, body['statusText']);
       }
       _logger.finest('Registration is successful');
     } catch (error) {
@@ -54,15 +64,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<void> authenticate({@required String email, @required String password}) async {
     try {
       // invoke http request to login and convert body to map
-      http.Response response = await http.post(Constants.loginRoute, body: {'email': email, 'password': password});
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      // if the user was not authenticated, throw error
-      if (response.statusCode != 200) {
-        throw APIException(
-            body['message'], response.statusCode, body['statusText']);
-      }
+      Map<String, dynamic> body = await _authenticate(email: email, password: password);
       _logger.finest('Login Successful.');
+
       // convert json to User and save credentials in local storage
       User user = User.fromMap(body['user']);
       _saveCredentials(token: body['token'], user: user);
@@ -75,7 +79,25 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     } on SocketException {
       _logger.warning('Internet connection could not be established.');
       throw Exception('Internet connection could not be established.');
+      
+    } on APIException {
+      rethrow;
     }
+  }
+  /// Invokes the LoginRoute and returns the body as a `Map`.
+  /// Throws an [APIException] if the response was not 200.
+  Future<Map<String, dynamic>> _authenticate({@required String email, @required String password}) async {
+
+    // invoke http request to login and convert body to map
+    http.Response response = await http.post(Constants.loginRoute, body: {'email': email, 'password': password});
+    Map<String, dynamic> body = jsonDecode(response.body);
+
+    // if the user was not authenticated, throw error
+    if (response.statusCode != 200) {
+      throw APIException(
+          body['message'], response.statusCode, body['statusText']);
+    }
+    return body;
   }
 
   /// Returns whether the current `User` is authenticated.
@@ -92,6 +114,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   void resetPassword() {
     throw Exception('Not implemented.');
   }
+
   /// Logs the current `User` out by clearing credentials.
   void logout() async {
     try {
@@ -107,10 +130,11 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   /// Returns the current authenticated `User` from `SharedPreferences`.
   Future<User> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    User user = User.fromMap(jsonDecode(preferences.getString(Constants.userKey)));
+    User user =
+        User.fromMap(jsonDecode(preferences.getString(Constants.userKey)));
     return user;
-
   }
+
   /// Saves the [token] and the [user] in `SharedPreferences`.
   void _saveCredentials({@required String token, @required User user}) async {
     try {

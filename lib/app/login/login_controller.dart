@@ -40,8 +40,9 @@ class LoginController extends Controller {
   }
 
   /// Logs a [User] into the application
-  void login(context) {
+  void login(context) async{
     _context = context;
+    await DataAuthenticationRepository().isAuthenticated();
     // TODO: Present some kind of loading when logging in
     _loginPresenter.login(email: _userEmail, password: _userPassword);
   }
