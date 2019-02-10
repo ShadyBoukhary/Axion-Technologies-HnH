@@ -21,10 +21,11 @@ class DeviceLocationRepository implements LocationRepository {
     Location result;
     try {
       location = await location_getter.getLocation();
-      result = new Location(location['latitude'], location['longitude'], (new DateTime.now().millisecondsSinceEpoch / 1000).toString());
+      result = new Location(location['latitude'].toString(), location['longitude'].toString(), (new DateTime.now().millisecondsSinceEpoch / 1000).toString());
       return result;
     }catch(e){
-      location = null;
+      print("Fuck.");
+      print(e);
       return null;
     }
   }
