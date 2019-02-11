@@ -24,9 +24,7 @@ class DeviceLocationRepository implements LocationRepository {
       result = new Location(location['latitude'].toString(), location['longitude'].toString(), (new DateTime.now().millisecondsSinceEpoch / 1000).toString());
       return result;
     }catch(e){
-      print("Fuck.");
-      print(e);
-      return null;
+      rethrow;
     }
   }
 
