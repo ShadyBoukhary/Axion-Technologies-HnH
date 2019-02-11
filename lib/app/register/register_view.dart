@@ -16,20 +16,24 @@ class _RegisterPageView extends State<RegisterPage> implements View {
   RegisterController _controller;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // For later implementation, requiring all users to agree to Terms of Service
-  bool _agreedToTOS = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _RegisterPageView(this._controller);
 
-  void callHandler(Function fn) {
+  void callHandler(Function fn, {Map<String, dynamic> params}) {
     setState(() {
-      fn();
+      if (params.isEmpty) {
+        fn();
+      } else {
+        fn(params);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('New User Registration'),
         centerTitle: true,
@@ -92,12 +96,16 @@ class _RegisterPageView extends State<RegisterPage> implements View {
                     child: Row(
                       children: <Widget>[
                         Checkbox(
-                          value: _agreedToTOS,
-                          onChanged: _setAgreedToTOS,
+                          value: _controller.agreedToTOS,
+                          onChanged: (state) {
+                            callHandler(_controller.setAgreedToTOS);
+                          },
                           activeColor: Colors.red,
                         ),
                         GestureDetector(
-                          onTap: () => _setAgreedToTOS(!_agreedToTOS),
+                          onTap: () => () {
+                                callHandler(_controller.setAgreedToTOS);
+                              },
                           child: Text(
                             'I agree to the Terms of Services and Privacy Policy',
                             style: TextStyle(
@@ -131,16 +139,7 @@ class _RegisterPageView extends State<RegisterPage> implements View {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () {
-                          if (_agreedToTOS &&
-                              _formKey.currentState.validate()) {
-                            print('Registration send successful');
-                            Navigator.of(context).pop();
-                            _controller.register(context);
-                          } else {
-                            print('Registration send unsuccessful');
-                          }
-                        },
+                        onTap: () => callHandler(_controller.checkForm, params: {'context': context, 'formKey': _formKey, 'scaffoldKey': _scaffoldKey}),
                         child: Container(
                           width: 320.0,
                           height: 50.0,
@@ -165,11 +164,5 @@ class _RegisterPageView extends State<RegisterPage> implements View {
         ],
       ),
     );
-  }
-
-  void _setAgreedToTOS(bool value) {
-    setState(() {
-      _agreedToTOS = value;
-    });
   }
 }
