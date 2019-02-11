@@ -1,22 +1,7 @@
-
-// Standard controller style
-
-// import 'package:hnh/app/abstract/controller.dart';
-// class LoginController extends Controller { 
-//   LoginController() {
-//     initListeners();
-//   }
-//   void initListeners() {
-//   }
-// }
-
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/login/login_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
-import 'package:hnh/app/main.dart';
-// import 'package:hnh/data/repositories/data_user_repository.dart';
-// import 'package:hnh/domain/entities/user.dart';
 
 class LoginController extends Controller {
 
@@ -41,10 +26,6 @@ class LoginController extends Controller {
     _loginPresenter.loginOnError = this._loginOnError;
   }
 
-  void _register() {
-    
-  }
-
   /// Login is successful
   void _loginOnComplete() {
     // TODO: Dismiss any loading events then navigate
@@ -63,6 +44,11 @@ class LoginController extends Controller {
     _context = context;
     // TODO: Present some kind of loading when logging in
     _loginPresenter.login(email: _userEmail, password: _userPassword);
+  }
+
+  void register(context) {
+    _context = context;
+    Navigator.of(_context).pushNamed('/register');
   }
 
   void _forgotPassword() {

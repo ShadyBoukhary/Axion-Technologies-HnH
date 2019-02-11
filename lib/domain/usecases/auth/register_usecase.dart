@@ -5,20 +5,20 @@ import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 
 /// A `UseCase` for registering a new `User` in the application
-class RegisterUseCase extends CompletableUseCase<RegisterUseCaseParams> {
+class RegisterUserCase extends CompletableUseCase<RegisterUserCaseParams> {
 
   // Members
   AuthenticationRepository _authenticationRepository;
 
   // Constructors
-  RegisterUseCase(this._authenticationRepository);
+  RegisterUserCase(this._authenticationRepository);
 
   
   @override
-  Future<Observable<User>> buildUseCaseObservable(RegisterUseCaseParams params) async {
+  Future<Observable<User>> buildUseCaseObservable(RegisterUserCaseParams params) async {
     final StreamController<User> controller = StreamController();
     try {
-      await _authenticationRepository.register(email: params._email, password: params._password);
+      await _authenticationRepository.register(firstName: params._firstName, lastName: params._lastName, email: params._email, password: params._password);
       controller.close();
     } catch (e) {
       print(e);
@@ -29,9 +29,11 @@ class RegisterUseCase extends CompletableUseCase<RegisterUseCaseParams> {
 }
 
 /// The parameters required for the [RegisterUseCase]
-class RegisterUseCaseParams {
+class RegisterUserCaseParams {
+  String _firstName;
+  String _lastName;
   String _email;
   String _password;
 
-  RegisterUseCaseParams(this._email, this._password);
+  RegisterUserCaseParams(this._firstName, this._lastName, this._email, this._password);
 }

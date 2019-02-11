@@ -3,7 +3,6 @@ import 'package:hnh/app/home/user_presenter.dart';
 import 'package:hnh/data/repositories/data_user_repository.dart';
 import 'package:hnh/domain/entities/user.dart';
 
-import 'package:hnh/data/repositories/data_authentication_repository.dart';
 class HomeController extends Controller {
 
   UserPresenter _userPresenter;
@@ -35,6 +34,7 @@ class HomeController extends Controller {
   }
 
   void logout(context) {
+    // TODO: Sign out user
     print("HAHAHA No function yet!!");
   }
 }
