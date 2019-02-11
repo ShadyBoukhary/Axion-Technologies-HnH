@@ -1,7 +1,6 @@
 # HnH
 
-[![Development](https://circleci.com/gh/ShadyBoukhary/Software-Engineering-4143-Project/tree/development.svg?style=shield)](https://circleci.com/gh/ShadyBoukhary/Software-Engineering-4143-Project/tree/development)
-
+[![CircleCI](https://circleci.com/gh/ShadyBoukhary/Axion-Technologies-HnH.svg?style=shield)](https://circleci.com/gh/ShadyBoukhary/Axion-Technologies-HnH)
 The Hotter'n Hell Mobile Application
 
 ## Getting Started
