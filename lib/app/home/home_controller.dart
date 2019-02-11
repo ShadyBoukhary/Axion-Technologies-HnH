@@ -2,14 +2,15 @@ import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/home/user_presenter.dart';
 import 'package:hnh/data/repositories/data_user_repository.dart';
 import 'package:hnh/domain/entities/user.dart';
+import 'package:logging/logging.dart';
 
-import 'package:hnh/data/repositories/data_authentication_repository.dart';
 class HomeController extends Controller {
 
   UserPresenter _userPresenter;
   DataUserRepository _dataUserRepository;
   User _currentUser;
   User get currentUser => _currentUser;
+  Logger logger;
 
   HomeController() {
     _dataUserRepository = DataUserRepository();
@@ -23,11 +24,11 @@ class HomeController extends Controller {
     };
 
     _userPresenter.getUserOnError = () {
-      print("ERROR: Could not retrieve user.");
+      logger.shout("ERROR: Could not retrieve user.");
     };
 
     _userPresenter.getUserOnComplete = () {
-      print("Completed: User retrieved.");
+      logger.finest("Completed: User retrieved.");
     };
   }
 
@@ -35,6 +36,6 @@ class HomeController extends Controller {
   }
 
   void logout(context) {
-    print("HAHAHA No function yet!!");
+    // TODO: Sign out user
   }
 }

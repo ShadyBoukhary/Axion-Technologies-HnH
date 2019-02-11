@@ -1,6 +1,63 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-class Countdown extends StatelessWidget {
+/// Countdown timer until the event
+class Countdown extends StatefulWidget {
+  final DateTime _eventTime;
+  final Function _notifyParent;
+  Countdown(this._eventTime, this._notifyParent);
+
+  @override
+  CountdownState createState() => CountdownState(_eventTime, _notifyParent);
+}
+
+class CountdownState extends State<Countdown> {
+
+  // Members
+  DateTime _eventTime;
+  Duration _timeDifference;
+  Timer _timer;
+  Function _notifyParent; // callback function that updates the parent widget state
+
+  // Properties
+  int get days => _timeDifference.inDays;
+  int get hours => _timeDifference.inHours - _timeDifference.inDays * 24;
+  int get minutes => _timeDifference.inMinutes - _timeDifference.inHours * 60;
+  int get seconds => _timeDifference.inSeconds - _timeDifference.inMinutes * 60;
+
+  CountdownState(this._eventTime, this._notifyParent) {
+    _timer = Timer.periodic(Duration(seconds: 1), _updateTime);
+    _timeDifference = Duration(seconds: 0);
+  }
+
+  /// Calculates the time difference between the current time and the [_eventTime]
+  Duration timeDifference() {
+    return _eventTime.difference(DateTime.now());
+  }
+
+  /// Updates the [_timeDifference] between the current time and the [_eventTime].
+  /// If the [_timeDifference] in seconds in less than than 1, the timer [t] is stopped.
+  /// Once the [_timeDifference] is updated, the [CountdownState] state is updated and the
+  /// parent `State` is updated as well.
+  void _updateTime(Timer t) {
+
+    // update parent state
+    _notifyParent(() {
+      // update this state
+      setState(() {
+        // update time difference
+        _timeDifference = timeDifference();
+        if (_timeDifference.inSeconds < 1) {
+          t.cancel();
+        }
+      });
+    });
+  }
+
+  void stopTimer() {
+    _timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,7 +96,7 @@ class Countdown extends StatelessWidget {
                         RichText(
                           textAlign: TextAlign.right,
                           text: TextSpan(
-                            text: "195",
+                            text: "$days",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 36,
@@ -89,7 +146,7 @@ class Countdown extends StatelessWidget {
                         RichText(
                           textAlign: TextAlign.right,
                           text: TextSpan(
-                            text: "12",
+                            text: "$hours",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 36,
@@ -139,7 +196,7 @@ class Countdown extends StatelessWidget {
                         RichText(
                           textAlign: TextAlign.right,
                           text: TextSpan(
-                            text: "32",
+                            text: "$minutes",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 36,
@@ -189,7 +246,7 @@ class Countdown extends StatelessWidget {
                         RichText(
                           textAlign: TextAlign.right,
                           text: TextSpan(
-                            text: "24",
+                            text: "$seconds",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 36,
