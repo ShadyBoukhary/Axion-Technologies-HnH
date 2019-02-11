@@ -12,6 +12,7 @@ Documentation
 
 - [The Clean Architecture for Flutter](./docs/clean_architecture.md)
 - [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+- [Trello Board](https://trello.com/b/UxUd7ryf/software-engineering-project)
 
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.io/docs), which offers tutorials, 
