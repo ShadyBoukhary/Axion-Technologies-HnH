@@ -16,7 +16,10 @@ class HomePage extends StatefulWidget {
 class HomePageView extends State<HomePage> implements View {
   HomeController _controller;
 
+  DateTime eventTime;
+
   HomePageView(this._controller) {
+    eventTime = DateTime.fromMillisecondsSinceEpoch(1566478800000);
     WidgetsBinding.instance.addObserver(_controller);
   }
 
@@ -140,8 +143,10 @@ class HomePageView extends State<HomePage> implements View {
                 ),
               ],
             ),
-            Countdown(),
+            Countdown(eventTime, callHandler),
           ],
         ));
   }
+
+
 }
