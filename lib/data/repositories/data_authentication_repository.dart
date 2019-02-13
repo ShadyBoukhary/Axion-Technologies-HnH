@@ -116,7 +116,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   }
 
   /// Logs the current `User` out by clearing credentials.
-  void logout() async {
+  Future<void> logout() async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.remove(Constants.isAuthenticatedKey);
