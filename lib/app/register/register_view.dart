@@ -22,7 +22,7 @@ class _RegisterPageView extends State<RegisterPage> implements View {
 
   void callHandler(Function fn, {Map<String, dynamic> params}) {
     setState(() {
-      if (params.isEmpty) {
+      if (params == null) {
         fn();
       } else {
         fn(params);
