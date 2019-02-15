@@ -22,5 +22,5 @@ abstract class AuthenticationRepository {
   void resetPassword();
 
   /// Logs out the user
-  void logout();
+  Future<void> logout();
 }
