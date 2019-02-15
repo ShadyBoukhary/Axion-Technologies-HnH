@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 import 'dart:async';
 
-/// A `UseCase` for logging in a `User` into the application
+/// A `UseCase` for logging out a `User` 
 class LogoutUseCase extends CompletableUseCase<void> {
 
   // Members
