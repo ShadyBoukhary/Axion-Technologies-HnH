@@ -1,35 +1,34 @@
-/// Represents a set of GPS coordinates along with a timestamp
-class Location {
+import 'package:hnh/domain/entities/coordinates.dart';
+
+/// Represents a set of GPS coordinates from [Coordinates] along with a timestamp
+class Location extends Coordinates {
   
   // Members
-  String _lat;
-  String _lon;
   String _timestamp;
 
   // Properties
-  String get lat => _lat;
-  String get lon => _lon;
   String get timestamp => _timestamp;
 
   // Constructors
-  Location(this._lat, this._lon, this._timestamp);
 
-  Location.fromUser(Location location) {
-      _lat = location._lat;
-      _lon = location._lon;
+  @override
+  Location(String lat, String lon, this._timestamp): super(lat, lon);
+
+  @override
+  Location.fromLocation(Location location): super(location.lat, location.lon)  {
       _timestamp = location.timestamp;
   }
 
-  Location.fromMap(Map<String, dynamic> map) {
-    _lat = map['lat'];
-    _lon = map['lon'];
+  @override
+  Location.fromJson(Map<String, dynamic> map): super.fromJson({'lat': map['lat'], 'lon': map['lon']}) {
     _timestamp = map['timestamp'];
   }
 
-  Map<String, dynamic> toMap() =>
+  @override
+  Map<String, dynamic> toJson() =>
     {
-      'lat': _lat,
-      'lon': _lon,
+      'lat': lat,
+      'lon': lon,
       'timestamp': _timestamp
     };
 }
