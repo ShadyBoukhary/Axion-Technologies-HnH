@@ -18,14 +18,14 @@ class User {
     _email = user._email;
   }
 
-  User.fromMap(Map<String, dynamic> map) {
+  User.fromJson(Map<String, dynamic> map) {
     _firstName = map['firstName'];
     _lastName = map['lastName'];
     _uid = map['uid'];
     _email = map['email'];
   }
 
-  Map<String, dynamic> toMap() =>
+  Map<String, dynamic> toJson() =>
     {
       'firstName': _firstName,
       'lastName': _lastName,

@@ -14,19 +14,19 @@ jobs:
       - run: flutter doctor
       - run: flutter -v build apk --target lib/app/main.dart  
 
-  authentication_repo_test:
+  test:
     docker:
       - image: cirrusci/flutter
     steps:
       - checkout
-      - run: flutter test ./test/unit_tests/
+      - run: flutter test
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - authentication_repo_test:
+      - test:
           requires:
             - build
 

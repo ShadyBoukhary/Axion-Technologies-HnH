@@ -68,7 +68,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       _logger.finest('Login Successful.');
 
       // convert json to User and save credentials in local storage
-      User user = User.fromMap(body['user']);
+      User user = User.fromJson(body['user']);
       _saveCredentials(token: body['token'], user: user);
     } on http.ClientException catch (error) {
       // handle any 404's
@@ -131,7 +131,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<User> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     User user =
-        User.fromMap(jsonDecode(preferences.getString(Constants.userKey)));
+        User.fromJson(jsonDecode(preferences.getString(Constants.userKey)));
     return user;
   }
 
@@ -142,7 +142,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       await Future.wait([
         preferences.setString(Constants.tokenKey, token),
         preferences.setBool(Constants.isAuthenticatedKey, true),
-        preferences.setString(Constants.userKey, user.toMap().toString())
+        preferences.setString(Constants.userKey, user.toJson().toString())
       ]);
       _logger.finest('Credentials successfully stored.');
     } catch (error) {
