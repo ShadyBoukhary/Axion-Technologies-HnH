@@ -17,6 +17,7 @@ void main() {
           'lon': '985723982',
           'timestamp': '28753298357293'
         },
+        'id': '1234567890',
         'route': [
           {
             'lat': '987523245',
@@ -38,7 +39,7 @@ void main() {
       };
 
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
-          Location('987523245', '985723982', '28753298357293'), [
+          Location('987523245', '985723982', '28753298357293'), '1234567890', [
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
@@ -54,6 +55,7 @@ void main() {
       expect(event.location.lat, '987523245');
       expect(event.location.lon, '985723982');
       expect(event.location.timestamp, '28753298357293');
+      expect(event.id, '1234567890');
       expect(event.route.length, 4);
       event.route.forEach((coords) {
         expect(coords, TypeMatcher<Coordinates>());
@@ -72,6 +74,7 @@ void main() {
       expect(event.description, testEvent.description);
       expect(event.location.lat, testEvent.location.lat);
       expect(event.location.lon, testEvent.location.lon);
+      expect(event.id, testEvent.id);
       expect(event.route.length, testEvent.route.length);
     }); // .fromEvent
   }); // end group

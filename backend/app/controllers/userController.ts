@@ -12,16 +12,8 @@ import jwt from 'jsonwebtoken';
 
 const User = model<IUser, IUserModel>('User', UserSchema);
 
-export async function getUsers(req: Request, res: Response) {
-    console.log('hi');
-    try {
-        let usersDoc: Document[] = await User.find({}).exec();
-        console.log(usersDoc);
-        res.status(200);
-        res.json(usersDoc);
-    } catch (error) {
-        res.send(error);
-    }
+export async function getUsersByParam(req: Request, res: Response) {
+    res.send('<h2>To be implemented<h2>');
 }
 
 export function createUser(req: Request, res: Response, next: NextFunction) {
@@ -108,21 +100,33 @@ export function deleteUser(req: Request, res: Response) {
         if (err) {
             res.send(err);
         } else {
-            res.status(200);
-            res.json({ message: 'User Successfully Deleted!' });
+            res.sendStatus(200);       
         }
     });
-
-
 };
 
-/* POST Route for login */
+
+/**
+ *  POST Route for login
+ *  Authenticates the User. 
+ *  Returns status 400 if the User could not be authenticated 
+ *
+ * @export async login
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @returns void
+ */
 export async function login(req: Request, res: Response, next: NextFunction) {
     if (req.body.email && req.body.password) {
 
         try {
+            // authenticate user
             let user: IUser = await User.authenticate(req.body.email, req.body.password);
+            // generate login jwt token
             let token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: 1000000 });
+            
+            // send user back along with jwt token
             res.status(200).send({
                 user: {
                     uid: user._id,
@@ -133,6 +137,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
                 token: token,
                 auth: true
             });
+
+        // handle any errors
         } catch (error) {
             res.status(400);
             res.statusMessage = error;
@@ -144,6 +150,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             return next(error);
         }
 
+    // handle missing fields
     } else {
         var err = new Error('All fields are required.');
         res.statusMessage = err.message;

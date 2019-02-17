@@ -1,8 +1,6 @@
 import 'package:test/test.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
-import 'package:hnh/data/utils/constants.dart';
 import 'package:hnh/data/exceptions/authentication_exception.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   group('DataAuthenticationRepository', () {
@@ -24,7 +22,7 @@ void main() {
             expect(e, TypeMatcher<APIException>());
             var err = e as APIException;
             expect(err.statusCode, 400);
-            expect(err.message, 'User not found.');
+            expect(err.message, 'No user with this email is registerd on our system.');
             return true;
           }, 'Throws APIException with User not found message and 400.')));
 
@@ -34,7 +32,7 @@ void main() {
             expect(e, TypeMatcher<APIException>());
             var err = e as APIException;
             expect(err.statusCode, 400);
-            expect(err.message, 'Wrong password.');
+            expect(err.message, 'The password provided is incorrect.');
             return true;
           }, 'Throws APIException with Wrong password message and 400.')));
     }); // end test

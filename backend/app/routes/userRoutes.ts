@@ -8,13 +8,13 @@ export function userRoutes(app: express.Application) {
   // user Routes
 
   app.route('/')
-  .get(User.getUsers);
+    .get(User.getUsersByParam);
 
   app.route('/users')
-    .get(User.getUsers)
+    .get(User.getUsersByParam)
     .post(User.createUser);
-    
-    app.route('/users/:userId')
+
+  app.route('/users/:userId')
     .get(verifyToken, User.getUser)
     .put(verifyToken, User.updateUser)
     .delete(verifyToken, User.deleteUser);

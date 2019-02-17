@@ -7,6 +7,7 @@ import { connect } from 'mongoose';
 
 // import routes
 import { userRoutes } from './routes/userRoutes';
+import { eventRoutes } from "./routes/eventRoute";
 // Create a new express application instance
 // const app: express.Application = express();
 
@@ -66,6 +67,7 @@ class Server {
    */
   private routes() {
     userRoutes(this.app);
+    eventRoutes(this.app);
   }
 
   private initDB() {
