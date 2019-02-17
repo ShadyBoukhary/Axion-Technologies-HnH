@@ -68,7 +68,7 @@ UserSchema.static('authenticate', async (email: string, password: string) => {
         throw error;
     }
 });
-/* eslint-enable */
+
 
 export const User: IUserModel = model<IUser, IUserModel>('User', UserSchema);
 
