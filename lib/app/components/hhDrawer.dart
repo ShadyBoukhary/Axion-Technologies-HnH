@@ -31,6 +31,17 @@ class HhDrawer extends StatelessWidget {
         ),
         ListTile(
           title: Text(
+            "Navigation",
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+          ),
+          trailing: Icon(
+            Icons.map,
+            size: 22.0,
+          ),
+          onTap: () => Navigator.of(context).pushReplacementNamed('/map'),
+        ),
+        ListTile(
+          title: Text(
             "Schedule",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),

@@ -29,6 +29,9 @@ dependencies:
   logging: ^0.11.3+2
   uuid: ^2.0.0
 
+  # Google Maps Provider
+  google_maps_flutter: ^0.2.0+3
+
   
 dev_dependencies:
   flutter_test:
