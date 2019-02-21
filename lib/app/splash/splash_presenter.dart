@@ -7,9 +7,9 @@ class SplashPresenter {
   SplashPresenter();
 }
 
-class _StupidFuckingShitObserver implements Observer<void> {
+class _SplashObserver implements Observer<void> {
   SplashPresenter _splashPresenter;
-  _StupidFuckingShitObserver(this._splashPresenter);
+  _SplashObserver(this._splashPresenter);
 
   void onNext(ignore) {}
 

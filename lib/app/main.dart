@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hnh/app/map/map_view.dart';
 import 'package:logging/logging.dart';
 import 'home/home_view.dart';
 import 'login/login_view.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+        SystemUiOverlayStyle(statusBarColor: Colors.black38));
 
     return MaterialApp(
         title: "Hotter'n Hell",
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
           '/home': (BuildContext context) => new HomePage(),
           '/login': (BuildContext context) => new LoginPage(),
           '/register': (BuildContext context) => new RegisterPage(),
+          '/map': (BuildContext context) => new MapPage(),
         });
   }
 
