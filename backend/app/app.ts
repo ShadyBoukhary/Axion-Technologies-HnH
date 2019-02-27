@@ -8,16 +8,7 @@ import { connect } from 'mongoose';
 // import routes
 import { userRoutes } from './routes/userRoutes';
 import { eventRoutes } from "./routes/eventRoute";
-// Create a new express application instance
-// const app: express.Application = express();
-
-// app.get('/', function (req, res) {
-//   res.send('Hello World!');
-// });
-
-// app.listen(3000, function () {
-//   console.log('Example app listening on port 3000!');
-// });
+import { eventRegistrationRoutes } from './routes/eventRegistrationRoute';
 
 class Server {
     public app: express.Application;
@@ -68,6 +59,7 @@ class Server {
   private routes() {
     userRoutes(this.app);
     eventRoutes(this.app);
+    eventRegistrationRoutes(this.app);
   }
 
   private initDB() {
