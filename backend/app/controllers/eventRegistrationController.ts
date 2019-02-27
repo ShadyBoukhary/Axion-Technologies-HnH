@@ -7,6 +7,8 @@ import { IEventRegistration } from '../interfaces/event_registration/eventRegist
 import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
 import { EventRegistrationSchema } from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
+import User from '../models/userModel';
+import { IUser } from '../interfaces/user';
 
 
 
@@ -22,7 +24,7 @@ const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('Ev
  * @param {NextFunction} next
  * @returns
  */
-export function createEventRegistration(req: Request, res: Response, next: NextFunction) {
+export async function createEventRegistration(req: Request, res: Response, next: NextFunction) {
     console.log(req.body);
 
     if (!req.body.user || !req.body.event) {
@@ -33,8 +35,21 @@ export function createEventRegistration(req: Request, res: Response, next: NextF
         });
         return next(new Error('Missing Fields'));
     }
-
     let eventRegistration = new EventRegistration(req.body);
+    eventRegistration.user = JSON.parse(req.body.user);
+    console.log(eventRegistration.user);
+    console.log((eventRegistration as any).user.uid);
+    let user = await User.findOne({_id: (eventRegistration as any).user.uid}).exec();
+    console.log(user);
+    eventRegistration.user.password = (user as IUser).password;
+    eventRegistration.event = JSON.parse(req.body.event);
+    eventRegistration.user._id = (eventRegistration as any).user.uid;
+    eventRegistration.event._id = (eventRegistration as any).event.id;
+
+    delete (eventRegistration as any).user.uid;
+    delete (eventRegistration as any).event.id;
+    delete (eventRegistration as any).id;
+    console.log(JSON.stringify(eventRegistration));
     eventRegistration.save((err, eventReg) => {
         if (err) {
             if (err.code === 11000) {
