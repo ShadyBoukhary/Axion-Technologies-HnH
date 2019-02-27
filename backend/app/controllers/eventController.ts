@@ -28,6 +28,7 @@ export async function getEvents(req: Request, res: Response, next: NextFunction)
 
         // convert events to events with right variable names
         let eventsToDump = events.map((event) => {
+            console.log(JSON.stringify(event.route));
             return {
                 name: event.name,
                 description: event.description,
