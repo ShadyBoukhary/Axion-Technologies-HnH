@@ -1,9 +1,6 @@
 import { Document } from 'mongoose';
+import { User } from './non_modals/user';
 
-export interface IUserDocument extends Document {
-    email: string;
-    password: string;
+export interface IUserDocument extends Document, User {
     _id: string;
-    firstName: string;
-    lastName: string;
 }
