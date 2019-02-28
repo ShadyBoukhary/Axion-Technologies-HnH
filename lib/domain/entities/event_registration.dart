@@ -1,7 +1,7 @@
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/utils/utils.dart';
-
+import 'dart:convert';
 /// Represents an association between a [User] and an [Event].
 /// The [User] is registered in the [Event].
 class EventRegistration {
@@ -18,9 +18,8 @@ class EventRegistration {
   String get id => _id;
   // Constructors
 
-  EventRegistration(this._user, this._event) {
+  EventRegistration(this._user, this._event, this._id) {
     _registrationTime = (DateTime.now().millisecondsSinceEpoch / 1000).toString();
-    _id = Utils.uuidRandom();
   }
 
   EventRegistration.fromEventRegistration(EventRegistration eventRegistration) {
@@ -42,6 +41,14 @@ class EventRegistration {
     {
       'user': user.toJson(),
       'event': event.toJson(),
+      'registrationTime': _registrationTime,
+      'id': _id
+    };
+
+  Map<String, String> toJson2() =>
+    {
+      'user': jsonEncode(_user),
+      'event': jsonEncode(event),
       'registrationTime': _registrationTime,
       'id': _id
     };
