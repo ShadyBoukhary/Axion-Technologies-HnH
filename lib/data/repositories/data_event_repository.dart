@@ -1,10 +1,13 @@
 import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/entities/event_registration.dart';
+import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/repositories/event_repository.dart';
 import 'package:logging/logging.dart';
 import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hnh/data/utils/constants.dart';
+import 'package:flutter/foundation.dart';
 
 class DataEventRepository implements EventRepository {
   // Members
@@ -67,5 +70,44 @@ class DataEventRepository implements EventRepository {
   Future<List<Event>> getUserEvents({String uid}) async {
     // TODO: implement getUserEvents
     return null;
+  }
+
+  @override
+  Future<List<EventRegistration>> getEventRegistrationsByUser({String uid}) async {
+
+    List<dynamic> body;
+    http.Response response;
+    try {
+      response = await http.get(Constants.eventRegistrationsRoute, headers: { uid: uid });
+
+      if (response.statusCode != 200) {
+        Map<String, dynamic> body = jsonDecode(response.body);
+        throw APIException(body['message'], response.statusCode, body['statusText']);
+      }
+    } catch(error) {
+      _logger.warning('Could not register for event.', error);
+      rethrow;
+    }
+
+    body = jsonDecode(response.body);
+    List<EventRegistration> eventRegistrations = List.from(body.map((item) => EventRegistration.fromJson(item)));
+    return eventRegistrations;
+  }
+
+  @override
+  Future<void> registerForEvent({@required EventRegistration eventRegistration}) async {
+
+    try {
+  
+      http.Response response = await http.post(Constants.eventRegistrationsRoute, body: eventRegistration.toJson2());
+
+      if (response.statusCode != 200) {
+        Map<String, dynamic> body = jsonDecode(response.body);
+        throw APIException(body['message'], response.statusCode, body['statusText']);
+      }
+    } catch(error) {
+      _logger.warning('Could not register for event.', error);
+      rethrow;
+    }
   }
 }
