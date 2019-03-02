@@ -13,7 +13,7 @@ void main() {
     EventRegistration duplicate;
     EventRegistration sameUserDifferentEvent;
     EventRegistration differentUserSameEvent;
-
+    EventRegistration realUserRealEvent;
     setUp(() {
       dataEventRepository = DataEventRepository();
       eventRegistration = EventRegistration(Utils.uuidRandom(), Utils.uuidRandom());
@@ -21,6 +21,7 @@ void main() {
       duplicate = EventRegistration.fromEventRegistration(eventRegistration);
       sameUserDifferentEvent = EventRegistration(eventRegistration.uid, Utils.uuidRandom());
       differentUserSameEvent = EventRegistration(Utils.uuidRandom(), eventRegistration.eventId);
+      realUserRealEvent = EventRegistration('5c56a23bd035c37032391053', '5c68d750cf2095b99753c693');
     });
 
     /// tests the getAllEvents method
@@ -49,6 +50,26 @@ void main() {
             return true;
           }, 'Throws APIException with Already Registered message and 400.')));
     }); // end test
+
+    test('.getUserEvents()', () async {
+      try {
+        await dataEventRepository.registerForEvent(eventRegistration: realUserRealEvent);
+      } catch (error) {
+        print(error.message);
+      }
+      
+      List<Event> events = await dataEventRepository.getUserEvents(uid: '5c56a23bd035c37032391053');
+      expect(events, TypeMatcher<List<Event>>());
+      expect(events.length, greaterThan(0));
+      expect(events.length, lessThan(3));
+      expect(events[0].id, '5c68d750cf2095b99753c693');
+
+       // test non-existent user or user with no events registered
+      events = await dataEventRepository.getUserEvents(uid: 'userDoesNotExistOrNoEvents');
+      expect(events, TypeMatcher<List<Event>>());
+      expect(events.length, 0);
+          
+    });
 
   }); // end group
 } // end main

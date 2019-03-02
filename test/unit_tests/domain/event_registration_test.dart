@@ -49,10 +49,9 @@ void main() {
       };
 
       eventRegistrationMap = {
-        'user': user,
-        'event': event,
-        'registrationTime': '829375429835',
-        'id': 'replace'
+        'uid': user['uid'],
+        'eventId': event['id'],
+        'timestamp': '829375429835',
       };
       testUser = User('John', 'Smith', 'kjasdh8458y_43fadsfw43', 'john_smith@unittest.com');
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
@@ -62,19 +61,16 @@ void main() {
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982')
       ]);
-      testEventRegistration = EventRegistration('kjasdh8458y_43fadsfw43', '1234567890', '8427398457234598');
-      eventRegistrationMap['registrationTime'] = testEventRegistration.timestamp;
-      eventRegistrationMap['id'] = testEventRegistration.id;
+      testEventRegistration = EventRegistration('kjasdh8458y_43fadsfw43', '1234567890');
+      eventRegistrationMap['timestamp'] = testEventRegistration.timestamp;
     }); // end setup
 
     test('.fromJson creates a correct EventRegistration', () {
       EventRegistration eventRegistration = EventRegistration.fromJson(eventRegistrationMap);
       expect(eventRegistration, TypeMatcher<EventRegistration>());
-      expect(eventRegistration.id, testEventRegistration.id);
+      expect(eventRegistration.timestamp, eventRegistrationMap['timestamp']);
       // test User
       expect(eventRegistration.uid, testUser.uid);
-
-
       // test Event
       expect(eventRegistration.eventId, testEvent.id);
     }); // end .fromJson test
