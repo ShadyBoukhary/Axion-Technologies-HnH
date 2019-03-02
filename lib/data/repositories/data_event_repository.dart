@@ -1,6 +1,5 @@
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/event_registration.dart';
-import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/repositories/event_repository.dart';
 import 'package:logging/logging.dart';
 import 'package:hnh/data/exceptions/authentication_exception.dart';
@@ -8,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hnh/data/utils/constants.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 
 class DataEventRepository implements EventRepository {
   // Members
@@ -98,7 +98,6 @@ class DataEventRepository implements EventRepository {
   Future<void> registerForEvent({@required EventRegistration eventRegistration}) async {
 
     try {
-  
       http.Response response = await http.post(Constants.eventRegistrationsRoute, body: eventRegistration.toJson2());
 
       if (response.statusCode != 200) {
