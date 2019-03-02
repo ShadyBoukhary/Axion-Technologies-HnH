@@ -1,55 +1,60 @@
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
-import 'package:hnh/domain/utils/utils.dart';
-import 'dart:convert';
+
 /// Represents an association between a [User] and an [Event].
 /// The [User] is registered in the [Event].
 class EventRegistration {
 
   // Members
-  User _user;
-  Event _event;
-  String _registrationTime;
+  String _uid;
+  String _eventId;
+  String _timestamp;
   String _id;
   // Getters
-  User get user => _user;
-  Event get event => _event;
-  String get registrationTime => _registrationTime;
+  String get uid => _uid;
+  String get eventId => _eventId;
+  String get timestamp => _timestamp;
   String get id => _id;
   // Constructors
 
-  EventRegistration(this._user, this._event, this._id) {
-    _registrationTime = (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+  EventRegistration(this._uid, this._eventId, [this._id]) {
+    _timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).toString();
   }
 
   EventRegistration.fromEventRegistration(EventRegistration eventRegistration) {
-    _user = User.fromUser(eventRegistration.user);
-    _event = Event.fromEvent(eventRegistration.event);
-    _registrationTime = eventRegistration.registrationTime;
+    _uid = eventRegistration.uid;
+    _eventId = eventRegistration.eventId;
+    _timestamp = eventRegistration._timestamp;
     _id = eventRegistration._id;
   }
 
   EventRegistration.fromJson(Map<String, dynamic> map) {
-    _user = User.fromJson(map['user']);
-    _event = Event.fromJson(map['event']);
-    _registrationTime = map['registrationTime'];
+    _uid = map['uid'];
+    _eventId = map['eventId'];
+    _timestamp = map['timestamp'];
     _id = map['id'];
   }
 
   // Serializer
   Map<String, dynamic> toJson() =>
     {
-      'user': user.toJson(),
-      'event': event.toJson(),
-      'registrationTime': _registrationTime,
+      'uid': uid,
+      'eventId': eventId,
+      'timestamp': timestamp,
       'id': _id
     };
 
-  Map<String, String> toJson2() =>
+  Map<String, String> toJson2() => 
+    _id != null ? 
     {
-      'user': jsonEncode(_user),
-      'event': jsonEncode(event),
-      'registrationTime': _registrationTime,
-      'id': _id
+      'uid': _uid,
+      'eventId': eventId,
+      'timestamp': timestamp,
+      '_id': _id
+    } : 
+    {
+      'uid': _uid,
+      'eventId': eventId,
+      'timestamp': timestamp,
     };
 }

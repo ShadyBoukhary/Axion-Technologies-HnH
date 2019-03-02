@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/event_registration.dart';
