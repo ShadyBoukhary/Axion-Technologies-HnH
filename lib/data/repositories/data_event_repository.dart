@@ -25,15 +25,15 @@ class DataEventRepository implements EventRepository {
 
   /// Retrieves all HnH events from the server
   @override
-  Future<List<Event>> getAllEvents() async {
+  Future<List<Event>> getAllEvents({Map<String, String> queryParams}) async {
 
     http.Response response;
     List<Event> events;
     List<dynamic> body;
+    Uri uri = Uri.http(Constants.baseUrlNoPrefix, Constants.eventsPathOnly, queryParams != null ? queryParams : {});
 
     try {
-      response = await http.get(Constants.eventsRoute);
-
+      response = await http.get(uri);
       // check for any errors
       if (response.statusCode != 200) {
         Map<String, dynamic> body = jsonDecode(response.body);
@@ -47,6 +47,9 @@ class DataEventRepository implements EventRepository {
     
     // convert body to `List<Event>`
     body = jsonDecode(response.body);
+    if (body.length == 0) {
+      return List<Event>();
+    }
     bodyToListMap(body);
     events = List.from(body.map((map) => Event.fromJson(map)));
     _logger.finest('Events retrieved successfully.');
@@ -68,9 +71,18 @@ class DataEventRepository implements EventRepository {
 
   @override
   Future<List<Event>> getUserEvents({String uid}) async {
-    // TODO: implement getUserEvents
-    return null;
+    Map<String, String> params = {'uid': uid};
+
+    try {
+      List<Event> events = await getAllEvents(queryParams: params);
+      return events;
+
+    } catch(error) {
+      _logger.warning('Could not retrieve user events.', error);
+      rethrow;
+    }
   }
+  
 
   @override
   Future<List<EventRegistration>> getEventRegistrationsByUser({String uid}) async {
