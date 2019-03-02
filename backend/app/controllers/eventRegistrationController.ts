@@ -27,7 +27,7 @@ const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('Ev
 export async function createEventRegistration(req: Request, res: Response, next: NextFunction) {
     console.log(req.body);
 
-    if (!req.body.user || !req.body.event) {
+    if (!req.body.uid || !req.body.eventId || !req.body.timestamp) {
         res.status(400).send({
             'status': '400',
             'message': 'Missing Fields',
@@ -36,19 +36,6 @@ export async function createEventRegistration(req: Request, res: Response, next:
         return next(new Error('Missing Fields'));
     }
     let eventRegistration = new EventRegistration(req.body);
-    eventRegistration.user = JSON.parse(req.body.user);
-    console.log(eventRegistration.user);
-    console.log((eventRegistration as any).user.uid);
-    let user = await User.findOne({_id: (eventRegistration as any).user.uid}).exec();
-    console.log(user);
-    eventRegistration.user.password = (user as IUser).password;
-    eventRegistration.event = JSON.parse(req.body.event);
-    eventRegistration.user._id = (eventRegistration as any).user.uid;
-    eventRegistration.event._id = (eventRegistration as any).event.id;
-
-    delete (eventRegistration as any).user.uid;
-    delete (eventRegistration as any).event.id;
-    delete (eventRegistration as any).id;
     console.log(JSON.stringify(eventRegistration));
     eventRegistration.save((err, eventReg) => {
         if (err) {
@@ -66,8 +53,8 @@ export async function createEventRegistration(req: Request, res: Response, next:
         res.status(200);
         res.send({
             id: eventReg._id,
-            user: eventReg.user,
-            event: eventReg.event,
+            uid: eventReg.uid,
+            event: eventReg.eventId,
         });
     });
 }
