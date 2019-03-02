@@ -10,5 +10,7 @@ export const EventRegistrationSchema = new Schema({
     timestamp: {type: String, required: true}
 }, {versionKey: false});
 
-export const EventRegistration: IEventRegistrationModel = model<IEventRegistration, IEventRegistrationModel>('EventRegistrationSchema', EventRegistrationSchema);
+EventRegistrationSchema.index({uid: 1, eventId: 1}, {unique: true});
+
+export const EventRegistration: IEventRegistrationModel = model<IEventRegistration, IEventRegistrationModel>('EventRegistration', EventRegistrationSchema);
 export default EventRegistration;

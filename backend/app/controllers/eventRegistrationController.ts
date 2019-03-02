@@ -52,9 +52,9 @@ export async function createEventRegistration(req: Request, res: Response, next:
         }
         res.status(200);
         res.send({
-            id: eventReg._id,
             uid: eventReg.uid,
             event: eventReg.eventId,
+            timestamp: eventReg.timestamp
         });
     });
 }
@@ -79,17 +79,11 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
             throw Error('User ID was not provided.');
         }
 
-        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({"user._id": uid }).exec();
+        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({uid: uid }, '-_id').exec();
         if (eventRegistrations.length < 1) {
             res.status(200).send([]);
         } else {
-            let evgs = eventRegistrations.map((eg) => {
-                let evg: any = eg;
-                evg.id = eg._id;
-                delete evg._id;
-                return evg;
-            });
-            res.status(200).json(evgs);
+            res.status(200).json(eventRegistrations);
         }
     } catch (error) {
         res.status(400);
@@ -115,10 +109,11 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
  */
 export async function deleteEventRegistration(req: Request, res: Response, next: NextFunction) {
     try {
-        let id = req.body.id;
-        if (!id)
-            throw Error('EventRegistration ID not provided');
-        await EventRegistration.findByIdAndRemove(id).exec();
+        let uid = req.body.uid;
+        let eventId = req.body.eventId;
+        if (!uid || !eventId)
+            throw Error('EventId or uid was not provided');
+        await EventRegistration.findOneAndRemove({uid: uid, eventId: eventId}).exec();
         res.sendStatus(200);
     } catch (error) {
         res.status(400);

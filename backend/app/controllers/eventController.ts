@@ -6,8 +6,14 @@ import { IEvent } from '../interfaces/event/event';
 import { IEventModel } from '../interfaces/event/eventModel';
 import { EventSchema } from '../models/eventModel';
 import { CREATE_EVENTS_PASS } from '../config';
+import { IEventRegistration } from '../interfaces/event_registration/eventRegistration';
+import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
+import { EventRegistrationSchema } from '../models/eventRegistrationModel';
+import * as eg from '../interfaces/non_modals/eventRegistration';
+import { ObjectID } from 'bson';
 
 const Event = model<IEvent, IEventModel>('Event', EventSchema);
+const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('EventRegistration', EventRegistrationSchema);
 
 
 /**
@@ -22,7 +28,7 @@ export async function getEvents(req: Request, res: Response, next: NextFunction)
     try {
         // get uid from request query
         let uid = req.query.uid;
-
+        console.log(uid);
         // get all events or user events depending on whether a uid was provided
         let events: IEvent[] = uid ? await getUserEvents(uid) : await Event.find({}).exec();
 
@@ -133,7 +139,25 @@ export async function createEvents(req: Request, res: Response) {
             route: [{lat: '234234234', lon: '4234234243'}]
         };
 
+        let event2 = {
+            _id: '5a68d750cf1095b92753c696',
+            name: 'Lorem Ipsum',
+            description: 'Lorem Ipsum dolor sir.',
+            location: {lat: '35251223525', lon: '24234321523525', timestamp: (Date.now() / 1000).toString()},
+            route: [{lat: '2342321214234', lon: '4234224334243'}]
+        };
+
+        let event3 = {
+            _id: '5a68d750cf1095b92753c695',
+            name: 'Lorem Ipsum',
+            description: 'Lorem Ipsum dolor sir.',
+            location: {lat: '352522343525', lon: '2423234523525', timestamp: (Date.now() / 1000).toString()},
+            route: [{lat: '23423423234', lon: '423423124243'}]
+        };
+
         events.push(event1);
+        events.push(event2);
+        events.push(event3);
 
         // save events to mongodb
         events.forEach(async (event) => {
@@ -141,6 +165,7 @@ export async function createEvents(req: Request, res: Response) {
                 let eventModel = new Event(event);
                 await eventModel.save();
             } catch (error) {
+                console.log(error);
                 if (error.code === 11000) {
                     console.log('Event already exists.');
                 } else {
@@ -156,6 +181,18 @@ export async function createEvents(req: Request, res: Response) {
 }
 
 async function getUserEvents(uid: string): Promise<IEvent[]> {
-    // TODO: Implement
-    return await Event.find({}).exec();
+
+    try {
+        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({uid: uid}).exec();
+        if (eventRegistrations.length < 1) {
+            return [];
+        } else {
+            let ids = eventRegistrations.map((evg) => new ObjectID(evg.eventId));
+            let events: IEvent[] = await Event.find({_id: {$in: ids}});
+            console.log(JSON.stringify(events));
+            return events;
+        }
+    } catch (error) {
+        throw error;
+    }
 }

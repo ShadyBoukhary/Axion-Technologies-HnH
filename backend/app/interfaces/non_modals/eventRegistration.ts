@@ -1,6 +1,5 @@
 export interface EventRegistration {
-    _id: string;
-    uid: String;
-    eventId: String;
-    timestamp: String;
+    uid: string;
+    eventId: string;
+    timestamp: string;
 }
