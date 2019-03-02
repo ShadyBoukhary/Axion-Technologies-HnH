@@ -14,13 +14,13 @@ class DeviceLocationRepository implements LocationRepository {
   /// Returns: A Future<Location> object or null upon failure.
   Future<Location> getLocation() async{
     //Instantiate the library's class
-    LocationLib.Location location_getter = new LocationLib.Location();
+    LocationLib.Location locationGetter = new LocationLib.Location();
     //This is the location as the library returns it, a map of string,double
     Map location = <String, double>{};
     //This is the format we will need the location in when we return it
     Location result;
     try {
-      location = await location_getter.getLocation();
+      location = await locationGetter.getLocation();
       result = new Location(location['latitude'].toString(), location['longitude'].toString(), (new DateTime.now().millisecondsSinceEpoch / 1000).toString());
       return result;
     }catch(e){

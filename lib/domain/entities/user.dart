@@ -33,6 +33,14 @@ class User {
       'email': _email
     };
 
+  Map<String, String> toJson2() =>
+    {
+      'firstName': _firstName,
+      'lastName': _lastName,
+      'uid': _uid,
+      'email': _email
+    };
+
     @override
     operator ==(dynamic user) => user is User && _uid == user._uid;
 

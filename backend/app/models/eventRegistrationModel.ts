@@ -2,13 +2,15 @@
 import { Schema, model } from 'mongoose';
 import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
 import { IEventRegistration } from '../interfaces/event_registration/eventRegistration';
-import { UserSchema } from './userModel';
-import { EventSchema } from './eventModel';
+
 
 export const EventRegistrationSchema = new Schema({
-    user: { type: UserSchema, required: true },
-    event: [{ type: EventSchema, required: true }],
+    uid: { type: String, required: true },
+    eventId: { type: String, required: true },
+    timestamp: {type: String, required: true}
 }, {versionKey: false});
 
-export const EventRegistration: IEventRegistrationModel = model<IEventRegistration, IEventRegistrationModel>('EventRegistrationSchema', EventRegistrationSchema);
+EventRegistrationSchema.index({uid: 1, eventId: 1}, {unique: true});
+
+export const EventRegistration: IEventRegistrationModel = model<IEventRegistration, IEventRegistrationModel>('EventRegistration', EventRegistrationSchema);
 export default EventRegistration;

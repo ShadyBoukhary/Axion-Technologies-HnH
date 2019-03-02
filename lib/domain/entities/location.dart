@@ -31,4 +31,11 @@ class Location extends Coordinates {
       'lon': lon,
       'timestamp': _timestamp
     };
+
+  Map<String, String> toJson2() => 
+  {
+    'lat': lat,
+    'lon': lon,
+    'timestamp': _timestamp
+  };
 }

@@ -52,6 +52,15 @@ class Event {
     'route': jsonDecode(jsonEncode(_route))
   };
 
+  Map<String, String> toJson2() => 
+  {
+    'name': _name,
+    'description': _description,
+    'location': jsonEncode(location),
+    'id': _id,
+    'route': jsonEncode(_route)
+  };
+
   /// Append [coordinates] to the [_route]
   void appendRoute(List<Coordinates> coordinates) {
     _route.addAll(coordinates);

@@ -7,6 +7,8 @@ import { IEventRegistration } from '../interfaces/event_registration/eventRegist
 import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
 import { EventRegistrationSchema } from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
+import User from '../models/userModel';
+import { IUser } from '../interfaces/user';
 
 
 
@@ -22,10 +24,10 @@ const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('Ev
  * @param {NextFunction} next
  * @returns
  */
-export function createEventRegistration(req: Request, res: Response, next: NextFunction) {
+export async function createEventRegistration(req: Request, res: Response, next: NextFunction) {
     console.log(req.body);
 
-    if (!req.body.user || !req.body.event) {
+    if (!req.body.uid || !req.body.eventId || !req.body.timestamp) {
         res.status(400).send({
             'status': '400',
             'message': 'Missing Fields',
@@ -33,8 +35,8 @@ export function createEventRegistration(req: Request, res: Response, next: NextF
         });
         return next(new Error('Missing Fields'));
     }
-
     let eventRegistration = new EventRegistration(req.body);
+    console.log(JSON.stringify(eventRegistration));
     eventRegistration.save((err, eventReg) => {
         if (err) {
             if (err.code === 11000) {
@@ -50,9 +52,9 @@ export function createEventRegistration(req: Request, res: Response, next: NextF
         }
         res.status(200);
         res.send({
-            id: eventReg._id,
-            user: eventReg.user,
-            event: eventReg.event,
+            uid: eventReg.uid,
+            event: eventReg.eventId,
+            timestamp: eventReg.timestamp
         });
     });
 }
@@ -77,17 +79,11 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
             throw Error('User ID was not provided.');
         }
 
-        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({"user._id": uid }).exec();
+        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({uid: uid }, '-_id').exec();
         if (eventRegistrations.length < 1) {
             res.status(200).send([]);
         } else {
-            let evgs = eventRegistrations.map((eg) => {
-                let evg: any = eg;
-                evg.id = eg._id;
-                delete evg._id;
-                return evg;
-            });
-            res.status(200).json(evgs);
+            res.status(200).json(eventRegistrations);
         }
     } catch (error) {
         res.status(400);
@@ -113,10 +109,11 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
  */
 export async function deleteEventRegistration(req: Request, res: Response, next: NextFunction) {
     try {
-        let id = req.body.id;
-        if (!id)
-            throw Error('EventRegistration ID not provided');
-        await EventRegistration.findByIdAndRemove(id).exec();
+        let uid = req.body.uid;
+        let eventId = req.body.eventId;
+        if (!uid || !eventId)
+            throw Error('EventId or uid was not provided');
+        await EventRegistration.findOneAndRemove({uid: uid, eventId: eventId}).exec();
         res.sendStatus(200);
     } catch (error) {
         res.status(400);

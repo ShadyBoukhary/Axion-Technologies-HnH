@@ -27,4 +27,10 @@ class Coordinates {
       'lat': _lat,
       'lon': _lon,
     };
+
+  Map<String, String> toJson2() => 
+  {
+      'lat': _lat,
+      'lon': _lon,
+  };
 }
