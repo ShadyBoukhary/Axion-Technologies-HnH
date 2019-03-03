@@ -9,6 +9,7 @@ import { connect } from 'mongoose';
 import { userRoutes } from './routes/userRoutes';
 import { eventRoutes } from "./routes/eventRoute";
 import { eventRegistrationRoutes } from './routes/eventRegistrationRoute';
+import { hhhRoutes } from "./routes/hhhRoute";
 
 class Server {
     public app: express.Application;
@@ -60,6 +61,7 @@ class Server {
     userRoutes(this.app);
     eventRoutes(this.app);
     eventRegistrationRoutes(this.app);
+    hhhRoutes(this.app);
   }
 
   private initDB() {
