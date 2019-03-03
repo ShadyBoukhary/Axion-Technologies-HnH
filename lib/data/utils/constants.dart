@@ -5,7 +5,8 @@ class Constants {
     static const String loginRoute = '$baseUrl/login';
     static const String eventsRoute = '$baseUrl/events';
     static const String eventRegistrationsRoute = '$baseUrl/eventRegistrations';
-
+    static const String allHHHRoute = '$baseUrl/HHHs';
+    static const String currentHHHRoute = '$baseUrl/currentHHH';
     static const String eventsPathOnly = '/events';
     static const String tokenKey = 'authentication_token';
     static const String userKey = 'user_key';
