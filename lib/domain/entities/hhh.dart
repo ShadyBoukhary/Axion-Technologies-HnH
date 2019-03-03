@@ -25,8 +25,8 @@ class HHH {
     _description = map['description'];
     _mailingAddress = map['mailingAddress'];
     _timestamp = map['timestamp'];
-    _sponsors = map['sponsors'] as List<String>;
-    _events = map['events'] as List<String>;
+    _sponsors = map['sponsors'].cast<String>().toList();
+    _events = map['events'].cast<String>().toList();
   }
 
   /// From an [hhh]
