@@ -9,5 +9,4 @@ abstract class EventRepository {
   Future<List<Event>> getAllEvents();
   Future<List<Event>> getUserEvents({@required String uid});
   Future<void> registerForEvent({@required EventRegistration eventRegistration});
-  Future<List<EventRegistration>> getEventRegistrationsByUser({@required String uid});
 }

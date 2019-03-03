@@ -23,7 +23,9 @@ class DataEventRepository implements EventRepository {
 
   factory DataEventRepository() => _instance;
 
-  /// Retrieves all HnH events from the server
+  /// Retrieves all the [Event]'s from the server. If a `Map` containing [queryParams] is given,
+  /// it is used as query parameters for the API. Throws an [APIException] if an API-related exception
+  /// occurs. Returns a `List<Event>>` that could be empty.
   @override
   Future<List<Event>> getAllEvents({Map<String, String> queryParams}) async {
 
@@ -69,6 +71,7 @@ class DataEventRepository implements EventRepository {
     });
   }
 
+  /// Returns a list of [Event]'s in which a [User] is registered in using their id [uid].
   @override
   Future<List<Event>> getUserEvents({String uid}) async {
     Map<String, String> params = {'uid': uid};
@@ -83,29 +86,9 @@ class DataEventRepository implements EventRepository {
     }
   }
   
-
-  @override
-  Future<List<EventRegistration>> getEventRegistrationsByUser({String uid}) async {
-
-    List<dynamic> body;
-    http.Response response;
-    try {
-      response = await http.get(Constants.eventRegistrationsRoute, headers: { uid: uid });
-
-      if (response.statusCode != 200) {
-        Map<String, dynamic> body = jsonDecode(response.body);
-        throw APIException(body['message'], response.statusCode, body['statusText']);
-      }
-    } catch(error) {
-      _logger.warning('Could not register for event.', error);
-      rethrow;
-    }
-
-    body = jsonDecode(response.body);
-    List<EventRegistration> eventRegistrations = List.from(body.map((item) => EventRegistration.fromJson(item)));
-    return eventRegistrations;
-  }
-
+  /// Registers a `User` in an `Event` using a [eventRegistration]. Adds the [eventRegistration] to
+  /// the `EventRegistration` collection. Throws an [APIException] if registration fails. Otherwise, nothing
+  /// is returned.
   @override
   Future<void> registerForEvent({@required EventRegistration eventRegistration}) async {
 
