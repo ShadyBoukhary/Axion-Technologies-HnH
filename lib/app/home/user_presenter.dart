@@ -1,25 +1,19 @@
-import 'package:hnh/domain/repositories/user_repository.dart';
-import 'package:hnh/domain/usecases/user_usercase.dart';
 import 'package:hnh/domain/usecases/observer.dart';
 import 'package:hnh/domain/entities/user.dart';
 
 class UserPresenter {
-  UserRepository _userRepository;
-  UserUseCase _userUseCase;
+
   Function getUserOnNext;
   Function getUserOnComplete;
   Function getUserOnError;
 
-  UserPresenter(this._userRepository) {
-    _userUseCase = UserUseCase(_userRepository);
-  }
 
   void _dispose() {
-    _userUseCase.dispose();
+  //  _userUseCase.dispose();
   }
 
   void getUser(String uid) {
-    _userUseCase.execute(_GetUserUseCaseObserver(this), UserUseCaseParams(uid));
+   // _userUseCase.execute(_GetUserUseCaseObserver(this), UserUseCaseParams(uid));
   }
 }
 
