@@ -10,6 +10,7 @@ import { userRoutes } from './routes/userRoutes';
 import { eventRoutes } from "./routes/eventRoute";
 import { eventRegistrationRoutes } from './routes/eventRegistrationRoute';
 import { hhhRoutes } from "./routes/hhhRoute";
+import { sponsorRoutes } from "./routes/sponsorRoute";
 
 class Server {
     public app: express.Application;
@@ -62,6 +63,7 @@ class Server {
     eventRoutes(this.app);
     eventRegistrationRoutes(this.app);
     hhhRoutes(this.app);
+    sponsorRoutes(this.app);
   }
 
   private initDB() {
