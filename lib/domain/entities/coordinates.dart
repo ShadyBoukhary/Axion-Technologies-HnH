@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 /// Represents a generic set of GPS coordinates
 class Coordinates {
   

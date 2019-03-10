@@ -1,12 +1,19 @@
-import 'dart:async';
+// Shady Boukhary
 
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/event_registration.dart';
-import 'package:hnh/domain/entities/user.dart';
 
+/// Allows a `User` to register for an [Event] and retrieve [Event]s
 abstract class EventRepository {
-  Future<List<Event>> getAllEvents();
+
+  /// Retrieves all [Event]s. Accepts filerting [params].
+  Future<List<Event>> getAllEvents({Map<String, String> params});
+
+  /// Retrieves all [Event]s in which the `User` is registered using his [uid].
   Future<List<Event>> getUserEvents({@required String uid});
+
+  /// Registers a `User` in an [Event] using [eventRegistration] object.
   Future<void> registerForEvent({@required EventRegistration eventRegistration});
 }

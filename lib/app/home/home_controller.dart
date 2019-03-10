@@ -1,20 +1,16 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/home/user_presenter.dart';
-import 'package:hnh/data/repositories/data_user_repository.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
 
 class HomeController extends Controller {
 
   UserPresenter _userPresenter;
-  DataUserRepository _dataUserRepository;
   User _currentUser;
   User get currentUser => _currentUser;
   Logger logger;
 
   HomeController() {
-    _dataUserRepository = DataUserRepository();
-    _userPresenter = UserPresenter(_dataUserRepository);
     initListeners();
   }
 

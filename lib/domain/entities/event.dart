@@ -1,7 +1,8 @@
+// Shady Boukhary
+
 import 'package:hnh/domain/entities/location.dart';
 import 'package:hnh/domain/entities/coordinates.dart';
 import 'dart:convert';
-
 
 class Event {
 
@@ -39,7 +40,7 @@ class Event {
     _description = map['description'];
     _location = Location.fromJson(map['location'] );
     _id = map['id'];
-    var coordsIt = (map['route'] as List<Map<String, dynamic>>).map((map) => Coordinates.fromJson(map));
+    var coordsIt = (map['route'].cast<Map<String, dynamic>>()).toList().map((map) => Coordinates.fromJson(map));
     _route = List<Coordinates>.from(coordsIt);
   }
 
