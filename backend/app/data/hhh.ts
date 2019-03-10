@@ -1,4 +1,5 @@
 import { HHH } from "../interfaces/non_modals/hhh";
+import { EVENTS } from './events';
 
 export const HHHs: HHH[] = [
     {
@@ -7,7 +8,7 @@ export const HHHs: HHH[] = [
         mailingAddress: 'Hotter\'N Hell Hundred, PO Box 2099, Wichita Falls, TX 76307',
         timestamp: '1566622800',
         sponsors: ['djsfhsjdkhfkjs243'],
-        events: ['5c68d750cf2095b99753c693', '5a68d750cf1095b92753c696', '5a68d750cf1095b92753c695'],
+        events: EVENTS.map((event) => event._id),
     },
     {
         id: '2018',
