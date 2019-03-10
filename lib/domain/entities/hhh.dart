@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 import 'dart:convert';
 
 /// Represents the yearly HHH general event. Contains a list of [_events] and a list of [_sponsors].

@@ -1,14 +1,18 @@
 class User {
+
+  // Members
   String _firstName;
   String _lastName;
   String _uid;
   String _email;
 
+  // Properties
   String get firstName => _firstName;
   String get lastName => _lastName;
   String get uid => _uid;
   String get email => _email;
 
+  // Contructors
   User(this._firstName, this._lastName, this._uid, this._email);
   
   User.fromUser(User user) {

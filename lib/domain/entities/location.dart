@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 import 'package:hnh/domain/entities/coordinates.dart';
 
 /// Represents a set of GPS coordinates from [Coordinates] along with a timestamp

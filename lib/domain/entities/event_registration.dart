@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
 
