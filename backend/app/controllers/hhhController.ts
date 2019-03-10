@@ -9,6 +9,7 @@ import { NextFunction } from 'connect';
 import * as hhhInterface from '../interfaces/non_modals/hhh';
 import { CREATE_EVENTS_PASS } from '../config';
 import { HHHs } from '../data/hhh';
+import { getCurrentYear } from '../utils/utils';
 
 const HHH = model<IHHH, IHHHModel>('HHH', HHHSchema);
 
@@ -47,7 +48,7 @@ export async function getHHHs(req: Request, res: Response, next: NextFunction) {
 
 export async function getCurrentHHH(req: Request, res: Response, next: NextFunction) {
     
-    let year = new Date().getFullYear().toString();
+    let year = getCurrentYear();
     console.log(year);
     try {
 

@@ -11,6 +11,10 @@ import { IEventRegistrationModel } from '../interfaces/event_registration/eventR
 import { EventRegistrationSchema } from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
 import { ObjectID } from 'bson';
+import { EVENTS } from '../data/events';
+import HHH from '../models/hhhModel';
+import { getCurrentYear } from '../utils/utils';
+import * as hhhinterface from '../interfaces/non_modals/hhh';
 
 const Event = model<IEvent, IEventModel>('Event', EventSchema);
 const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('EventRegistration', EventRegistrationSchema);
@@ -28,9 +32,11 @@ export async function getEvents(req: Request, res: Response, next: NextFunction)
     try {
         // get uid from request query
         let uid = req.query.uid;
+        let year = req.query.year;
+        if (!year) year = getCurrentYear();
         console.log(uid);
         // get all events or user events depending on whether a uid was provided
-        let events: IEvent[] = uid ? await getUserEvents(uid) : await Event.find({}).exec();
+        let events: IEvent[] = uid ? await getUserEvents(uid) : await getEventsByYear(year);
 
         // convert events to events with right variable names
         let eventsToDump = events.map((event) => {
@@ -75,7 +81,7 @@ export async function getEvent(req: Request, res: Response, next: NextFunction) 
         let uid = req.params.eventId;
         // if the uid is not a valid mongo id, throw error
         if (!uid.match(/^[0-9a-fA-F]{24}$/)) { throw new Error('Invalid Event Id.'); }
-        
+
         // retrieve Events
         let event: IEvent | null = await Event.findById(uid).exec();
 
@@ -89,7 +95,7 @@ export async function getEvent(req: Request, res: Response, next: NextFunction) 
                 'statusText': 'Bad Request'
             });
 
-        // if found
+            // if found
         } else {
             // convert event to event with right variable names
             let eventToDump: any = event;
@@ -128,39 +134,9 @@ export async function createEvents(req: Request, res: Response) {
         console.log(req.query.pass);
         res.sendStatus(403);
     } else {
-        let events = [];
-
-        // create events
-        let event1 = {
-            _id: '5c68d750cf2095b99753c693',
-            name: 'Lorem Ipsum',
-            description: 'Lorem Ipsum dolor sir.',
-            location: {lat: '352523525', lon: '2423523525', timestamp: (Date.now() / 1000).toString()},
-            route: [{lat: '234234234', lon: '4234234243'}]
-        };
-
-        let event2 = {
-            _id: '5a68d750cf1095b92753c696',
-            name: 'Lorem Ipsum',
-            description: 'Lorem Ipsum dolor sir.',
-            location: {lat: '35251223525', lon: '24234321523525', timestamp: (Date.now() / 1000).toString()},
-            route: [{lat: '2342321214234', lon: '4234224334243'}]
-        };
-
-        let event3 = {
-            _id: '5a68d750cf1095b92753c695',
-            name: 'Lorem Ipsum',
-            description: 'Lorem Ipsum dolor sir.',
-            location: {lat: '352522343525', lon: '2423234523525', timestamp: (Date.now() / 1000).toString()},
-            route: [{lat: '23423423234', lon: '423423124243'}]
-        };
-
-        events.push(event1);
-        events.push(event2);
-        events.push(event3);
 
         // save events to mongodb
-        events.forEach(async (event) => {
+        EVENTS.forEach(async (event) => {
             try {
                 let eventModel = new Event(event);
                 await eventModel.save();
@@ -183,16 +159,49 @@ export async function createEvents(req: Request, res: Response) {
 async function getUserEvents(uid: string): Promise<IEvent[]> {
 
     try {
-        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({uid: uid}).exec();
+        // get event registration for a particular user
+        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({ uid: uid }).exec();
         if (eventRegistrations.length < 1) {
             return [];
         } else {
+            // get all the events in current year
+            let currentYearIds = (await HHH.findOne({ id: getCurrentYear() }).exec() as hhhinterface.HHH).events;
+
+            // convert event registrations to event object ids
             let ids = eventRegistrations.map((evg) => new ObjectID(evg.eventId));
-            let events: IEvent[] = await Event.find({_id: {$in: ids}});
-            console.log(JSON.stringify(events));
+
+            // query using common ids between current events and registered events
+            let events: IEvent[] = await Event.find({
+                _id: {
+                    $in: ids.filter(value => currentYearIds.includes(value.toHexString()))
+                }
+            });
+
             return events;
         }
     } catch (error) {
         throw error;
     }
 }
+
+async function getEventsByYear(year: string) {
+    try {
+
+        //get all the events in a year
+        let ids = (await HHH.findOne({ id: year }).exec() as hhhinterface.HHH).events;
+
+        // query using that years ids
+        let events: IEvent[] = await Event.find({
+            _id: {
+                $in: ids
+            }
+        });
+
+        return events;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
