@@ -101,8 +101,14 @@ export async function createHHHs(req: Request, res: Response) {
             } catch (error) {
                 console.log(error);
                 if (error.code === 11000) {
-                    console.log('HHH already exists.');
-                    await hhhModel.update(hhh);
+                    console.log('HHH already exists, updating.');
+                    try {
+                        await HHH.updateOne({id: hhh.id}, hhh).exec();
+                    } catch(e) {
+                        res.status(400);
+                        res.send(error);
+                    }
+                    
                 } else {
                     res.status(400);
                     res.send(error);

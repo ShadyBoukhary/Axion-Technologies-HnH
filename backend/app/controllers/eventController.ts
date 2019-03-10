@@ -143,7 +143,8 @@ export async function createEvents(req: Request, res: Response) {
             } catch (error) {
                 console.log(error);
                 if (error.code === 11000) {
-                    console.log('Event already exists.');
+                    console.log('Event already exists, updating.');
+                    await Event.updateOne({_id: event._id}, event).exec();
                 } else {
                     res.status(400);
                     res.send(error);
