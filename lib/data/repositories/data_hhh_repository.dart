@@ -2,9 +2,8 @@ import 'package:hnh/domain/entities/hhh.dart';
 import 'package:hnh/domain/repositories/hhh_repository.dart';
 import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'package:logging/logging.dart';
-import 'package:http/http.dart' as http;
 import 'package:hnh/data/utils/constants.dart';
-import 'dart:convert';
+import 'package:hnh/data/utils/http_helper.dart';
 import 'dart:async';
 
 class DataHHHRepository implements HHHRepository {
@@ -12,6 +11,7 @@ class DataHHHRepository implements HHHRepository {
   // singleton
   static final DataHHHRepository _instance = DataHHHRepository._internal();
   Logger _logger;
+  HHH _currentHHH;
 
   DataHHHRepository._internal() {
     _logger =Logger('DataHHHRepository');
@@ -23,25 +23,16 @@ class DataHHHRepository implements HHHRepository {
   /// Retrieve all [HHH] events throughout the years. Throws an [APIException].
   @override
   Future<List<HHH>> getAllHHHs() async {
-    http.Response response;
     List<HHH> hhhs;
     List<dynamic> body;
 
     try {
-      response = await http.get(Constants.allHHHRoute);
-
-      // check for any errors
-      if (response.statusCode != 200) {
-        Map<String, dynamic> body = jsonDecode(response.body);
-        throw APIException(
-            body['message'], response.statusCode, body['statusText']);
-      }
+      body = await HttpHelper.invokeHttp2(Constants.allHHHRoute, RequestType.get);
     } catch (error) {
       _logger.warning('Could not retrieve HHHs.', error);
       rethrow;
     }
     
-    body = jsonDecode(response.body);
     if (body.length == 0) {
       return List<HHH>();
     }
@@ -54,26 +45,21 @@ class DataHHHRepository implements HHHRepository {
   /// Returns current year's [HHH] event. e.g `hhh.id == '2019`
   @override
   Future<HHH> getCurrentHHH() async {
-    http.Response response;
+
+    if (_currentHHH != null) {
+      return _currentHHH;
+    }
+    
     HHH hhh;
     Map<String, dynamic> body;
 
     try {
-      response = await http.get(Constants.currentHHHRoute);
-
-      // check for any errors
-      if (response.statusCode != 200) {
-        Map<String, dynamic> body = jsonDecode(response.body);
-        throw APIException(
-            body['message'], response.statusCode, body['statusText']);
-      }
+      body = await HttpHelper.invokeHttp(Constants.currentHHHRoute, RequestType.get);
     } catch (error) {
       _logger.warning('Could not retrieve current HHH.', error);
       rethrow;
     }
     
-    // convert body to `List<dynamic>`
-    body = jsonDecode(response.body);
     hhh = HHH.fromJson(body);
 
     _logger.finest('Current HHH retrieved successfully.');
