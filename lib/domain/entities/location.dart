@@ -27,6 +27,9 @@ class Location extends Coordinates {
   }
 
   @override
+  String toString() => '{ lat: $lat, lon: $lon, timestamp: $timestamp }';
+
+  @override
   Map<String, dynamic> toJson() =>
     {
       'lat': lat,
