@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 abstract class Controller with WidgetsBindingObserver {
   
+  BuildContext context; // needed for navigation
+  Function refresh;  // callback function for refreshing the UI
+  bool isLoading; // indicates whether a loading dialog is present
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -19,6 +23,12 @@ abstract class Controller with WidgetsBindingObserver {
         break;
     }
   }
+
+  void dismissLoading() {
+    assert(refresh != null);
+    refresh(() => isLoading = false);
+  }
+
   void initListeners();
   void onInActive() {}
   void onPaused() {}
