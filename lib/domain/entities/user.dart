@@ -11,6 +11,7 @@ class User {
   String get lastName => _lastName;
   String get uid => _uid;
   String get email => _email;
+  String get initials => '${_firstName[0]}${_lastName[0]}'.toUpperCase();
 
   // Contructors
   User(this._firstName, this._lastName, this._uid, this._email);

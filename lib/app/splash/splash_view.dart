@@ -9,19 +9,13 @@ class SplashPage extends StatefulWidget {
   SplashPageView createState() => SplashPageView(SplashController());
 }
 
-class SplashPageView extends State<SplashPage> with SingleTickerProviderStateMixin implements View {
+class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixin{
 
   SplashController _controller;
 
   AnimationController _animationController;
 
   SplashPageView(this._controller);
-
-  void callHandler(Function fn) {
-    setState(() {
-      fn();
-    });
-  }
 
   @override
   void initState() {

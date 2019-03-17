@@ -12,7 +12,7 @@ class LoginUseCase extends CompletableUseCase<LoginUseCaseParams> {
   AuthenticationRepository _authenticationRepository;
   Logger _logger;
   // Constructors
-  LoginUseCase(this._authenticationRepository) { _logger = Logger('LoginUseCase'); }
+  LoginUseCase(this._authenticationRepository):super() { _logger = Logger('LoginUseCase'); }
 
   @override
   Future<Observable<User>> buildUseCaseObservable(LoginUseCaseParams params) async {

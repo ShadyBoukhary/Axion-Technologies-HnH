@@ -29,6 +29,8 @@ dependencies:
   shared_preferences: ^0.5.0
   logging: ^0.11.3+2
   uuid: ^2.0.0
+  # UI
+  modal_progress_hud: ^0.1.2
 
   # Google Maps Provider
   google_maps_flutter: ^0.2.0+3

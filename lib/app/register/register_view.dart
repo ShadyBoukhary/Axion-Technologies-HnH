@@ -12,7 +12,7 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageView createState() => _RegisterPageView(RegisterController());
 }
 
-class _RegisterPageView extends State<RegisterPage> implements View {
+class _RegisterPageView extends View<RegisterPage> {
   RegisterController _controller;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
