@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/login/login_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:hnh/app/components/inputField.dart';
+import 'package:hnh/app/utils/constants.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -11,21 +14,33 @@ class LoginPage extends StatefulWidget {
   LoginPageView createState() => LoginPageView(LoginController());
 }
 
-class LoginPageView extends State<LoginPage> implements View {
+class LoginPageView extends View<LoginPage> {
+
+  static const String emailPrompt = 'Email Address';
+  static const String passwordPrompt = 'Password';
+  static const String loginButtonText = 'Sign In';
+  static const String forgotPassswordButtonText = 'Forgot password?';
+  static const String registerButtonText = 'No account? Create one.';
+
   LoginController _controller;
 
-  LoginPageView(this._controller);
-
-  void callHandler(Function fn) {
-    setState(() {
-      fn();
-    });
+  LoginPageView(this._controller) {
+    _controller.refresh = callHandler;
   }
 
   @override
   Widget build(BuildContext context) {
+    _controller.context = context;
+    // ModalProgressHUD wraps the entire body with a loading using the controller.isLoading
     return Scaffold(
-      body: new Stack(
+        body: ModalProgressHUD(
+      child: body,
+      inAsyncCall: _controller.isLoading,
+    ));
+  }
+
+  // Scaffold body
+  Stack get body => Stack(
         children: <Widget>[
           Positioned(
             top: 0.0,
@@ -33,7 +48,7 @@ class LoginPageView extends State<LoginPage> implements View {
             right: 0.0,
             height: MediaQuery.of(context).size.height,
             child: Image.asset(
-              'assets/img/background.jpg',
+              Resources.background,
               fit: BoxFit.cover,
             ),
           ),
@@ -43,21 +58,21 @@ class LoginPageView extends State<LoginPage> implements View {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  new Container(
+                  Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
                           padding:
                               const EdgeInsets.only(top: 125.0, bottom: 10.0),
-                          child: new Image(
-                            image: new AssetImage('assets/img/logo.png'),
+                          child: Image(
+                            image: AssetImage(Resources.logo),
                             width: 200.0,
                           ),
                         ),
-                        new Text(
-                          "Hotter'n Hell",
-                          style: new TextStyle(
+                        Text(
+                          UIConstants.appName,
+                          style: TextStyle(
                             color: Color.fromRGBO(230, 38, 39, 1.0),
                             fontSize: 32.0,
                             fontWeight: FontWeight.w300,
@@ -69,123 +84,25 @@ class LoginPageView extends State<LoginPage> implements View {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 150.0),
-                    child: new Container(
+                    child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40.0, vertical: 5.0),
-                            child: new TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(15.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(
-                                            255, 255, 255, 0.4))),
-                                disabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(
-                                            255, 255, 255, 0.4))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                        color:
-                                            Color.fromRGBO(230, 38, 39, 0.8))),
-                                fillColor: Color.fromRGBO(255, 255, 255, 0.4),
-                                filled: true,
-                                hintText: "Email Address",
-                                hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40.0, vertical: 5.0),
-                            child: new TextFormField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(15.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(
-                                            255, 255, 255, 0.4))),
-                                disabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(
-                                            255, 255, 255, 0.4))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                        color:
-                                            Color.fromRGBO(230, 38, 39, 0.8))),
-                                fillColor: Color.fromRGBO(255, 255, 255, 0.4),
-                                filled: true,
-                                hintText: "Password",
-                                hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ),
+                          emailField,
+                          passwordField,
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 45.0, vertical: 5.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                new GestureDetector(
-                                  onTap: () {},
-                                  child: Text(
-                                    "Forgot password?",
-                                    style: new TextStyle(
-                                      color: Color.fromRGBO(230, 38, 39, 0.8),
-                                      fontSize: 14.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              children: <Widget>[forgotPasswordButton],
                             ),
                           ),
                           SizedBox(height: 40.0),
-                          GestureDetector(
-                            onTap: () {
-                              _controller.login(context);
-                            },
-                            child: Container(
-                              width: 320.0,
-                              height: 50.0,
-                              alignment: FractionalOffset.center,
-                              decoration: new BoxDecoration(
-                                  color: Color.fromRGBO(230, 38, 39, 1.0),
-                                  borderRadius:
-                                      new BorderRadius.circular(25.0)),
-                              child: new Text("Sign In",
-                                  style: new TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w300,
-                                      letterSpacing: 0.4)),
-                            ),
-                          ),
+                          loginButton,
                           SizedBox(height: 20.0),
-                          GestureDetector(
-                            onTap: () => _controller.register(context),
-                            child: Text(
-                              "No account? Create one.",
-                              style: new TextStyle(
-                                color: Color.fromRGBO(230, 38, 39, 0.8),
-                                fontSize: 14.0,
-                              ),
-                            ),
-                          ),
+                          registerButton
                         ],
                       ),
                     ),
@@ -195,7 +112,55 @@ class LoginPageView extends State<LoginPage> implements View {
             ],
           ),
         ],
-      ),
-    );
-  }
+      );
+
+  // Fields and Buttons
+
+  /// Email input field
+  InputField get emailField => InputField(_controller.emailTextController, emailPrompt);
+
+  /// Password input field
+  InputField get passwordField => InputField(_controller.passwordTextController, passwordPrompt, isPassword: true);
+
+  GestureDetector get forgotPasswordButton => GestureDetector(
+        onTap: () {},
+        child: Text(
+          forgotPassswordButtonText,
+          style: new TextStyle(
+            color: Color.fromRGBO(230, 38, 39, 0.8),
+            fontSize: 14.0,
+          ),
+        ),
+      );
+
+  GestureDetector get loginButton => GestureDetector(
+        onTap: () {
+          callHandler(_controller.login);
+        },
+        child: Container(
+          width: 320.0,
+          height: 50.0,
+          alignment: FractionalOffset.center,
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(230, 38, 39, 1.0),
+              borderRadius: BorderRadius.circular(25.0)),
+          child: Text(loginButtonText,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: 0.4)),
+        ),
+      );
+
+  GestureDetector get registerButton => GestureDetector(
+        onTap: _controller.register,
+        child: Text(
+          registerButtonText,
+          style: TextStyle(
+            color: Color.fromRGBO(230, 38, 39, 0.8),
+            fontSize: 14.0,
+          ),
+        ),
+      );
 }
