@@ -14,16 +14,10 @@ class MapPage extends StatefulWidget {
   MapPageView createState() => MapPageView(MapController());
 }
 
-class MapPageView extends State<MapPage> implements View {
+class MapPageView extends View<MapPage> {
   MapController _controller;
 
   MapPageView(this._controller);
-
-  void callHandler(Function fn) {
-    setState(() {
-      fn();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
