@@ -5,6 +5,7 @@ import 'dart:convert';
 /// Represents the yearly HHH general event. Contains a list of [_events] and a list of [_sponsors].
 /// The [_id] of the [HHH] is the year. Eg. `_id = 2019`.
 class HHH {
+  // Members
   String _id; // year
   String _description;
   String _mailingAddress;
@@ -12,15 +13,17 @@ class HHH {
   List<String> _sponsors;
   List<String> _events;
 
+  // Properties
   String get id => _id;
   String get description => _description;
   String get mailingAddress => _mailingAddress;
   String get timestamp => _timestamp;
   List<String> get sponsors => _sponsors;
   List<String> get events => _events;
+  DateTime get eventTime => DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
 
+  // Constructors
   HHH(this._id, this._description, this._mailingAddress, this._timestamp, this._sponsors, this._events);
-
   /// From a [map]
   HHH.fromJson(Map<String, dynamic> map) {
     _id = map['id'];
@@ -30,7 +33,6 @@ class HHH {
     _sponsors = map['sponsors'].cast<String>().toList();
     _events = map['events'].cast<String>().toList();
   }
-
   /// From an [hhh]
   HHH.fromHHH(HHH hhh) {
     _id = hhh._id;
