@@ -31,7 +31,6 @@ dependencies:
   uuid: ^2.0.0
   # UI
   modal_progress_hud: ^0.1.2
-  flutter_svg: ^0.12.0
 
   # Google Maps Provider
   google_maps_flutter: ^0.2.0+3
