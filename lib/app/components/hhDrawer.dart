@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
 class HhDrawer extends StatelessWidget {
+
+  final String _name;
+  final String _email;
+
+  HhDrawer(this._name, this._email);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
         UserAccountsDrawerHeader(
           accountName: Text(
-            "Brice Allard",
+            _name,
             style: TextStyle(fontSize: 20.0),
           ),
           accountEmail: Text(
-            "briceallard@gmail.com",
+            _email,
             style: TextStyle(fontSize: 12.0),
           ),
           currentAccountPicture: GestureDetector(
@@ -28,6 +34,17 @@ class HhDrawer extends StatelessWidget {
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.3), BlendMode.dstATop)),
           ),
+        ),
+        ListTile(
+          title: Text(
+            "Home",
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+          ),
+          trailing: Icon(
+            Icons.map,
+            size: 22.0,
+          ),
+          onTap: () => Navigator.of(context).pushReplacementNamed('/home'),
         ),
         ListTile(
           title: Text(

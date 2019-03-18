@@ -12,6 +12,7 @@ class User {
   String get uid => _uid;
   String get email => _email;
   String get initials => '${_firstName[0]}${_lastName[0]}'.toUpperCase();
+  String get fullName => '$_firstName $lastName';
 
   // Contructors
   User(this._firstName, this._lastName, this._uid, this._email);

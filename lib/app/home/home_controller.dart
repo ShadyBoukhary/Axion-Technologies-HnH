@@ -13,11 +13,14 @@ class HomeController extends Controller {
   DateTime get eventTime => _currentHHH?.eventTime;
   User get currentUser => _currentUser;
   Logger logger;
+  bool userRetrieved;
+  bool hhhRetrieved;
 
-  HomeController(hhhRepository, sponsorRepository) {
-    _homePresenter = HomePresenter(hhhRepository, sponsorRepository);
+  HomeController(hhhRepository, sponsorRepository, authRepository) {
+    _homePresenter = HomePresenter(hhhRepository, sponsorRepository, authRepository);
     initListeners();
     isLoading = true;
+    userRetrieved = hhhRetrieved = false;
     retrieveData();
   }
 
@@ -32,11 +35,33 @@ class HomeController extends Controller {
     };
 
     _homePresenter.getHHHOnComplete = () {
-      dismissLoading();
+      hhhRetrieved = true;
+      if (userRetrieved)
+        dismissLoading();
+    };
+
+    _homePresenter.getUserOnNext = (User user) {
+      _currentUser = user;
+    };
+
+    _homePresenter.getUserOnError = (e) {
+      // TODO: show the user the error
+      print(e);
+    };
+
+    _homePresenter.getUserOnComplete = () {
+      userRetrieved = true;
+      if (hhhRetrieved)
+        dismissLoading();
     };
   }
 
   void retrieveData() {
     _homePresenter.getCurrentHHH();
+    _homePresenter.getUser();
+  }
+
+  void dispose() {
+    _homePresenter.dispose();
   }
 }
