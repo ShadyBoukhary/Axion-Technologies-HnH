@@ -97,8 +97,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   /// Returns the current authenticated `User` from `SharedPreferences`.
   Future<User> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    User user =
-        User.fromJson(jsonDecode(preferences.getString(Constants.userKey)));
+    User user = User.fromJson(jsonDecode(preferences.getString(Constants.userKey)));
     return user;
   }
 
@@ -109,7 +108,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       await Future.wait([
         preferences.setString(Constants.tokenKey, token),
         preferences.setBool(Constants.isAuthenticatedKey, true),
-        preferences.setString(Constants.userKey, user.toJson().toString())
+        preferences.setString(Constants.userKey, jsonEncode(user))
       ]);
       _logger.finest('Credentials successfully stored.');
     } catch (error) {

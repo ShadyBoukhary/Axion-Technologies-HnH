@@ -24,10 +24,11 @@ class MapPageView extends View<MapPage> {
     GoogleMapController _mapController;
 
     return Scaffold(
+      drawer: Drawer(elevation: 8.0, child: HhDrawer('Guest User', '')),
       body: Column(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height, 
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: GoogleMap(
               onMapCreated: (controller) {
@@ -45,4 +46,14 @@ class MapPageView extends View<MapPage> {
       ),
     );
   }
+
+  AppBar get appBar => AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[],
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      );
 }

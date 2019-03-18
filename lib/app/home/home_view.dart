@@ -7,6 +7,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_hhh_repository.dart';
 import 'package:hnh/data/repositories/data_sponsor_repository.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  HomePageView createState() => HomePageView(HomeController(DataHHHRepository(), DataSponsorRepository()));
+  HomePageView createState() => HomePageView(HomeController(DataHHHRepository(), DataSponsorRepository(), DataAuthenticationRepository()));
 }
 
 class HomePageView extends View<HomePage> {
@@ -30,7 +31,7 @@ class HomePageView extends View<HomePage> {
     return Scaffold(
         drawer: Drawer(
           elevation: 8.0,
-          child: HhDrawer(),
+          child: _controller.isLoading ? HhDrawer('Guest User', '') :HhDrawer(_controller.currentUser.fullName, _controller.currentUser.email)
         ),
         appBar: appBar,
         body: ModalProgressHUD(
@@ -51,7 +52,7 @@ class HomePageView extends View<HomePage> {
                 radius: 15.0,
                 backgroundColor: Colors.red,
                 child: Text(
-                  "BA",
+                  _controller.isLoading ? "GU" :_controller.currentUser?.initials,
                   style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w300,
@@ -160,4 +161,10 @@ class HomePageView extends View<HomePage> {
           ),
         ],
       );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

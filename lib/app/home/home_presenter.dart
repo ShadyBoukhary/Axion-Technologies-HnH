@@ -1,6 +1,7 @@
 import 'package:hnh/domain/usecases/observer.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/usecases/get_hhh_usecase.dart';
+import 'package:hnh/domain/usecases/get_current_user_usecase.dart';
 
 class HomePresenter {
   Function getUserOnNext;
@@ -12,18 +13,21 @@ class HomePresenter {
   Function getHHHOnError;
 
   GetHHHUseCase _getHHHUseCase;
+  GetCurrentUserUseCase _getCurrentUserUseCase;
 
-  HomePresenter(hhhRepository, sponsorRepository) {
+  HomePresenter(hhhRepository, sponsorRepository, authenticationRepository) {
     _getHHHUseCase = GetHHHUseCase(hhhRepository, sponsorRepository);
+    _getCurrentUserUseCase =GetCurrentUserUseCase(authenticationRepository);
   }
 
-  void _dispose() {
+  void dispose() {
     //  _userUseCase.dispose();
     _getHHHUseCase.dispose();
+    _getCurrentUserUseCase.dispose();
   }
 
-  void getUser(String uid) {
-    // _userUseCase.execute(_GetUserUseCaseObserver(this), UserUseCaseParams(uid));
+  void getUser() {
+     _getCurrentUserUseCase.execute(_GetUserUseCaseObserver(this));
   }
 
   void getCurrentHHH() {
@@ -47,12 +51,10 @@ class _GetHHHUseCaseObserver implements Observer<GetHHHUseCaseResponse> {
   void onComplete() {
     assert(_homePresenter.getHHHOnComplete != null);
     _homePresenter.getHHHOnComplete();
-    _homePresenter._dispose();
   }
 
   void onError(e) {
     // any cleaning or preparation goes here
-    _homePresenter._dispose();
     assert(_homePresenter.getHHHOnError != null);
     _homePresenter.getHHHOnError(e);
     
@@ -72,17 +74,15 @@ class _GetUserUseCaseObserver implements Observer<User> {
 
   void onComplete() {
     // any cleaning or preparation goes here
-    _userPresenter._dispose();
-    if (_userPresenter.getUserOnComplete != null) {
-      _userPresenter.getUserOnComplete();
-    }
+    assert(_userPresenter.getUserOnComplete != null);
+    _userPresenter.getUserOnComplete();
+    
   }
 
   void onError(e) {
     // any cleaning or preparation goes here
-    _userPresenter._dispose();
-    if (_userPresenter.getUserOnError != null) {
-      _userPresenter.getUserOnError();
-    }
+    assert(_userPresenter.getUserOnError != null);
+    _userPresenter.getUserOnError(e);
+    
   }
 }
