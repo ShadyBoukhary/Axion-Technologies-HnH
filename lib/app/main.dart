@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hnh/app/events/events_view.dart';
 import 'package:hnh/app/map/map_view.dart';
 import 'package:logging/logging.dart';
 import 'home/home_view.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
           '/login': (BuildContext context) => new LoginPage(),
           '/register': (BuildContext context) => new RegisterPage(),
           '/map': (BuildContext context) => new MapPage(),
+          '/events': (BuildContext context) => new EventsPage(),
         });
   }
 

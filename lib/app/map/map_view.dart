@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/components/countdown.dart';
 import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/map/map_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
@@ -11,25 +10,38 @@ class MapPage extends StatefulWidget {
   final String title;
 
   @override
-  MapPageView createState() => MapPageView(MapController());
+  _MapPageView createState() => _MapPageView(MapController());
 }
 
-class MapPageView extends View<MapPage> {
+class _MapPageView extends View<MapPage> {
   MapController _controller;
 
-  MapPageView(this._controller);
+  _MapPageView(this._controller);
+
+  void callHandler(Function fn, {Map<String, dynamic> params}) {
+    setState(() {
+      if (params == null) {
+        fn();
+      } else {
+        fn(params);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     GoogleMapController _mapController;
 
     return Scaffold(
-      drawer: Drawer(elevation: 8.0, child: HhDrawer('Guest User', '')),
-      body: Column(
+      drawer: Drawer(
+        elevation: 8.0,
+        child: HhDrawer('Guest User', ''),
+      ),
+      body: Stack(
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height,
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             child: GoogleMap(
               onMapCreated: (controller) {
                 setState(() {
@@ -41,19 +53,24 @@ class MapPageView extends View<MapPage> {
                 zoom: 12,
               ),
             ),
-          )
+          ),
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: AppBar(
+              title: Text(
+                'Maps',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              ),
+              elevation: 0.0,
+              iconTheme: IconThemeData(color: Colors.white),
+              backgroundColor: Colors.black.withOpacity(0.5),
+              centerTitle: true,
+            ),
+          ),
         ],
       ),
     );
   }
-
-  AppBar get appBar => AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[],
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      );
 }

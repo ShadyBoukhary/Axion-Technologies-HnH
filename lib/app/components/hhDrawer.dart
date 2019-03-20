@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class HhDrawer extends StatelessWidget {
-
   final String _name;
   final String _email;
 
@@ -14,7 +13,7 @@ class HhDrawer extends StatelessWidget {
         UserAccountsDrawerHeader(
           accountName: Text(
             _name,
-            style: TextStyle(fontSize: 20.0),
+            style: TextStyle(fontSize: 18.0),
           ),
           accountEmail: Text(
             _email,
@@ -29,10 +28,13 @@ class HhDrawer extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/img/drawer_bg.jpg'),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3), BlendMode.dstATop)),
+              image: AssetImage('assets/img/drawer_bg.jpg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3),
+                BlendMode.dstATop,
+              ),
+            ),
           ),
         ),
         ListTile(
@@ -59,41 +61,22 @@ class HhDrawer extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            "Schedule",
+            "Events",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
           trailing: Icon(
             Icons.calendar_today,
             size: 22.0,
           ),
+          onTap: () => Navigator.of(context).pushReplacementNamed('/events'),
         ),
         ListTile(
           title: Text(
-            "Registration",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.class_,
-            size: 22.0,
-          ),
-        ),
-        ListTile(
-          title: Text(
-            "Lodging",
+            "Local",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
           ),
           trailing: Icon(
             Icons.hotel,
-            size: 22.0,
-          ),
-        ),
-        ListTile(
-          title: Text(
-            "Dining",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.local_dining,
             size: 22.0,
           ),
         ),
