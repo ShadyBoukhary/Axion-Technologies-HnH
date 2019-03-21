@@ -7,4 +7,5 @@ export interface Event {
     description: string;
     location: Location;
     route: Coordinates[];
+    imageUrl: string;
 }
