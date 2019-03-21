@@ -72,7 +72,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       bool isAuthenticated = preferences.getBool(Constants.isAuthenticatedKey);
-      return isAuthenticated;
+      return isAuthenticated ?? false;
     } catch (error) {
       return false;
     }

@@ -275,4 +275,10 @@ class CountdownState extends State<Countdown> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 }
