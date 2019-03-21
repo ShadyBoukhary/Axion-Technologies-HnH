@@ -37,7 +37,8 @@ void main() {
             'lat': '987523245',
             'lon': '985723982',
           },
-        ]
+        ],
+        'imageUrl': 'https://something.com/sme/image'
       };
 
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
@@ -46,7 +47,7 @@ void main() {
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982')
-      ]);
+      ], 'https://something.com/sme/image');
     });
 
     test('.fromMap(map) creates an Event correctly.', () {
