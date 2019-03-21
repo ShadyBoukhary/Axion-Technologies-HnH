@@ -165,7 +165,6 @@ class HomePageView extends View<HomePage> {
   @override
   void dispose() {
     _controller.dispose();
-    _stopTimer = true;
     super.dispose();
   }
 }
