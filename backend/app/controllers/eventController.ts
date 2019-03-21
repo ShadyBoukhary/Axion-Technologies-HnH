@@ -46,7 +46,8 @@ export async function getEvents(req: Request, res: Response, next: NextFunction)
                 description: event.description,
                 location: event.location,
                 route: event.route,
-                id: event.id
+                id: event.id,
+                imageUrl: event.imageUrl
             };
         });
 
