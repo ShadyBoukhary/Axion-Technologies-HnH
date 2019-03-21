@@ -3,9 +3,11 @@ import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/components/event_card.dart';
 import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/events/events_controller.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
-    show CalendarCarousel;
+import 'package:hnh/data/repositories/data_hhh_repository.dart';
+import 'package:hnh/data/repositories/data_sponsor_repository.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
 class EventsPage extends StatefulWidget {
   EventsPage({Key key, this.title}) : super(key: key);
@@ -13,14 +15,19 @@ class EventsPage extends StatefulWidget {
   final String title;
 
   @override
-  _EventsPageView createState() => _EventsPageView(EventsController());
+  _EventsPageView createState() => _EventsPageView(EventsController(
+      DataHHHRepository(),
+      DataSponsorRepository(),
+      DataAuthenticationRepository()));
 }
 
 class _EventsPageView extends View<EventsPage> {
   EventsController _controller;
-  ScrollController _scrollController;
 
-  _EventsPageView(this._controller);
+  _EventsPageView(this._controller) {
+    _controller.refresh = callHandler;
+    WidgetsBinding.instance.addObserver(_controller);
+  }
 
   void callHandler(Function fn, {Map<String, dynamic> params}) {
     setState(() {
@@ -35,21 +42,14 @@ class _EventsPageView extends View<EventsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       drawer: Drawer(
         elevation: 8.0,
-        child: HhDrawer('Guest User', ''),
+        child: _controller.isLoading
+            ? HhDrawer('Guest User', '')
+            : HhDrawer(_controller.currentUser.fullName,
+                _controller.currentUser.email),
       ),
-      appBar: AppBar(
-        title: Text(
-          'Events',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-        ),
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-      ),
+      appBar: appBar,
       body: ListView(
         children: <Widget>[
           SizedBox(height: 10.0),
@@ -63,16 +63,8 @@ class _EventsPageView extends View<EventsPage> {
                 Text(
                   'Featured Events',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  'See All (12)',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.0,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -117,18 +109,113 @@ class _EventsPageView extends View<EventsPage> {
           ),
           SizedBox(height: 20.0),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
-              'Calendar',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w600,
-              ),
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            height: 40.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  'Upcoming Events',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  'See All (12)',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
+          SizedBox(height: 10.0),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
         ],
       ),
     );
+  }
+
+  AppBar get appBar => AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, right: 5.0),
+              child: CircleAvatar(
+                radius: 15.0,
+                backgroundColor: Colors.red,
+                child: Text(
+                  _controller.isLoading
+                      ? "GU"
+                      : _controller.currentUser?.initials,
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      );
+
+  Card get smallEventCard => Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 8.0,
+        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+        child: Container(
+          child: ListTile(
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+            title: Text(
+              'Event',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            subtitle: Text(
+              'Description for Event',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+        ),
+      );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

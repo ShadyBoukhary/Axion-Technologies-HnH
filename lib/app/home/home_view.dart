@@ -15,7 +15,8 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  HomePageView createState() => HomePageView(HomeController(DataHHHRepository(), DataSponsorRepository(), DataAuthenticationRepository()));
+  HomePageView createState() => HomePageView(HomeController(DataHHHRepository(),
+      DataSponsorRepository(), DataAuthenticationRepository()));
 }
 
 class HomePageView extends View<HomePage> {
@@ -29,16 +30,19 @@ class HomePageView extends View<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Drawer(
+      drawer: Drawer(
           elevation: 8.0,
-          child: _controller.isLoading ? HhDrawer('Guest User', '') :HhDrawer(_controller.currentUser.fullName, _controller.currentUser.email)
-        ),
-        appBar: appBar,
-        body: ModalProgressHUD(
-            child: getbody(),
-            inAsyncCall: _controller.isLoading,
-            opacity: UIConstants.progressBarOpacity,
-            color: UIConstants.progressBarColor));
+          child: _controller.isLoading
+              ? HhDrawer('Guest User', '')
+              : HhDrawer(_controller.currentUser.fullName,
+                  _controller.currentUser.email)),
+      appBar: appBar,
+      body: ModalProgressHUD(
+          child: getbody(),
+          inAsyncCall: _controller.isLoading,
+          opacity: UIConstants.progressBarOpacity,
+          color: UIConstants.progressBarColor),
+    );
   }
 
   AppBar get appBar => AppBar(
@@ -52,7 +56,9 @@ class HomePageView extends View<HomePage> {
                 radius: 15.0,
                 backgroundColor: Colors.red,
                 child: Text(
-                  _controller.isLoading ? "GU" :_controller.currentUser?.initials,
+                  _controller.isLoading
+                      ? "GU"
+                      : _controller.currentUser?.initials,
                   style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w300,
