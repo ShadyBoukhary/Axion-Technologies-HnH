@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hnh/app/map/map_view.dart';
+import 'package:hnh/app/splash/splash_view.dart';
 import 'package:logging/logging.dart';
 import 'home/home_view.dart';
 import 'login/login_view.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
                 TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
           ),
         ),
-        home: LoginPage(title: "Hotter'n Hell"),
+        home: SplashPage(),
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => new HomePage(),

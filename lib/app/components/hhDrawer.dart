@@ -44,7 +44,7 @@ class HhDrawer extends StatelessWidget {
             Icons.map,
             size: 22.0,
           ),
-          onTap: () => Navigator.of(context).pushReplacementNamed('/home'),
+          onTap: () => navigate('/home', context),
         ),
         ListTile(
           title: Text(
@@ -55,7 +55,7 @@ class HhDrawer extends StatelessWidget {
             Icons.map,
             size: 22.0,
           ),
-          onTap: () => Navigator.of(context).pushReplacementNamed('/map'),
+          onTap: () => navigate('/map', context),
         ),
         ListTile(
           title: Text(
@@ -141,5 +141,9 @@ class HhDrawer extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void navigate(String page, context) {
+    Navigator.of(context).pushReplacementNamed(page);
   }
 }
