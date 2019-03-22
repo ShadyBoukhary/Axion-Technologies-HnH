@@ -29,16 +29,6 @@ class _EventsPageView extends View<EventsPage> {
     WidgetsBinding.instance.addObserver(_controller);
   }
 
-  void callHandler(Function fn, {Map<String, dynamic> params}) {
-    setState(() {
-      if (params == null) {
-        fn();
-      } else {
-        fn(params);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +64,7 @@ class _EventsPageView extends View<EventsPage> {
           SizedBox(height: 10.0),
           Container(
             padding: EdgeInsets.only(left: 20.0),
-            height: 250.0,
+            height: MediaQuery.of(context).size.height / 4,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
@@ -135,6 +125,18 @@ class _EventsPageView extends View<EventsPage> {
             ),
           ),
           SizedBox(height: 10.0),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
+          Container(
+            child: smallEventCard,
+          ),
           Container(
             child: smallEventCard,
           ),
