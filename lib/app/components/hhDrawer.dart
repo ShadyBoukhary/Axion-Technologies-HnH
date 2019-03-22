@@ -46,7 +46,7 @@ class HhDrawer extends StatelessWidget {
             Icons.map,
             size: 22.0,
           ),
-          onTap: () => navigate('/register', context),
+          onTap: () => navigate('/home', context),
         ),
         ListTile(
           title: Text(
