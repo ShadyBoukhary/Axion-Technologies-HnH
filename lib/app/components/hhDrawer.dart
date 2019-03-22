@@ -90,6 +90,7 @@ class HhDrawer extends StatelessWidget {
             Icons.people,
             size: 22.0,
           ),
+          onTap: () => Navigator.of(context).pushReplacementNamed('/sponsors'),
         ),
         ListTile(
           title: Text(
