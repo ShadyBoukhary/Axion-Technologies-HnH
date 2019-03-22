@@ -25,6 +25,7 @@ dependencies:
   # user location
   location: ^1.4.1
   
+
   http: ^0.12.0+1
   shared_preferences: ^0.5.0
   logging: ^0.11.3+2
@@ -37,6 +38,8 @@ dependencies:
 
   # Calender Provider
   flutter_calendar_carousel: ^1.3.15+5
+
+  # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '0.3.3'
 
   

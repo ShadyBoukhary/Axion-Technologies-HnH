@@ -208,8 +208,7 @@ class _EventsPageView extends View<EventsPage> {
                 fontWeight: FontWeight.w300,
               ),
             ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () => Navigator.of(context).pushNamed('/web'),
+            trailing: Icon(Icons.arrow_forward_ios)
           ),
         ),
       );
