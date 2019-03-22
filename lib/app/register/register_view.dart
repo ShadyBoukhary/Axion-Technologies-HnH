@@ -93,30 +93,23 @@ class _RegisterPageView extends View<RegisterPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Checkbox(
+                        CheckboxListTile(
+                          title: Text(
+                              'I agree to the Terms of Service and Privacy Policy'),
                           value: _controller.agreedToTOS,
                           onChanged: (state) {
                             callHandler(_controller.setAgreedToTOS);
                           },
                           activeColor: Colors.red,
-                        ),
-                        GestureDetector(
-                          onTap: () => () {
-                                callHandler(_controller.setAgreedToTOS);
-                              },
-                          child: Text(
-                            'I agree to the Terms of Services and Privacy Policy',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
-                            ),
-                          ),
+                          controlAffinity: ListTileControlAffinity.leading,
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -134,7 +127,7 @@ class _RegisterPageView extends View<RegisterPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 60.0),
+                  SizedBox(height: 80.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
