@@ -139,7 +139,12 @@ class _RegisterPageView extends View<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () => callHandler(_controller.checkForm, params: {'context': context, 'formKey': _formKey, 'scaffoldKey': _scaffoldKey}),
+                        onTap: () => callHandler(_controller.checkForm,
+                                params: {
+                                  'context': context,
+                                  'formKey': _formKey,
+                                  'scaffoldKey': _scaffoldKey
+                                }),
                         child: Container(
                           width: 320.0,
                           height: 50.0,

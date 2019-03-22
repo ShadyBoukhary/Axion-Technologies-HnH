@@ -11,4 +11,7 @@ class Resources {
   static const String background = 'assets/img/background.jpg';
   static const String logo = 'assets/img/logo.png';
   static const String loader = 'assets/img/loading.svg';
+  static const String event_race = 'assets/img/event_race.jpg';
+  static const String event_spaghetti = 'assets/img/event_spaghetti.jpg';
+  static const String event_consumer = 'assets/img/event_consumer.jpg';
 }
