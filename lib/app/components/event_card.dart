@@ -18,7 +18,7 @@ class EventCard extends StatelessWidget {
       children: <Widget>[
         Container(
           width: 300.0,
-          height: 250.0,
+          height: MediaQuery.of(context).size.height / 4,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
             child: Image(
@@ -32,7 +32,7 @@ class EventCard extends StatelessWidget {
           bottom: 0.0,
           child: Container(
             width: 300.0,
-            height: 90.0,
+            height: (MediaQuery.of(context).size.height / 4) / 2.2,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: FractionalOffset.topCenter,
