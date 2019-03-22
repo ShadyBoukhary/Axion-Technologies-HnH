@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'home/home_view.dart';
 import 'login/login_view.dart';
 import 'register/register_view.dart';
+import 'package:hnh/app/web/web_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -53,11 +54,12 @@ class MyApp extends StatelessWidget {
         home: SplashPage(),
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
-          '/home': (BuildContext context) => new HomePage(),
-          '/login': (BuildContext context) => new LoginPage(),
-          '/register': (BuildContext context) => new RegisterPage(),
-          '/map': (BuildContext context) => new MapPage(),
-          '/events': (BuildContext context) => new EventsPage(),
+          '/home': (BuildContext context) => HomePage(),
+          '/login': (BuildContext context) => LoginPage(),
+          '/register': (BuildContext context) => RegisterPage(),
+          '/map': (BuildContext context) => MapPage(),
+          '/events': (BuildContext context) => EventsPage(),
+          '/web': (BuildContext context) => WebPage(),
         });
   }
 

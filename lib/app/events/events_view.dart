@@ -208,7 +208,7 @@ class _EventsPageView extends View<EventsPage> {
                 fontWeight: FontWeight.w300,
               ),
             ),
-            trailing: Icon(Icons.arrow_forward_ios),
+            trailing: Icon(Icons.arrow_forward_ios)
           ),
         ),
       );
