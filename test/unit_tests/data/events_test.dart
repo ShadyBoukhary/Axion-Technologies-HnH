@@ -34,7 +34,9 @@ void main() {
     test('.registerForEvent()', () async {
 
       // test regular event registration
-      expect(dataEventRepository.registerForEvent(eventRegistration: eventRegistration), TypeMatcher<Future<void>>());
+      var result = dataEventRepository.registerForEvent(eventRegistration: eventRegistration);
+      expect(result, TypeMatcher<Future<void>>());
+      await result;
 
       // test same user registering for a different event
       expect(dataEventRepository.registerForEvent(eventRegistration: sameUserDifferentEvent), TypeMatcher<Future<void>>());
