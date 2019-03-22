@@ -209,6 +209,7 @@ class _EventsPageView extends View<EventsPage> {
               ),
             ),
             trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () => Navigator.of(context).pushNamed('/web'),
           ),
         ),
       );
