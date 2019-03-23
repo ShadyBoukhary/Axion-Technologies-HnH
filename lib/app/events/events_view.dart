@@ -192,7 +192,7 @@ class _EventsPageView extends View<EventsPage> {
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         child: Container(
           child: InkWell(
-            splashColor: Colors.black,
+            splashColor: Colors.redAccent,
             onTap: () => {Navigator.pushNamed(context, '/event')},
             child: ListTile(
                 contentPadding:

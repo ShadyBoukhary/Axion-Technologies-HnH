@@ -36,13 +36,14 @@ class EventCard extends StatelessWidget {
           bottom: 0.0,
           child: Container(
             width: 300.0,
-            height: (MediaQuery.of(context).size.height / 4) / 2.2,
+            height: (MediaQuery.of(context).size.height / 4) / 2,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: FractionalOffset.topCenter,
                 end: FractionalOffset.bottomCenter,
                 colors: [
                   Colors.black.withOpacity(0.0),
+                  Colors.black.withOpacity(0.5),
                   Colors.black.withOpacity(0.6),
                   Colors.black.withOpacity(0.7),
                   Colors.black.withOpacity(0.8),

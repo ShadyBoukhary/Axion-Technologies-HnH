@@ -4,6 +4,7 @@ import 'package:hnh/app/event/event_view.dart';
 import 'package:hnh/app/events/events_view.dart';
 import 'package:hnh/app/map/map_view.dart';
 import 'package:hnh/app/splash/splash_view.dart';
+import 'package:hnh/app/sponsors/sponsors_view.dart';
 import 'package:logging/logging.dart';
 import 'home/home_view.dart';
 import 'login/login_view.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
           '/map': (BuildContext context) => MapPage(),
           '/events': (BuildContext context) => EventsPage(),
           '/event': (BuildContext context) => EventPage(),
+          '/sponsors': (BuildContext context) => SponsorsPage(),
           '/web': (BuildContext context) => WebPage(),
         });
   }
