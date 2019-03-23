@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
+import 'package:hnh/app/components/sponsor_card.dart';
 import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/sponsors/sponsors_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -39,7 +40,35 @@ class _SponsorsPageView extends View<SponsorsPage> {
                 _controller.currentUser.email),
       ),
       appBar: appBar,
-      body: ListView(),
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        children: <Widget>[
+          SizedBox(height: 10.0),
+          Container(
+            padding: EdgeInsets.only(left: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  'Sponsors',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10.0),
+          SponsorCard('TITLE', 'Description', Resources.event_consumer),
+          SizedBox(height: 10.0),
+          SponsorCard('TITLE', 'Description', Resources.event_spaghetti),
+          SizedBox(height: 10.0),
+          SponsorCard('TITLE', 'Description', Resources.logo),
+        ],
+      ),
     );
   }
 
