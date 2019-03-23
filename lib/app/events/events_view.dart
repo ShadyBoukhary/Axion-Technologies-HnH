@@ -191,26 +191,29 @@ class _EventsPageView extends View<EventsPage> {
         elevation: 8.0,
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         child: Container(
-          child: ListTile(
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
-            title: Text(
-              'Event',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            subtitle: Text(
-              'Description for Event',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios)
+          child: InkWell(
+            splashColor: Colors.redAccent,
+            onTap: () => {Navigator.pushNamed(context, '/event')},
+            child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+                title: Text(
+                  'Event',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                subtitle: Text(
+                  'Description for Event',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
           ),
         ),
       );
