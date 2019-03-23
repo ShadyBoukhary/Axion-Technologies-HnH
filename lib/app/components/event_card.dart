@@ -21,10 +21,14 @@ class EventCard extends StatelessWidget {
           height: MediaQuery.of(context).size.height / 4,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
-            child: Image(
-              image: AssetImage(_photo),
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
+            child: InkWell(
+              splashColor: Colors.black,
+              onTap: () => {Navigator.pushNamed(context, '/event')},
+              child: Image(
+                image: AssetImage(_photo),
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
             ),
           ),
         ),
@@ -49,42 +53,46 @@ class EventCard extends StatelessWidget {
                 bottomRight: Radius.circular(15.0),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        _title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: InkWell(
+              splashColor: Colors.black,
+              onTap: () => {Navigator.pushNamed(context, '/event')},
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          _description,
+                          _title,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w300,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text(
+                            _description,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
