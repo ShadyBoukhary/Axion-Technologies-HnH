@@ -6,59 +6,29 @@ import 'package:hnh/domain/entities/hhh.dart';
 
 class EventController extends Controller {
   EventPresenter _eventPresenter;
-  User _currentUser;
-  HHH _currentHHH;
 
-  DateTime get eventTime => _currentHHH?.eventTime;
-  User get currentUser => _currentUser;
-  Logger logger;
-  bool userRetrieved;
-  bool hhhRetrieved;
-
-  EventController(hhhRepository, sponsorRepository, authRepository) {
-    _eventPresenter =
-        EventPresenter(hhhRepository, sponsorRepository, authRepository);
+  EventController(eventRepo) {
+    _eventPresenter = EventPresenter(eventRepo);
     initListeners();
-    isLoading = true;
-    userRetrieved =hhhRetrieved = false;
-    retrieveData();
   }
 
   void initListeners() {
-    _eventPresenter.getHHHOnNext = (HHH hhh) {
-      _currentHHH = hhh;
-    };
 
-    _eventPresenter.getHHHOnError = (e) {
+    _eventPresenter.registerOnError = (e) {
       // TODO: show the user the error
       print(e);
+      dismissLoading();
     };
 
-    _eventPresenter.getHHHOnComplete = () {
-      hhhRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
+    _eventPresenter.registerOnComplete = () {
+      dismissLoading();
     };
 
-    _eventPresenter.getUserOnNext = (User user) {
-      _currentUser = user;
-    };
-
-    _eventPresenter.getUserOnError = (e) {
-      // TODO: show the user the error
-      print(e);
-    };
-
-    _eventPresenter.getUserOnComplete = () {
-      userRetrieved = true;
-      if (hhhRetrieved)
-        dismissLoading();
-    };
   }
 
-  void retrieveData() {
-    _eventPresenter.getCurrentHHH();
-    _eventPresenter.getUser();
+  void onSignUpPressed() {
+    startLoading();
+    //_eventPresenter.registerForEvent();
   }
 
   void dispose() {
