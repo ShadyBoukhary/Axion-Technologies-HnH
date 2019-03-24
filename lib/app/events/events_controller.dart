@@ -1,44 +1,34 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/events/events_presenter.dart';
 import 'package:hnh/domain/entities/user.dart';
+import 'package:hnh/domain/entities/event.dart';
 import 'package:logging/logging.dart';
-import 'package:hnh/domain/entities/hhh.dart';
 
 class EventsController extends Controller {
   EventsPresenter _eventsPresenter;
+  List<Event> _featuredEvents;
+  List<Event> _upcomingEvents;
   User _currentUser;
-  HHH _currentHHH;
-
-  DateTime get eventTime => _currentHHH?.eventTime;
-  User get currentUser => _currentUser;
   Logger logger;
   bool userRetrieved;
-  bool hhhRetrieved;
+  bool eventsRetrieved;
 
-  EventsController(hhhRepository, sponsorRepository, authRepository) {
-    _eventsPresenter =
-        EventsPresenter(hhhRepository, sponsorRepository, authRepository);
+  User get currentUser => _currentUser;
+  List<Event> get featuredEvents => _featuredEvents;
+  List<Event> get upComingEvents => _upcomingEvents;
+
+
+  EventsController(authRepository, eventRepository) {
+    _eventsPresenter = EventsPresenter(authRepository, eventRepository);
+    _featuredEvents = List<Event>();
+    _upcomingEvents = List<Event>();
     initListeners();
-    isLoading = true;
-    userRetrieved =hhhRetrieved = false;
+    startLoading();
+    userRetrieved = eventsRetrieved = false;
     retrieveData();
   }
 
   void initListeners() {
-    _eventsPresenter.getHHHOnNext = (HHH hhh) {
-      _currentHHH = hhh;
-    };
-
-    _eventsPresenter.getHHHOnError = (e) {
-      // TODO: show the user the error
-      print(e);
-    };
-
-    _eventsPresenter.getHHHOnComplete = () {
-      hhhRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
-    };
 
     _eventsPresenter.getUserOnNext = (User user) {
       _currentUser = user;
@@ -51,14 +41,30 @@ class EventsController extends Controller {
 
     _eventsPresenter.getUserOnComplete = () {
       userRetrieved = true;
-      if (hhhRetrieved)
+      if (eventsRetrieved)
+        dismissLoading();
+    };
+
+    _eventsPresenter.getEventsOnNext = (List<Event> featuredEvents, List<Event> upcomingEvents) {
+      _featuredEvents = featuredEvents;
+      _upcomingEvents = upcomingEvents;
+    };
+
+    _eventsPresenter.getEventsOnError = (e) {
+      // TODO: show the user the error
+      print(e);
+    };
+
+    _eventsPresenter.getEventsOnComplete = () {
+      eventsRetrieved = true;
+      if (userRetrieved)
         dismissLoading();
     };
   }
 
   void retrieveData() {
-    _eventsPresenter.getCurrentHHH();
     _eventsPresenter.getUser();
+    _eventsPresenter.getAllEvents();
   }
 
   void dispose() {
