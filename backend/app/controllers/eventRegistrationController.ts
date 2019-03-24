@@ -1,15 +1,9 @@
 'use strict';
-import { SECRET_KEY } from '../config';
-import { Document, model } from 'mongoose';
+
 import { Request, Response } from 'express-serve-static-core';
 import { NextFunction } from 'connect';
-import { IEventRegistration } from '../interfaces/event_registration/eventRegistration';
-import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
-import EventRegistration, { EventRegistrationSchema } from '../models/eventRegistrationModel';
+import{ EventRegistration }from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
-import User from '../models/userModel';
-import { IUser } from '../interfaces/user';
-
 
 /**
  * POST ROUTE - Creates an EventRegistration document
