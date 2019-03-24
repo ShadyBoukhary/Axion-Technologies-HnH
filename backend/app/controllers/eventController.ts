@@ -47,7 +47,8 @@ export async function getEvents(req: Request, res: Response, next: NextFunction)
                 location: event.location,
                 route: event.route,
                 id: event.id,
-                imageUrl: event.imageUrl
+                imageUrl: event.imageUrl,
+                isFeatured: event.isFeatured
             };
         });
 

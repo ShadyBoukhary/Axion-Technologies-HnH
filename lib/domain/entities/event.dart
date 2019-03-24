@@ -13,6 +13,7 @@ class Event {
   String _id;
   List<Coordinates> _route;
   String _imageUrl;
+  bool _isFeatured;
 
   // Getters
   String get name => _name;
@@ -22,11 +23,12 @@ class Event {
   List<Coordinates> get route => _route;
   DateTime get eventTime => DateTime.fromMillisecondsSinceEpoch(int.parse(_location.timestamp) * 1000);
   String get imageUrl => _imageUrl;
+  bool get isFeatured => _isFeatured;
 
   // Constructors
 
   // Default
-  Event(this._name, this._description, this._location, this._id, [this._route, this._imageUrl]);
+  Event(this._name, this._description, this._location, this._id, [this._isFeatured, this._route, this._imageUrl]);
 
   /// From an [Event]
   Event.fromEvent(Event event) {
@@ -36,6 +38,7 @@ class Event {
     _id = event._id;
     _route = List<Coordinates>()..addAll(event._route);
     _imageUrl = event._imageUrl;
+    _isFeatured = event._isFeatured;
   }
 
   /// From a [map]
@@ -47,6 +50,7 @@ class Event {
     var coordsIt = (map['route'].cast<Map<String, dynamic>>()).toList().map((map) => Coordinates.fromJson(map));
     _route = List<Coordinates>.from(coordsIt);
     _imageUrl = map['imageUrl'];
+    _isFeatured = map['isFeatured'];
   }
 
   Map<String, dynamic> toJson() => 
@@ -56,7 +60,8 @@ class Event {
     'location': _location.toJson(),
     'id': _id,
     'route': jsonDecode(jsonEncode(_route)),
-    'imageUrl': _imageUrl
+    'imageUrl': _imageUrl,
+    'isFeatured': _isFeatured
   };
 
   Map<String, String> toJson2() => 
@@ -66,7 +71,8 @@ class Event {
     'location': jsonEncode(location),
     'id': _id,
     'route': jsonEncode(_route),
-    'imageUrl': _imageUrl
+    'imageUrl': _imageUrl,
+    'isFeatured': jsonEncode(_isFeatured)
   };
 
   /// Append [coordinates] to the [_route]

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
-import 'package:hnh/app/components/event_card.dart';
-import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/event/event_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:hnh/data/repositories/data_hhh_repository.dart';
-import 'package:hnh/data/repositories/data_sponsor_repository.dart';
-import 'package:hnh/data/repositories/data_authentication_repository.dart';
+import 'package:hnh/data/repositories/data_event_repository.dart';
+
 
 class EventPage extends StatefulWidget {
   EventPage({Key key, this.title}) : super(key: key);
@@ -15,10 +12,7 @@ class EventPage extends StatefulWidget {
   final String title;
 
   @override
-  _EventPageView createState() => _EventPageView(EventController(
-      DataHHHRepository(),
-      DataSponsorRepository(),
-      DataAuthenticationRepository()));
+  _EventPageView createState() => _EventPageView(EventController(DataEventRepository()));
 }
 
 class _EventPageView extends View<EventPage> {
@@ -38,13 +32,6 @@ class _EventPageView extends View<EventPage> {
         "Your skills, training, and resolve will be tested. This is not an ordinary ride. It's hell.\nA lot of things are going on during the HHH weekend but there is no way to describe the electrifying experience of the START. Riders begin to assemble as early as 4AM. They are joined by 10,000+ other riders who have trained to complete their chosen distances. All that pent up human energy is unleashed after the American National Anthem, Air Force Fly Over and Cannon Blast. If you are going to ride 100 miles, the best place to do it is at the Hotter’N Hell Hundred!";
 
     return Scaffold(
-      drawer: Drawer(
-        elevation: 8.0,
-        child: _controller.isLoading
-            ? HhDrawer('Guest User', '')
-            : HhDrawer(_controller.currentUser.fullName,
-                _controller.currentUser.email),
-      ),
       body: ListView(
         children: <Widget>[
           Container(
