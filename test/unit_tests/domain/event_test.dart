@@ -38,7 +38,8 @@ void main() {
             'lon': '985723982',
           },
         ],
-        'imageUrl': 'https://something.com/sme/image'
+        'imageUrl': 'https://something.com/sme/image',
+        'isFeatured': false
       };
 
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
@@ -59,6 +60,8 @@ void main() {
       expect(event.location.lon, '985723982');
       expect(event.location.timestamp, '28753298357293');
       expect(event.id, '1234567890');
+      expect(event.imageUrl, eventMap['imageUrl']);
+      expect(event.isFeatured, eventMap['isFeatured']);
       expect(event.route.length, 4);
       event.route.forEach((coords) {
         expect(coords, TypeMatcher<Coordinates>());
@@ -79,6 +82,8 @@ void main() {
       expect(event.location.lon, testEvent.location.lon);
       expect(event.id, testEvent.id);
       expect(event.route.length, testEvent.route.length);
+      expect(event.imageUrl, testEvent.imageUrl);
+      expect(event.isFeatured, testEvent.isFeatured);
     }); // .fromEvent
   }); // end group
 } // end main
