@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatelessWidget {
-  WebPage({Key key}) : super(key: key);
+
+  final String title;
+  final String url;
+
+  WebPage({Key key, @required this.title, @required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar,
         body: WebView(
-            initialUrl: 'https://www.hh100.org/sign-up',
+            initialUrl: url,
             javascriptMode: JavascriptMode.unrestricted));
   }
 
   AppBar get appBar => AppBar(
         title: Text(
-          'Registration',
+          title,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         elevation: 0.0,
