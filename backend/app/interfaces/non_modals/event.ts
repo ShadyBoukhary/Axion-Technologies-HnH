@@ -8,4 +8,5 @@ export interface Event {
     location: Location;
     route: Coordinates[];
     imageUrl: string;
+    isFeatured: Boolean;
 }

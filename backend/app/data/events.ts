@@ -8,7 +8,8 @@ const Dinners: Event[] = [
         description: 'The Spaghetti dinner is presented by the members of the North Texas Restaurant Association with all proceeds going to benefit their charities primarily the Wichita Falls Interfaith Ministries.\nWhere: Lower Level MPEC Coliseum \nDate: Friday, August 23, 2019 \nTime: 5:30 PM to 9:00 PM \nCost: $10 in advance or at the door',
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566599400'},
         route: [],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
+        isFeatured: true
     },
     {
         _id: '5a64d752cf1085b92753c696',
@@ -23,7 +24,8 @@ const Dinners: Event[] = [
         Price: Only $10.00 in advance or at the door`,
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566554400'},
         route: [],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
+        isFeatured: true
     },
 ]
 
@@ -40,7 +42,8 @@ const ConsumerShowAndFinishLine: Event[] = [
         Saturday, August 24, 2018, 9am – 2pm`,
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566504000'},
         route: [],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762f3e4be659492f0394165/1466102758272/DSC_2378.JPG'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762f3e4be659492f0394165/1466102758272/DSC_2378.JPG',
+        isFeatured: true
     },
     {
         _id: '5c28c470cf2095c99753c693',
@@ -54,7 +57,8 @@ const ConsumerShowAndFinishLine: Event[] = [
         Sunday, August 25, 2018, Optional 7:00AM – 2:00PM'`,
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566590400'},
         route: [],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762f4dc6b8f5b87e313f735/1466103020625/'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762f4dc6b8f5b87e313f735/1466103020625/',
+        isFeatured: true
     },
 ]
 
@@ -66,7 +70,8 @@ export const EVENTS: Event[] = [
         description: 'Lorem Ipsum dolor sir.',
         location: { lat: '352523525', lon: '2423523525', timestamp: (Date.now() / 1000).toString() },
         route: [{ lat: '234234234', lon: '4234234243' }],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
+        isFeatured: false
     },
     {
         _id: '5a68d750cf1095b92753c696',
@@ -74,7 +79,8 @@ export const EVENTS: Event[] = [
         description: 'Lorem Ipsum dolor sir.',
         location: { lat: '35251223525', lon: '24234321523525', timestamp: (Date.now() / 1000).toString() },
         route: [{ lat: '2342321214234', lon: '4234224334243' }],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
+        isFeatured: false
     },
     {
         _id: '5a68d750cf1095b92753c695',
@@ -82,7 +88,8 @@ export const EVENTS: Event[] = [
         description: 'Lorem Ipsum dolor sir.',
         location: { lat: '352522343525', lon: '2423234523525', timestamp: (Date.now() / 1000).toString() },
         route: [{ lat: '23423423234', lon: '423423124243' }],
-        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w'
+        imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
+        isFeatured: false
     },
     ...Dinners,
     ...ConsumerShowAndFinishLine,

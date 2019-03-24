@@ -30,7 +30,9 @@ export const EventSchema = new Schema({
         required: true
     },
     route: [{type: CoordinatesScheme, required: true}],
-    imageUrl: {type: String, required: true}
+    imageUrl: {type: String, required: true},
+    isFeatured: {type: Boolean, required: true}
+
 }, {versionKey: false});
 
 export const Event: IEventModel = model<IEvent, IEventModel>('Event', EventSchema);
