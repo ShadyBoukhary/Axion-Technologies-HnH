@@ -26,45 +26,69 @@ class MyApp extends StatelessWidget {
         SystemUiOverlayStyle(statusBarColor: Colors.black38));
 
     return MaterialApp(
-        title: "Hotter'n Hell",
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.red,
-          accentColor: Colors.redAccent,
-          primarySwatch: Colors.red,
-          fontFamily: 'Poppins',
-          inputDecorationTheme: InputDecorationTheme(
-            contentPadding: const EdgeInsets.all(15.0),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide:
-                    BorderSide(color: Color.fromRGBO(255, 255, 255, 0.4))),
-            disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide:
-                    BorderSide(color: Color.fromRGBO(255, 255, 255, 0.4))),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide:
-                    BorderSide(color: Color.fromRGBO(230, 38, 39, 0.8))),
-            fillColor: Color.fromRGBO(255, 255, 255, 0.4),
-            filled: true,
-            hintStyle:
-                TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
-          ),
+      title: "Hotter'n Hell",
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.red,
+        accentColor: Colors.redAccent,
+        primarySwatch: Colors.red,
+        fontFamily: 'Poppins',
+        inputDecorationTheme: InputDecorationTheme(
+          contentPadding: const EdgeInsets.all(15.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide:
+                  BorderSide(color: Color.fromRGBO(255, 255, 255, 0.4))),
+          disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide:
+                  BorderSide(color: Color.fromRGBO(255, 255, 255, 0.4))),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(color: Color.fromRGBO(230, 38, 39, 0.8))),
+          fillColor: Color.fromRGBO(255, 255, 255, 0.4),
+          filled: true,
+          hintStyle:
+              TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
         ),
-        home: SplashPage(),
-        debugShowCheckedModeBanner: false,
-        routes: <String, WidgetBuilder>{
-          '/home': (BuildContext context) => HomePage(),
-          '/login': (BuildContext context) => LoginPage(),
-          '/register': (BuildContext context) => RegisterPage(),
-          '/map': (BuildContext context) => MapPage(),
-          '/events': (BuildContext context) => EventsPage(),
-          '/event': (BuildContext context) => EventPage(),
-          '/sponsors': (BuildContext context) => SponsorsPage(),
-          '/web': (BuildContext context) => WebPage(),
-        });
+      ),
+      home: SplashPage(),
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: _getRoute,
+    );
+  }
+
+  Route<dynamic> _getRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/home':
+        return _buildRoute(settings, HomePage());
+      case '/login':
+        return _buildRoute(settings, LoginPage());
+      case '/register':
+        return _buildRoute(settings, RegisterPage());
+      case '/map':
+        return _buildRoute(settings, MapPage());
+      case '/events':
+        return _buildRoute(settings, EventsPage());
+      case '/event':
+        Map<String, dynamic> args = settings.arguments as Map;
+        return _buildRoute(settings, EventPage(event: args['event'], user: args['user']));
+      case '/sponsors':
+        return _buildRoute(settings, SponsorsPage());
+      case '/web':
+        Map<String, String> args = settings.arguments as Map;
+        return _buildRoute(
+            settings, WebPage(title: args['title'], url: args['url']));
+      default:
+        return null;
+    }
+  }
+
+  MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
+    return new MaterialPageRoute(
+      settings: settings,
+      builder: (ctx) => builder,
+    );
   }
 
   void initLogger() {
