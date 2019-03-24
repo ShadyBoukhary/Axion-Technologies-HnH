@@ -16,4 +16,7 @@ abstract class EventRepository {
 
   /// Registers a `User` in an [Event] using [eventRegistration] object.
   Future<void> registerForEvent({@required EventRegistration eventRegistration});
+
+  /// Unregisters a `User` from an [Event] using [eventRegistration] object.
+  Future<void> unRegisterFromEvent({@required EventRegistration eventRegistration});
 }

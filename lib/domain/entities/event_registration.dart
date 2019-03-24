@@ -2,6 +2,7 @@
 
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/utils/utils.dart';
 
 /// Represents an association between a [User] and an [Event].
 /// The [User] is registered in the [Event].
@@ -18,7 +19,7 @@ class EventRegistration {
   // Constructors
 
   EventRegistration(this._uid, this._eventId) {
-    _timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+    _timestamp = Utils.newTimestamp;
   }
 
   EventRegistration.fromEventRegistration(EventRegistration eventRegistration) {

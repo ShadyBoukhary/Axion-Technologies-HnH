@@ -28,6 +28,7 @@ class _EventsPageView extends View<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.context = context;
     return Scaffold(
         drawer: Drawer(
           elevation: 8.0,
@@ -37,8 +38,11 @@ class _EventsPageView extends View<EventsPage> {
                   _controller.currentUser.email),
         ),
         appBar: appBar,
-        body:
-            ModalProgressHUD(child: getBody(), inAsyncCall: _controller.isLoading));
+        body: ModalProgressHUD(
+            child: getBody(),
+            inAsyncCall: _controller.isLoading,
+            color: UIConstants.progressBarColor,
+            opacity: UIConstants.progressBarOpacity));
   }
 
   ListView getBody() {
@@ -130,7 +134,7 @@ class _EventsPageView extends View<EventsPage> {
         elevation: 0.0,
       );
 
-  Card getSmallEventCard(String name, String description) {
+  Card getSmallEventCard(event) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -140,12 +144,12 @@ class _EventsPageView extends View<EventsPage> {
       child: Container(
         child: InkWell(
           splashColor: Colors.redAccent,
-          onTap: () => {Navigator.pushNamed(context, '/event')},
+          onTap: () => {_controller.openEvent(event)},
           child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
               title: Text(
-                name,
+                event.name,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
@@ -153,7 +157,7 @@ class _EventsPageView extends View<EventsPage> {
                 ),
               ),
               subtitle: Text(
-                description,
+                event.description,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14.0,
@@ -167,17 +171,18 @@ class _EventsPageView extends View<EventsPage> {
   }
 
   ListView getFeaturedEvents() {
-    List<EventCard> cards =
-        _controller.featuredEvents.map((event) => EventCard(event)).toList();
+    List<EventCard> cards = _controller.featuredEvents
+        .map((event) => EventCard(event, _controller.currentUser))
+        .toList();
     return ListView(
       scrollDirection: Axis.horizontal,
       children: cards,
     );
   }
 
-  List<Container> get upcomingEvents =>
-      _controller.upComingEvents.map((event) =>
-          Container(child: getSmallEventCard(event.name, event.description))).toList();
+  List<Container> get upcomingEvents => _controller.upComingEvents
+      .map((event) => Container(child: getSmallEventCard(event)))
+      .toList();
 
   @override
   void dispose() {

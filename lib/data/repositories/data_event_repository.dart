@@ -77,4 +77,15 @@ class DataEventRepository implements EventRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> unRegisterFromEvent({EventRegistration eventRegistration}) async {
+    Uri uri = Uri.http(Constants.baseUrlNoPrefix, Constants.eventRegistrationsPathOnly, eventRegistration.toJson2());
+    try {
+      await HttpHelper.invokeHttp(uri, RequestType.delete);
+    } catch(error) {
+      _logger.warning('Could not unregister from event.', error);
+      rethrow;
+    }
+  }
 }

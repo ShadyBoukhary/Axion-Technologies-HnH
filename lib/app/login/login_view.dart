@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageView extends View<LoginPage> {
-
   static const String emailPrompt = 'Email Address';
   static const String passwordPrompt = 'Password';
   static const String loginButtonText = 'Sign In';
@@ -34,9 +33,10 @@ class LoginPageView extends View<LoginPage> {
     // ModalProgressHUD wraps the entire body with a loading using the controller.isLoading
     return Scaffold(
         body: ModalProgressHUD(
-      child: body,
-      inAsyncCall: _controller.isLoading,
-    ));
+            child: body,
+            inAsyncCall: _controller.isLoading,
+            color: UIConstants.progressBarColor,
+            opacity: UIConstants.progressBarOpacity));
   }
 
   // Scaffold body
@@ -117,10 +117,13 @@ class LoginPageView extends View<LoginPage> {
   // Fields and Buttons
 
   /// Email input field
-  InputField get emailField => InputField(_controller.emailTextController, emailPrompt);
+  InputField get emailField =>
+      InputField(_controller.emailTextController, emailPrompt);
 
   /// Password input field
-  InputField get passwordField => InputField(_controller.passwordTextController, passwordPrompt, isPassword: true);
+  InputField get passwordField =>
+      InputField(_controller.passwordTextController, passwordPrompt,
+          isPassword: true);
 
   GestureDetector get forgotPasswordButton => GestureDetector(
         onTap: () {},

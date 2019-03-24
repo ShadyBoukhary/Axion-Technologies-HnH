@@ -10,8 +10,7 @@ class HttpHelper {
     Map<String, dynamic> responseBody;
 
     try {
-      response = await _invoke(url, type,
-          headers: headers, body: body, encoding: encoding);
+      response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
     } catch (error) {
       rethrow;
     }
@@ -25,8 +24,7 @@ class HttpHelper {
     List<dynamic> responseBody;
 
     try {
-      response = await _invoke(url, type,
-          headers: headers, body: body, encoding: encoding);
+      response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
     } catch (error) {
       rethrow;
     }

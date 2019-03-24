@@ -1,14 +1,10 @@
 'use strict';
-import { model } from 'mongoose';
 import { Request, Response } from 'express-serve-static-core';
 import { NextFunction } from 'connect';
 import { IEvent } from '../interfaces/event/event';
-import { IEventModel } from '../interfaces/event/eventModel';
-import { EventSchema } from '../models/eventModel';
+import { Event } from '../models/eventModel';
 import { CREATE_EVENTS_PASS } from '../config';
-import { IEventRegistration } from '../interfaces/event_registration/eventRegistration';
-import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
-import { EventRegistrationSchema } from '../models/eventRegistrationModel';
+import { EventRegistration } from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
 import { ObjectID } from 'bson';
 import { EVENTS } from '../data/events';
@@ -16,8 +12,6 @@ import HHH from '../models/hhhModel';
 import { getCurrentYear } from '../utils/utils';
 import * as hhhinterface from '../interfaces/non_modals/hhh';
 
-const Event = model<IEvent, IEventModel>('Event', EventSchema);
-const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('EventRegistration', EventRegistrationSchema);
 
 
 /**

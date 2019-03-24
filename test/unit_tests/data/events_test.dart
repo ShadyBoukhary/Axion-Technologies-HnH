@@ -65,9 +65,11 @@ void main() {
       List<Event> events = await dataEventRepository.getUserEvents(uid: '5c56a23bd035c37032391053');
       expect(events, TypeMatcher<List<Event>>());
       expect(events.length, greaterThan(0));
-      expect(events.length, lessThan(3));
-      expect(events[0].id, '5c68d750cf2095b99753c693');
-
+      expect(events.where((event) => event.id == realUserRealEvent.eventId), predicate((events) {
+        expect(events.length, greaterThan(0));
+        return true;
+      }));
+      await dataEventRepository.unRegisterFromEvent(eventRegistration: realUserRealEvent);
        // test non-existent user or user with no events registered
       events = await dataEventRepository.getUserEvents(uid: 'userDoesNotExistOrNoEvents');
       expect(events, TypeMatcher<List<Event>>());

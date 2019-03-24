@@ -7,6 +7,10 @@ class UIConstants {
   static const Color progressBarColor = Colors.black;
 }
 
+class HHHConstants {
+  static const String registrationUrl = 'https://www.hh100.org/sign-up';
+}
+
 class Resources {
   static const String background = 'assets/img/background.jpg';
   static const String logo = 'assets/img/logo.png';
