@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/event/event_controller.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
-
+import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/entities/user.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class EventPage extends StatefulWidget {
-  EventPage({Key key, this.title}) : super(key: key);
+  final Event event;
+  final User user;
+
+  EventPage({Key key, this.title, @required this.event, @required this.user})
+      : super(key: key);
 
   final String title;
 
   @override
-  _EventPageView createState() => _EventPageView(EventController(DataEventRepository()));
+  _EventPageView createState() =>
+      _EventPageView(EventController(DataEventRepository(), event, user));
 }
 
 class _EventPageView extends View<EventPage> {
@@ -25,18 +31,19 @@ class _EventPageView extends View<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    final String _description =
-        "100 MILES IN 100 DEGREES FOR THE 100 YEAR ANNIVERSARY OF WICHITA FALLS.";
-    final String _subDescription =
-        "Your skills, training, and resolve will be tested. This is not an ordinary ride. It's hell.\nA lot of things are going on during the HHH weekend but there is no way to describe the electrifying experience of the START. Riders begin to assemble as early as 4AM. They are joined by 10,000+ other riders who have trained to complete their chosen distances. All that pent up human energy is unleashed after the American National Anthem, Air Force Fly Over and Cannon Blast. If you are going to ride 100 miles, the best place to do it is at the Hotter’N Hell Hundred!";
-
+    _controller.context = context;
     return Scaffold(
-      body: ListView(
+        body: ModalProgressHUD(
+            child: body,
+            inAsyncCall: _controller.isLoading,
+            color: UIConstants.progressBarColor,
+            opacity: UIConstants.progressBarOpacity));
+  }
+
+  ListView get body => ListView(
         children: <Widget>[
           Container(
-            width: width,
-            height: 250.0,
+            width: MediaQuery.of(context).size.width,
             child: eventHeader,
           ),
           SizedBox(height: 20.0),
@@ -45,7 +52,7 @@ class _EventPageView extends View<EventPage> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text(
-                'Event Title',
+                _controller.event.name,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24.0,
@@ -60,23 +67,13 @@ class _EventPageView extends View<EventPage> {
             child: Column(
               children: <Widget>[
                 Text(
-                  _description,
+                  _controller.event.description,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 15.0,
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                     letterSpacing: 1.0,
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  _subDescription,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ],
@@ -89,24 +86,21 @@ class _EventPageView extends View<EventPage> {
             child: signupButton,
           ),
         ],
-      ),
-    );
-  }
+      );
 
   Stack get eventHeader => Stack(
         children: <Widget>[
-          Image(
-            height: 250.0,
+          Image.network(
+            _controller.event.imageUrl,
             width: MediaQuery.of(context).size.width,
-            image: AssetImage(Resources.event_race),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
             alignment: Alignment.center,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              BackButton(color: Colors.white),
+              BackButton(color: Colors.grey),
             ],
           ),
           Positioned(
@@ -114,21 +108,18 @@ class _EventPageView extends View<EventPage> {
             right: 10.0,
             child: IconButton(
               icon: Icon(
-                Icons.star_border,
+                _controller.isRegistered ? Icons.star : Icons.star_border,
               ),
-              color: Colors.white,
-              iconSize: 35.0,
-              onPressed: () => {print('Favorite pressed')},
+              color: Colors.red,
+              iconSize: 40.0,
+              onPressed: _controller.handleRegistration,
             ),
           ),
         ],
       );
 
   GestureDetector get signupButton => GestureDetector(
-        onTap: () {
-          print('Register for Event clicked');
-          //callHandler(_controller.login);
-        },
+        onTap: _controller.onSignUpPressed,
         child: Container(
           height: 50.0,
           alignment: FractionalOffset.center,

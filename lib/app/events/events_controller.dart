@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/events/events_presenter.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -60,6 +61,10 @@ class EventsController extends Controller {
       if (userRetrieved)
         dismissLoading();
     };
+  }
+
+  void openEvent(event) {
+    Navigator.of(context).pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
   }
 
   void retrieveData() {

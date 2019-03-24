@@ -21,7 +21,6 @@ class SponsorsPresenter {
   }
 
   void dispose() {
-    //  _userUseCase.dispose();
     _getHHHUseCase.dispose();
     _getCurrentUserUseCase.dispose();
   }
