@@ -5,14 +5,11 @@ import { Request, Response } from 'express-serve-static-core';
 import { NextFunction } from 'connect';
 import { IEventRegistration } from '../interfaces/event_registration/eventRegistration';
 import { IEventRegistrationModel } from '../interfaces/event_registration/eventRegistrationModel';
-import { EventRegistrationSchema } from '../models/eventRegistrationModel';
+import EventRegistration, { EventRegistrationSchema } from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
 import User from '../models/userModel';
 import { IUser } from '../interfaces/user';
 
-
-
-const EventRegistration = model<IEventRegistration, IEventRegistrationModel>('EventRegistration', EventRegistrationSchema);
 
 /**
  * POST ROUTE - Creates an EventRegistration document
@@ -109,13 +106,20 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
  */
 export async function deleteEventRegistration(req: Request, res: Response, next: NextFunction) {
     try {
-        let uid = req.body.uid;
-        let eventId = req.body.eventId;
+        console.log(req.query);
+        
+        let uid = req.query.uid;
+        let eventId = req.query.eventId;
         if (!uid || !eventId)
             throw Error('EventId or uid was not provided');
         await EventRegistration.findOneAndRemove({uid: uid, eventId: eventId}).exec();
-        res.sendStatus(200);
+        res.status(200).send({
+            'status': 200,
+            'message': 'OK',
+            'statusText': 'OK'
+        });;
     } catch (error) {
+        console.log(error.message);
         res.status(400);
         res.statusMessage = error;
         res.send({
