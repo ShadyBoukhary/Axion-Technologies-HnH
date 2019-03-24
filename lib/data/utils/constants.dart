@@ -13,6 +13,8 @@ class Constants {
     static const String baseUrlNoPrefix = '45.32.197.143:8000';
     static const String eventsPathOnly = '/events';
     static const String sponsorsPathOnly = '/sponsors';
+    static const String eventRegistrationsPathOnly = '/eventRegistrations';
+
 
     // Local Storage
     static const String tokenKey = 'authentication_token';
