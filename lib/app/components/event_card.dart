@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/entities/user.dart';
 
 class EventCard extends StatelessWidget {
 
   final Event _event;
+  final User _user;
 
-  EventCard(this._event);
+  EventCard(this._event, this._user);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,8 @@ class EventCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: InkWell(
+                onTap: () => { navigate(context) },
                 splashColor: Colors.black,
-                onTap: () => {Navigator.pushNamed(context, '/event')},
                 child: Image.network(
                   _event.imageUrl,
                   fit: BoxFit.cover,
@@ -54,7 +56,7 @@ class EventCard extends StatelessWidget {
               ),
               child: InkWell(
                 splashColor: Colors.black,
-                onTap: () => {Navigator.pushNamed(context, '/event')},
+                onTap: () => { navigate(context) },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -100,4 +102,7 @@ class EventCard extends StatelessWidget {
       ),
     );
   }
+
+  void navigate(context) => Navigator.pushNamed(context, '/event', arguments: {'event': _event, 'user': _user});
+
 }
