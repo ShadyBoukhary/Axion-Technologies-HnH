@@ -32,45 +32,53 @@ class _SponsorsPageView extends View<SponsorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        elevation: 8.0,
-        child: _controller.isLoading
-            ? HhDrawer('Guest User', '')
-            : HhDrawer(_controller.currentUser.fullName,
-                _controller.currentUser.email),
-      ),
-      appBar: appBar,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        children: <Widget>[
-          SizedBox(height: 10.0),
-          Container(
-            padding: EdgeInsets.only(left: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  'Sponsors',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10.0),
-          SponsorCard('TITLE', 'Description', Resources.event_consumer),
-          SizedBox(height: 10.0),
-          SponsorCard('TITLE', 'Description', Resources.event_spaghetti),
-          SizedBox(height: 10.0),
-          SponsorCard('TITLE', 'Description', Resources.logo),
-        ],
-      ),
-    );
+        drawer: Drawer(
+          elevation: 8.0,
+          child: _controller.isLoading
+              ? HhDrawer('Guest User', '')
+              : HhDrawer(_controller.currentUser.fullName,
+                  _controller.currentUser.email),
+        ),
+        appBar: appBar,
+        body: ModalProgressHUD(
+            child: getBody(),
+            inAsyncCall: _controller.isLoading,
+            color: UIConstants.progressBarColor,
+            opacity: UIConstants.progressBarOpacity));
   }
+
+  ListView getBody() {
+
+    List<Widget> children = [
+        SizedBox(height: 10.0),
+        Container(
+          padding: EdgeInsets.only(left: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                'Sponsors',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ];
+
+    // get all events and add them to view
+    List<SponsorCard> sponsors = sponsorCards;
+    if (sponsors.length > 0) {
+      children.addAll(sponsors);
+    }
+    return ListView(padding: EdgeInsets.symmetric(horizontal: 10.0), children: children);
+  }
+
+  List<SponsorCard> get sponsorCards => _controller.sponsors.map((sponsor) => SponsorCard(sponsor)).toList();
 
   AppBar get appBar => AppBar(
         title: Row(
