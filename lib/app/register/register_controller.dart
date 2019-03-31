@@ -1,4 +1,5 @@
 import 'package:hnh/app/abstract/controller.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/domain/repositories/authentication_repository.dart';
 import 'package:hnh/app/register/register_presenter.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -19,12 +20,12 @@ class RegisterController extends Controller {
   RegisterPresenter _registerPresenter;
 
   RegisterController() {
-    // _authenticationRepository = AuthenticationRepository();
+     _authenticationRepository = DataAuthenticationRepository();
     _registerPresenter = RegisterPresenter(_authenticationRepository);
-    _firstName = '';
-    _lastName = '';
-    _userEmail = '';
-    _userPassword = '';
+    _firstName = 'Shady';
+    _lastName = 'Boukhary';
+    _userEmail = 'test@test.com';
+    _userPassword = 'shady';
     agreedToTOS = false;
     logger = Logger('RegisterController');
 
@@ -44,10 +45,14 @@ class RegisterController extends Controller {
   void register(context) {
     _context = context;
 
-    _registerPresenter.register(
-        firstName: _firstName,
-        lastName: _lastName,
-        email: _userEmail,
+    // _registerPresenter.register(
+    //     firstName: _firstName,
+    //     lastName: _lastName,
+    //     email: _userEmail,
+    //     password: _userPassword);
+    DataAuthenticationRepository().register(firstName: _firstName,
+         lastName: _lastName,
+         email: _userEmail,
         password: _userPassword);
   }
 

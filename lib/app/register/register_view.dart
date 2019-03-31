@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/register/register_controller.dart';
 

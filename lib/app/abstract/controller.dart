@@ -46,6 +46,11 @@ abstract class Controller with WidgetsBindingObserver {
     refresh(() => isLoading = true);
   }
 
+  void refreshUI() {
+    assert(refresh != null, 'Please set the Controller refresh function inside the View');
+    refresh((){});
+  }
+
   void initListeners();
   void onInActive() {}
   void onPaused() {}

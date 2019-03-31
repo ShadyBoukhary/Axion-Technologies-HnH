@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/components/event_card.dart';
-import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/events/events_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
@@ -20,7 +19,7 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageView extends View<EventsPage> {
   EventsController _controller;
-
+  
   _EventsPageView(this._controller) {
     _controller.refresh = callHandler;
     WidgetsBinding.instance.addObserver(_controller);
@@ -30,13 +29,7 @@ class _EventsPageView extends View<EventsPage> {
   Widget build(BuildContext context) {
     _controller.context = context;
     return Scaffold(
-        drawer: Drawer(
-          elevation: 8.0,
-          child: _controller.isLoading
-              ? HhDrawer('Guest User', '')
-              : HhDrawer(_controller.currentUser.fullName,
-                  _controller.currentUser.email),
-        ),
+        drawer: Drawer(elevation: 8.0, child: View.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),

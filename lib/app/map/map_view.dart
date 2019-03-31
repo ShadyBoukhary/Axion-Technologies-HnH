@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/map/map_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,10 +32,7 @@ class _MapPageView extends View<MapPage> {
     GoogleMapController _mapController;
 
     return Scaffold(
-      drawer: Drawer(
-        elevation: 8.0,
-        child: HhDrawer('Guest User', ''),
-      ),
+      drawer: Drawer(elevation: 8.0, child: View.drawer),
       body: Stack(
         children: <Widget>[
           Container(
