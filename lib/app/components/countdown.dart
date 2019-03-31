@@ -4,20 +4,17 @@ import 'dart:async';
 /// Countdown timer until the event
 class Countdown extends StatefulWidget {
   final DateTime _eventTime;
-  final Function _notifyParent;
-  Countdown(this._eventTime, this._notifyParent);
+  Countdown(this._eventTime);
 
   @override
-  CountdownState createState() => CountdownState(_eventTime, _notifyParent);
+  CountdownState createState() => CountdownState(_eventTime);
 }
 
 class CountdownState extends State<Countdown> {
-
   // Members
   DateTime _eventTime;
   Duration _timeDifference;
   Timer _timer;
-  Function _notifyParent; // callback function that updates the parent widget state
 
   // Properties
   int get days => _timeDifference.inDays;
@@ -25,9 +22,9 @@ class CountdownState extends State<Countdown> {
   int get minutes => _timeDifference.inMinutes - _timeDifference.inHours * 60;
   int get seconds => _timeDifference.inSeconds - _timeDifference.inMinutes * 60;
 
-  CountdownState(this._eventTime, this._notifyParent) {
+  CountdownState(this._eventTime) {
     _timer = Timer.periodic(Duration(seconds: 1), _updateTime);
-    _timeDifference = Duration(seconds: 0);
+    _timeDifference = _timeDifference = timeDifference();
   }
 
   /// Calculates the time difference between the current time and the [_eventTime]
@@ -37,20 +34,15 @@ class CountdownState extends State<Countdown> {
 
   /// Updates the [_timeDifference] between the current time and the [_eventTime].
   /// If the [_timeDifference] in seconds in less than than 1, the timer [t] is stopped.
-  /// Once the [_timeDifference] is updated, the [CountdownState] state is updated and the
-  /// parent `State` is updated as well.
+  /// Once the [_timeDifference] is updated, the [CountdownState] state
   void _updateTime(Timer t) {
-
-    // update parent state
-    _notifyParent(() {
-      // update this state
-      setState(() {
-        // update time difference
-        _timeDifference = timeDifference();
-        if (_timeDifference.inSeconds < 1) {
-          t.cancel();
-        }
-      });
+    // update this state
+    setState(() {
+      // update time difference
+      _timeDifference = timeDifference();
+      if (_timeDifference.inSeconds < 1) {
+        t.cancel();
+      }
     });
   }
 

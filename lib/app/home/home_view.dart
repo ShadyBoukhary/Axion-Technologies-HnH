@@ -74,7 +74,7 @@ class HomePageView extends View<HomePage> {
     ];
 
     if (!_controller.isLoading && _controller.eventTime != null) {
-      children.add(Countdown(_controller.eventTime, callHandler));
+      children.add(Countdown(_controller.eventTime));
     }
     return ListView(children: children);
   }
