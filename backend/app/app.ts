@@ -4,7 +4,7 @@ import express from 'express';
 import * as path from "path";
 import cors from "cors";
 import { connect } from 'mongoose';
-
+import { MONGO_CREDS } from './mongoConfig';
 // import routes
 import { userRoutes } from './routes/userRoutes';
 import { eventRoutes } from "./routes/eventRoute";
@@ -67,7 +67,7 @@ class Server {
   }
 
   private initDB() {
-      connect('mongodb://localhost/hnhDB');
+      connect('mongodb://localhost/hnhDB', {user: MONGO_CREDS.username, pass: MONGO_CREDS.password, authdb: 'admin'});
   }
 }
 

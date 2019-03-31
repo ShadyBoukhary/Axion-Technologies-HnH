@@ -42,9 +42,8 @@ class _GetHHHUseCaseObserver implements Observer<GetHHHUseCaseResponse> {
   void onNext(response) {
     // any cleaning or preparation goes here before invoking callback
     assert(response is GetHHHUseCaseResponse);
-    GetHHHUseCaseResponse data = response as GetHHHUseCaseResponse;
     assert(_sponsorsPresenter.getHHHOnNext != null);
-    _sponsorsPresenter.getHHHOnNext(data.hhh);
+    _sponsorsPresenter.getHHHOnNext(response.hhh, response.sponsors);
   }
 
   void onComplete() {

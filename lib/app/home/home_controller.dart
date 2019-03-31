@@ -31,6 +31,7 @@ class HomeController extends Controller {
 
     _homePresenter.getHHHOnError = (e) {
       // TODO: show the user the error
+      dismissLoading();
       print(e);
     };
 
@@ -45,6 +46,7 @@ class HomeController extends Controller {
     };
 
     _homePresenter.getUserOnError = (e) {
+      dismissLoading();
       // TODO: show the user the error
       print(e);
     };
