@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hnh/app/components/hhDrawerPresenter.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
 class HhDrawer extends StatelessWidget {
   final String _name;
   final String _email;
+  final HHDrawerPresenter _presenter;
 
-  HhDrawer(this._name, this._email);
+  // exception to the rule of clean architecture, not necessarily a violation but unclean:
+  // getting the singleton inside a component
+  HhDrawer(this._name, this._email): _presenter = HHDrawerPresenter(DataAuthenticationRepository());
 
   @override
   Widget build(BuildContext context) {
+    _presenter.logoutOnComplete = () => _navigate('/login', context);
     return ListView(
       children: <Widget>[
         UserAccountsDrawerHeader(
@@ -46,7 +52,7 @@ class HhDrawer extends StatelessWidget {
             Icons.map,
             size: 22.0,
           ),
-          onTap: () => navigate('/home', context),
+          onTap: () => _navigate('/home', context),
         ),
         ListTile(
           title: Text(
@@ -57,7 +63,7 @@ class HhDrawer extends StatelessWidget {
             Icons.map,
             size: 22.0,
           ),
-          onTap: () => navigate('/map', context),
+          onTap: () => _navigate('/map', context),
         ),
         ListTile(
           title: Text(
@@ -68,7 +74,7 @@ class HhDrawer extends StatelessWidget {
             Icons.calendar_today,
             size: 22.0,
           ),
-          onTap: () => Navigator.of(context).pushReplacementNamed('/events'),
+          onTap: () => _navigate('/events', context),
         ),
         ListTile(
           title: Text(
@@ -90,7 +96,7 @@ class HhDrawer extends StatelessWidget {
             Icons.people,
             size: 22.0,
           ),
-          onTap: () => Navigator.of(context).pushReplacementNamed('/sponsors'),
+          onTap: () => _navigate('/sponsors', context),
         ),
         ListTile(
           title: Text(
@@ -122,12 +128,16 @@ class HhDrawer extends StatelessWidget {
             Icons.exit_to_app,
             size: 22.0,
           ),
+          onTap: _logout,
         ),
       ],
     );
   }
 
-  void navigate(String page, context) {
+  void _navigate(String page, context) {
     Navigator.of(context).pushReplacementNamed(page);
   }
+
+  void _logout() => _presenter.logout();
+
 }
