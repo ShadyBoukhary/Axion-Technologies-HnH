@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/components/hhDrawer.dart';
+import 'package:hnh/app/components/hhDrawer/hhDrawerView.dart';
 
 abstract class View<Page extends StatefulWidget> extends State<Page> {
   static final HhDrawer drawer = HhDrawer();
