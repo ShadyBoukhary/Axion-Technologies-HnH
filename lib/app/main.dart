@@ -72,7 +72,8 @@ class MyApp extends StatelessWidget {
         return _buildRoute(settings, EventsPage());
       case '/event':
         Map<String, dynamic> args = settings.arguments as Map;
-        return _buildRoute(settings, EventPage(event: args['event'], user: args['user']));
+        return _buildRoute(
+            settings, EventPage(event: args['event'], user: args['user']));
       case '/sponsors':
         return _buildRoute(settings, SponsorsPage());
       case '/web':

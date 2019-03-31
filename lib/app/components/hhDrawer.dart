@@ -1,79 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/components/hhDrawerPresenter.dart';
+import 'package:hnh/app/abstract/view.dart';
+import 'package:hnh/app/components/hhDrawer_controller.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
-class HhDrawer extends StatelessWidget {
-  final String _name;
-  final String _email;
-  final HHDrawerPresenter _presenter;
+class HhDrawer extends StatefulWidget {
+  final HHDrawerController _controller = HHDrawerController(DataAuthenticationRepository());
 
-  // exception to the rule of clean architecture, not necessarily a violation but unclean:
-  // getting the singleton inside a component
-  HhDrawer(this._name, this._email): _presenter = HHDrawerPresenter(DataAuthenticationRepository());
+  @override
+  _HhDrawerView createState() => _HhDrawerView(_controller);
+}
+
+class _HhDrawerView extends View<HhDrawer> {
+  
+  final HHDrawerController _controller;
+  _HhDrawerView(this._controller) {
+    _controller.refresh = callHandler;
+  }
 
   @override
   Widget build(BuildContext context) {
-    _presenter.logoutOnComplete = () => _navigate('/login', context);
+    _controller.context = context;
     return ListView(
       children: <Widget>[
-        UserAccountsDrawerHeader(
-          accountName: Text(
-            _name,
-            style: TextStyle(fontSize: 18.0),
-          ),
-          accountEmail: Text(
-            _email,
-            style: TextStyle(fontSize: 12.0),
-          ),
-          currentAccountPicture: GestureDetector(
-            onTap: () => print("This is the current user"),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://www.briceallard.com/static/img/logo-main.ef47e8a.png'),
-            ),
-          ),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/img/drawer_bg.jpg'),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3),
-                BlendMode.dstATop,
-              ),
-            ),
-          ),
-        ),
-        createPageTile('Home', Icons.home, () => _navigate('/home', context)),
-        createPageTile('Navigation', Icons.map, () => _navigate('/map', context)),
-        createPageTile('Events', Icons.calendar_today, () => _navigate('/events', context)),
+        header,
+        createPageTile('Home', Icons.home, () => _controller.navigate('/home', context)),
+        createPageTile('Navigation', Icons.map, () => _controller.navigate('/map', context)),
+        createPageTile('Events', Icons.calendar_today, () => _controller.navigate('/events', context)),
         createPageTile('Local', Icons.hotel),
         Divider(),
-        createPageTile('Sponsors', Icons.business, () => _navigate('/sponsors', context)),
-        createPageTile('About', Icons.info ),
+        createPageTile('Sponsors', Icons.business, () => _controller.navigate('/sponsors', context)),
+        createPageTile('About', Icons.info),
         Divider(),
-        createPageTile('Logout', Icons.exit_to_app, _logout)
+        createPageTile('Logout', Icons.exit_to_app, _controller.logout)
       ],
     );
   }
 
+  UserAccountsDrawerHeader get header => UserAccountsDrawerHeader(
+        accountName: Text(
+          _controller.user != null ? _controller.user.fullName : 'Guest User',
+          style: TextStyle(fontSize: 18.0),
+        ),
+        accountEmail: Text(
+          _controller.user != null ? _controller.user.email : '',
+          style: TextStyle(fontSize: 12.0),
+        ),
+        currentAccountPicture: GestureDetector(
+          onTap: () => print("This is the current user"),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(
+                'https://www.briceallard.com/static/img/logo-main.ef47e8a.png'),
+          ),
+        ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/img/drawer_bg.jpg'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.dstATop,
+            ),
+          ),
+        ),
+      );
+
   ListTile createPageTile(String name, IconData icon, [handler]) {
     return ListTile(
-          title: Text(
-            name,
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            icon,
-            size: 22.0,
-          ),
-          onTap: handler,
-        );
+      title: Text(
+        name,
+        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+      ),
+      trailing: Icon(
+        icon,
+        size: 22.0,
+      ),
+      onTap: handler,
+    );
   }
 
-  void _navigate(String page, context) {
-    Navigator.of(context).pushReplacementNamed(page);
+  @override 
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  void _logout() => _presenter.logout();
 
 }

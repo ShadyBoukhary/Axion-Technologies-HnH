@@ -33,10 +33,7 @@ class _MapPageView extends View<MapPage> {
     GoogleMapController _mapController;
 
     return Scaffold(
-      drawer: Drawer(
-        elevation: 8.0,
-        child: HhDrawer('Guest User', ''),
-      ),
+      drawer: Drawer(elevation: 8.0, child: View.drawer),
       body: Stack(
         children: <Widget>[
           Container(

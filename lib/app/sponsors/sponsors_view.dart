@@ -32,13 +32,7 @@ class _SponsorsPageView extends View<SponsorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Drawer(
-          elevation: 8.0,
-          child: _controller.isLoading
-              ? HhDrawer('Guest User', '')
-              : HhDrawer(_controller.currentUser.fullName,
-                  _controller.currentUser.email),
-        ),
+        drawer: Drawer(elevation: 8.0, child: View.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),

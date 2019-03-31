@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/components/countdown.dart';
-import 'package:hnh/app/components/hhDrawer.dart';
 import 'package:hnh/app/home/home_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -30,12 +29,7 @@ class HomePageView extends View<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-          elevation: 8.0,
-          child: _controller.isLoading
-              ? HhDrawer('Guest User', '')
-              : HhDrawer(_controller.currentUser.fullName,
-                  _controller.currentUser.email)),
+      drawer: Drawer(elevation: 8.0, child: View.drawer),
       appBar: appBar,
       body: ModalProgressHUD(
           child: getbody(),
@@ -82,7 +76,6 @@ class HomePageView extends View<HomePage> {
     if (!_controller.isLoading && _controller.eventTime != null) {
       children.add(Countdown(_controller.eventTime, callHandler));
     }
-
     return ListView(children: children);
   }
 
