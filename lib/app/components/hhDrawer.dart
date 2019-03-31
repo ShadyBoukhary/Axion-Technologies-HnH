@@ -43,95 +43,31 @@ class HhDrawer extends StatelessWidget {
             ),
           ),
         ),
-        ListTile(
-          title: Text(
-            "Home",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.map,
-            size: 22.0,
-          ),
-          onTap: () => _navigate('/home', context),
-        ),
-        ListTile(
-          title: Text(
-            "Navigation",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.map,
-            size: 22.0,
-          ),
-          onTap: () => _navigate('/map', context),
-        ),
-        ListTile(
-          title: Text(
-            "Events",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.calendar_today,
-            size: 22.0,
-          ),
-          onTap: () => _navigate('/events', context),
-        ),
-        ListTile(
-          title: Text(
-            "Local",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.hotel,
-            size: 22.0,
-          ),
-        ),
+        createPageTile('Home', Icons.home, () => _navigate('/home', context)),
+        createPageTile('Navigation', Icons.map, () => _navigate('/map', context)),
+        createPageTile('Events', Icons.calendar_today, () => _navigate('/events', context)),
+        createPageTile('Local', Icons.hotel),
         Divider(),
-        ListTile(
-          title: Text(
-            "Sponsors",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.people,
-            size: 22.0,
-          ),
-          onTap: () => _navigate('/sponsors', context),
-        ),
-        ListTile(
-          title: Text(
-            "About",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.info,
-            size: 22.0,
-          ),
-        ),
+        createPageTile('Sponsors', Icons.business, () => _navigate('/sponsors', context)),
+        createPageTile('About', Icons.info ),
         Divider(),
-        ListTile(
-          title: Text(
-            "Settings",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.settings,
-            size: 22.0,
-          ),
-        ),
-        ListTile(
-          title: Text(
-            "Logout",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-          ),
-          trailing: Icon(
-            Icons.exit_to_app,
-            size: 22.0,
-          ),
-          onTap: _logout,
-        ),
+        createPageTile('Logout', Icons.exit_to_app, _logout)
       ],
     );
+  }
+
+  ListTile createPageTile(String name, IconData icon, [handler]) {
+    return ListTile(
+          title: Text(
+            name,
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+          ),
+          trailing: Icon(
+            icon,
+            size: 22.0,
+          ),
+          onTap: handler,
+        );
   }
 
   void _navigate(String page, context) {
