@@ -25,7 +25,9 @@ class HttpHelper {
 
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
-    } catch (error) {
+    } on APIException {
+      rethrow;
+    } on SocketException {
       rethrow;
     }
 

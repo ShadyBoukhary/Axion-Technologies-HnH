@@ -11,6 +11,8 @@ class Constants {
 
     // APIs no prefix
     static const String baseUrlNoPrefix = '45.32.197.143:8000';
+    static const String googleApi = 'maps.googleapis.com';
+    static const String googleLocalPlacesPath = '/maps/api/place/nearbysearch/json';
     static const String eventsPathOnly = '/events';
     static const String sponsorsPathOnly = '/sponsors';
     static const String eventRegistrationsPathOnly = '/eventRegistrations';
@@ -20,4 +22,8 @@ class Constants {
     static const String tokenKey = 'authentication_token';
     static const String userKey = 'user_key';
     static const String isAuthenticatedKey = 'isUserAuthenticated';
+
+    // Google API
+    static const String placesApiKey = 'api_key';
+    static const String placesRadius = '4000';
 }
