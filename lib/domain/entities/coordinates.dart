@@ -14,7 +14,7 @@ class Coordinates {
   // Constructors
   Coordinates(this._lat, this._lon);
 
-  Coordinates.fromUser(Coordinates location) {
+  Coordinates.from(Coordinates location) {
       _lat = location._lat;
       _lon = location._lon;
   }
@@ -35,4 +35,7 @@ class Coordinates {
       'lat': _lat,
       'lon': _lon,
   };
+
+  @override
+  String toString() => '$_lat,$_lon';
 }
