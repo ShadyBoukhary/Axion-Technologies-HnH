@@ -14,12 +14,12 @@ void main() {
       location = Coordinates('33.909760', '-98.500847');
     });
 
-    test('getLocalRestaurants()', () async {
-      List<LocalPlace> localPlaces = await dataLocalPlacesRepository.getLocalRestaurants(latlon: location);
-      expect(localPlaces, TypeMatcher<List<LocalPlace>>());
-      localPlaces.forEach((place) {
-        expect(place.type, LocalPlaceType.restaurant);
-      });
-    }); // end getLocalRestaurants
+    // test('getLocalRestaurants()', () async {
+    //   List<LocalPlace> localPlaces = await dataLocalPlacesRepository.getLocalRestaurants(latlon: location);
+    //   expect(localPlaces, TypeMatcher<List<LocalPlace>>());
+    //   localPlaces.forEach((place) {
+    //     expect(place.type, LocalPlaceType.restaurant);
+    //   });
+    // }); // end getLocalRestaurants
   }); // end group
 } // end main
