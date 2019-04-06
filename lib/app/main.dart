@@ -5,6 +5,7 @@ import 'package:hnh/app/events/events_view.dart';
 import 'package:hnh/app/map/map_view.dart';
 import 'package:hnh/app/splash/splash_view.dart';
 import 'package:hnh/app/sponsors/sponsors_view.dart';
+import 'package:hnh/app/user_events/user_events_view.dart';
 import 'package:logging/logging.dart';
 import 'home/home_view.dart';
 import 'login/login_view.dart';
@@ -12,6 +13,7 @@ import 'register/register_view.dart';
 import 'package:hnh/app/web/web_view.dart';
 
 void main() => runApp(MyApp());
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
       home: SplashPage(),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: _getRoute,
+      navigatorObservers: [routeObserver],
     );
   }
 
@@ -72,8 +75,10 @@ class MyApp extends StatelessWidget {
         return _buildRoute(settings, EventsPage());
       case '/event':
         Map<String, dynamic> args = settings.arguments as Map;
-        return _buildRoute(
-            settings, EventPage(event: args['event'], user: args['user']));
+        return _buildRoute(settings, EventPage(event: args['event'], user: args['user'], isUserEvent: args['isUserEvent']));
+      case '/userEvents':
+        Map<String, dynamic> args = settings.arguments as Map;
+        return _buildRoute(settings, UserEventsPage(routeObserver, user: args['user']));
       case '/sponsors':
         return _buildRoute(settings, SponsorsPage());
       case '/web':

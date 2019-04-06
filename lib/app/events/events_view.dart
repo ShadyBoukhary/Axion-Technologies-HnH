@@ -16,13 +16,13 @@ class EventsPage extends StatefulWidget {
   _EventsPageView createState() => _EventsPageView(
       EventsController(DataAuthenticationRepository(), DataEventRepository()));
 }
-
 class _EventsPageView extends View<EventsPage> {
   EventsController _controller;
   
   _EventsPageView(this._controller) {
     _controller.refresh = callHandler;
     WidgetsBinding.instance.addObserver(_controller);
+    
   }
 
   @override

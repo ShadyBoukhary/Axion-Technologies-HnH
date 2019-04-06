@@ -11,10 +11,11 @@ class EventController extends Controller {
   Event _event;
   User _user;
   bool _isRegistered;
+  final bool _isUserEvent;
   bool get isRegistered => _isRegistered;
 
   Event get event => _event;
-  EventController(eventRepo, this._event, this._user) {
+  EventController(eventRepo, this._event, this._user, this._isUserEvent) {
     _eventPresenter = EventPresenter(eventRepo);
     _isRegistered = false;
     initListeners();
@@ -61,7 +62,9 @@ class EventController extends Controller {
   }
 
   void onSignUpPressed() => Navigator.of(context).pushNamed('/web', arguments: {'title': 'Registration', 'url': HHHConstants.registrationUrl});
-
+  void onStartNavigationPressed() {
+    print('hi');
+  }
   void _getIsRegistered() {
     startLoading();
     _eventPresenter.isRegistered(uid: _user.uid, eventId: _event.id);
