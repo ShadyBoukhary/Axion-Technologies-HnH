@@ -5,6 +5,7 @@ import 'package:hnh/domain/repositories/local_places_repository.dart';
 import 'package:logging/logging.dart';
 import 'package:hnh/data/utils/constants.dart';
 import 'package:hnh/data/utils/http_helper.dart';
+import 'package:hnh/data/mappers/local_places_mapper.dart';
 
 import 'dart:async';
 
@@ -45,29 +46,8 @@ class DataLocalPlacesRepository implements LocalPlacesRepository {
       rethrow;
     }
 
-    _localPlaces = mapJsonResponseToLocalPlaceList(body, type);
+    _localPlaces = mapGooglePlacesToLocalPlaces(body, type);
     _logger.finest('Local Places retrieved successfully.');
     return _localPlaces;
-  }
-
-  /// Converts a Google Places API response to an array of [LocalPlace].
-  List<LocalPlace> mapJsonResponseToLocalPlaceList(Map<String, dynamic> map, LocalPlaceType type) {
-    List<dynamic> results = map['results'];
-    if (results.isEmpty) {
-      return List<LocalPlace>();
-    }
-
-    return results.map((place) {
-      var latlon = place['geometry']['location'];
-      Coordinates coordinates = Coordinates(latlon['lat'].toString(), latlon['lng'].toString());
-      String name = place['name'];
-      String icon = place['icon'];
-      bool isOpen = place['opening_hours']['open_now'] as bool;
-      double rating = place['rating'].toDouble();
-      String address = place['vicinity'];
-      String photo = place['photos'][0]['html_attributions'][0];
-      photo = photo.split(RegExp('"'))[1];
-      return LocalPlace(name, address, type, coordinates, rating, icon, photo, isOpen);
-    }).toList();
   }
 }
