@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class Controller with WidgetsBindingObserver {
+abstract class Controller with WidgetsBindingObserver, RouteAware {
   BuildContext context; // needed for navigation
   Function refresh; // callback function for refreshing the UI
   bool isLoading; // indicates whether a loading dialog is present

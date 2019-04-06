@@ -10,15 +10,21 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 class EventPage extends StatefulWidget {
   final Event event;
   final User user;
+  final bool isUserEvent;
 
-  EventPage({Key key, this.title, @required this.event, @required this.user})
+  EventPage(
+      {Key key,
+      this.title,
+      @required this.event,
+      @required this.user,
+      @required this.isUserEvent})
       : super(key: key);
 
   final String title;
 
   @override
-  _EventPageView createState() =>
-      _EventPageView(EventController(DataEventRepository(), event, user));
+  _EventPageView createState() => _EventPageView(
+      EventController(DataEventRepository(), event, user, isUserEvent));
 }
 
 class _EventPageView extends View<EventPage> {
@@ -83,7 +89,7 @@ class _EventPageView extends View<EventPage> {
           Padding(
             padding:
                 const EdgeInsets.only(right: 30.0, bottom: 20.0, left: 30.0),
-            child: signupButton,
+            child: getSignupButton(),
           ),
         ],
       );
@@ -118,25 +124,29 @@ class _EventPageView extends View<EventPage> {
         ],
       );
 
-  GestureDetector get signupButton => GestureDetector(
-        onTap: _controller.onSignUpPressed,
-        child: Container(
-          height: 50.0,
-          alignment: FractionalOffset.center,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(230, 38, 39, 1.0),
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          child: Text(
-            'Sign Up',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 0.4),
-          ),
+  GestureDetector getSignupButton() {
+    String title = widget.isUserEvent ? 'Start Navigation' : 'Signup';
+    var handler = widget.isUserEvent ? _controller.onStartNavigationPressed : _controller.onSignUpPressed;
+    return GestureDetector(
+      onTap: handler,
+      child: Container(
+        height: 50.0,
+        alignment: FractionalOffset.center,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(230, 38, 39, 1.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
-      );
+        child: Text(
+          title,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w300,
+              letterSpacing: 0.4),
+        ),
+      ),
+    );
+  }
 
   @override
   void dispose() {

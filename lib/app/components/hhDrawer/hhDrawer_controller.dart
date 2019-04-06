@@ -31,6 +31,7 @@ class HHDrawerController extends Controller {
 
   void retrieveData() => _drawerPresenter.getUser();
   void navigate(String page, context) =>  Navigator.of(context).pushReplacementNamed(page);
+  void navigateWithArgs(String page, context, args) =>  Navigator.of(context).pushReplacementNamed(page, arguments: args);
   void logout() => _drawerPresenter.logout();
   void dispose() => _drawerPresenter.dispose();
 }
