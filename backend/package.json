@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "files": "ts-node-dev --respawn --transpileOnly ./app/data/routeCreator.ts",
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
     "prod": "tsc && node ./build/app.js"
@@ -23,6 +24,7 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.9",
+    "parse-gpx": "^1.2.0",
     "tsconfig": "^7.0.0",
     "typescript": "^3.3.1"
   },
