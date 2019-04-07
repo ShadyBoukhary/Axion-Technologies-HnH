@@ -1,3 +1,5 @@
+import './sensitive.dart';
+
 class Constants {
 
     // APIs
@@ -27,6 +29,6 @@ class Constants {
     static const String isAuthenticatedKey = 'isUserAuthenticated';
 
     // Google API
-    static const String placesApiKey = 'AIzaSyClhezvF2bfkHsrSPuLXuvhqBT-5eGPXsQ';
+    static const String placesApiKey = googleApiKey;
     static const String placesRadius = '10000';
 }
