@@ -14,12 +14,13 @@ class UserEventsPage extends StatefulWidget {
   final RouteObserver routeObserver;
 
   @override
-  _UserEventsPageView createState() => _UserEventsPageView(UserEventsController(DataEventRepository(), user));
+  _UserEventsPageView createState() =>
+      _UserEventsPageView(UserEventsController(DataEventRepository(), user));
 }
 
 class _UserEventsPageView extends View<UserEventsPage> {
   UserEventsController _controller;
-  
+
   _UserEventsPageView(this._controller) {
     _controller.refresh = callHandler;
     WidgetsBinding.instance.addObserver(_controller);
@@ -44,23 +45,37 @@ class _UserEventsPageView extends View<UserEventsPage> {
             opacity: UIConstants.progressBarOpacity));
   }
 
-  Widget getBody() => Padding(padding: EdgeInsets.only(top: 25),child: getEvents());
-  
+  Widget getBody() {
+    Widget child = _controller.events.isNotEmpty
+        ? getEvents()
+        : Center(
+            child: Text(
+            'No saved events.',
+            style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.w200,
+                  ),
+          ));
+    return Padding(padding: EdgeInsets.only(top: 25), child: child);
+  }
 
   AppBar get appBar => AppBar(
         title: Text(
           'My Events',
-          style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
       );
 
-
   ListView getEvents() {
     List<Padding> cards = _controller.events
-        .map((event) => Padding(padding: EdgeInsets.only(bottom: 20),child: EventCard(event, _controller.currentUser, true)))
+        .map((event) => Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: EventCard(event, _controller.currentUser, true)))
         .toList();
     return ListView(
       scrollDirection: Axis.vertical,
