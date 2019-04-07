@@ -77,5 +77,3 @@ package-lock.json
 config.ts
 mongoConfig.ts
 
-# Sensitive Data
-sensitive.dart
