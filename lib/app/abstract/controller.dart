@@ -4,6 +4,7 @@ abstract class Controller with WidgetsBindingObserver, RouteAware {
   BuildContext context; // needed for navigation
   Function refresh; // callback function for refreshing the UI
   bool isLoading; // indicates whether a loading dialog is present
+  bool isMounted = true;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -28,7 +29,8 @@ abstract class Controller with WidgetsBindingObserver, RouteAware {
   /// have no impact.
   void dismissLoading() {
     assert(refresh != null, 'Please set the Controller refresh function inside the View');
-    refresh(() => isLoading = false);
+    if (isMounted)
+      refresh(() => isLoading = false);
   }
 
   /// Sets the loading to true. The `View` body should be wrapped in a loader.
@@ -48,7 +50,8 @@ abstract class Controller with WidgetsBindingObserver, RouteAware {
 
   void refreshUI() {
     assert(refresh != null, 'Please set the Controller refresh function inside the View');
-    refresh((){});
+    if (isMounted)
+      refresh((){});
   }
 
   void initListeners();

@@ -12,5 +12,5 @@ abstract class LocalPlacesRepository {
   Future<List<LocalPlace>> getLocalRestaurants({@required Coordinates latlon});
 
   /// Retrieves all local [LocalPlace]s that are hotels using [latlon].
-  //Future<List<LocalPlace>> getLocalHotels({@required Coordinates latlon});
+  Future<List<LocalPlace>> getLocalHotels({@required Coordinates latlon});
 }

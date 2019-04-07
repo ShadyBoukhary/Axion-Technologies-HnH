@@ -11,10 +11,10 @@ import 'dart:async';
 
 class DataLocalPlacesRepository implements LocalPlacesRepository {
   // singleton
-  static final DataLocalPlacesRepository _instance =
-      DataLocalPlacesRepository._internal();
+  static final DataLocalPlacesRepository _instance = DataLocalPlacesRepository._internal();
   Logger _logger;
-  List<LocalPlace> _localPlaces;
+  List<LocalPlace> _restaurants;
+  List<LocalPlace> _hotels;
 
   DataLocalPlacesRepository._internal() {
     _logger = Logger('DataLocalPlacesRepository');
@@ -23,18 +23,28 @@ class DataLocalPlacesRepository implements LocalPlacesRepository {
   factory DataLocalPlacesRepository() => _instance;
 
   @override
-  Future<List<LocalPlace>> getLocalRestaurants({@required Coordinates latlon}) {
-    return _getLocalPlaces(latlon: latlon, type: LocalPlaceType.restaurant);
+  /// Retrieve [_hotels] by calling the Google API if they were not already stored in memory
+  Future<List<LocalPlace>> getLocalHotels({@required Coordinates latlon}) async {
+    return _hotels ?? await _getLocalPlaces(latlon: latlon, type: LocalPlaceType.hotel);
   }
 
+  @override
+  /// Retrieve [_restaurants] by calling the Google API if they were not already stored in memory
+  Future<List<LocalPlace>> getLocalRestaurants({@required Coordinates latlon}) async {
+    return _restaurants ?? await _getLocalPlaces(latlon: latlon, type: LocalPlaceType.restaurant);
+  }
+
+  /// Retrieve local [_restaurants] or [_hotels] depending on the [type] passed and the [latlon] passed.
   Future<List<LocalPlace>> _getLocalPlaces({@required Coordinates latlon, LocalPlaceType type}) async {
     Map<String, dynamic> body;
-    String localPlaceType = type == LocalPlaceType.restaurant ? 'restaurant' : 'hotel';
+    String localPlaceType = type == LocalPlaceType.restaurant ? 'restaurant' : 'lodging';
+
+    // specifiy google api query parameters
     Map<String, String> query = {
       'location': latlon.toString(),
-      'radius'  : Constants.placesRadius,
-      'type'    : localPlaceType,
-      'key'     : Constants.placesApiKey
+      'radius': Constants.placesRadius,
+      'type': localPlaceType,
+      'key': Constants.placesApiKey
     };
 
     Uri uri = Uri.https(Constants.googleApi, Constants.googleLocalPlacesPath, query);
@@ -45,9 +55,13 @@ class DataLocalPlacesRepository implements LocalPlacesRepository {
       _logger.warning('Could not retrieve Local Places.', error);
       rethrow;
     }
-
-    _localPlaces = mapGooglePlacesToLocalPlaces(body, type);
-    _logger.finest('Local Places retrieved successfully.');
-    return _localPlaces;
+    if (type == LocalPlaceType.restaurant) {
+      _restaurants = mapGooglePlacesToLocalPlaces(body, type);
+      _logger.finest('Local Restaurants retrieved successfully.');
+      return _restaurants;
+    } 
+    _hotels = mapGooglePlacesToLocalPlaces(body, type);
+    _logger.finest('Local Hotels retrieved successfully.');
+    return _hotels;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hnh/app/event/event_view.dart';
 import 'package:hnh/app/events/events_view.dart';
+import 'package:hnh/app/local_places/local_places_view.dart';
 import 'package:hnh/app/map/map_view.dart';
 import 'package:hnh/app/splash/splash_view.dart';
 import 'package:hnh/app/sponsors/sponsors_view.dart';
@@ -75,12 +76,20 @@ class MyApp extends StatelessWidget {
         return _buildRoute(settings, EventsPage());
       case '/event':
         Map<String, dynamic> args = settings.arguments as Map;
-        return _buildRoute(settings, EventPage(event: args['event'], user: args['user'], isUserEvent: args['isUserEvent']));
+        return _buildRoute(
+            settings,
+            EventPage(
+                event: args['event'],
+                user: args['user'],
+                isUserEvent: args['isUserEvent']));
       case '/userEvents':
         Map<String, dynamic> args = settings.arguments as Map;
-        return _buildRoute(settings, UserEventsPage(routeObserver, user: args['user']));
+        return _buildRoute(
+            settings, UserEventsPage(routeObserver, user: args['user']));
       case '/sponsors':
         return _buildRoute(settings, SponsorsPage());
+      case '/localPlaces':
+        return _buildRoute(settings, LocalPlacesPage());
       case '/web':
         Map<String, String> args = settings.arguments as Map;
         return _buildRoute(
