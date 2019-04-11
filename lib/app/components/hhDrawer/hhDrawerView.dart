@@ -24,7 +24,6 @@ class _HhDrawerView extends View<HhDrawer> {
       children: <Widget>[
         header,
         createPageTile('Home', Icons.home, () => _controller.navigate('/home', context)),
-        createPageTile('Navigation', Icons.map, () => _controller.navigate('/map', context)),
         createPageTile('Events', Icons.calendar_today, () => _controller.navigate('/events', context)),
         createPageTile('My Events', Icons.calendar_today, () => _controller.navigateWithArgs('/userEvents', context, {'user': _controller.user})),
         createPageTile('Local', Icons.hotel, () => _controller.navigate('/localPlaces', context)),

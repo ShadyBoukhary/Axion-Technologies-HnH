@@ -17,6 +17,7 @@ class Constants {
     static const String google = 'google.com';
     static const String googleLocalPlacesPath = '/maps/api/place/nearbysearch/json';
     static const String googlePlacesPhotoPath = '/maps/api/place/photo';
+    static const String gooleDirectionsPath = '/maps/api/directions/json';
     static const String googlePlacePath = '/maps/place';
     static const String eventsPathOnly = '/events';
     static const String sponsorsPathOnly = '/sponsors';

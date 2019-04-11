@@ -11,6 +11,9 @@ class Coordinates {
   String get lat => _lat;
   String get lon => _lon;
 
+  double get numLat => double.parse(_lat);
+  double get numLon => double.parse(_lon);
+
   // Constructors
   Coordinates(this._lat, this._lon);
 
@@ -38,4 +41,6 @@ class Coordinates {
 
   @override
   String toString() => '$_lat,$_lon';
+
+  String toString2() => '${_lat}2C$_lon';
 }

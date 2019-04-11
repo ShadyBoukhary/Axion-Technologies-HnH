@@ -57,13 +57,21 @@ class _EventPageView extends View<EventPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text(
-                _controller.event.name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1.0,
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    _controller.event.name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.0,
+                    ),
+                    overflow: TextOverflow.clip,
+                    softWrap: true,
+                  ),
                 ),
               ),
             ],
@@ -126,7 +134,9 @@ class _EventPageView extends View<EventPage> {
 
   GestureDetector getSignupButton() {
     String title = widget.isUserEvent ? 'Start Navigation' : 'Signup';
-    var handler = widget.isUserEvent ? _controller.onStartNavigationPressed : _controller.onSignUpPressed;
+    var handler = widget.isUserEvent
+        ? _controller.onStartNavigationPressed
+        : _controller.onSignUpPressed;
     return GestureDetector(
       onTap: handler,
       child: Container(

@@ -13,7 +13,12 @@ import 'login/login_view.dart';
 import 'register/register_view.dart';
 import 'package:hnh/app/web/web_view.dart';
 
-void main() => runApp(MyApp());
+
+
+void main() { 
+  runApp(MyApp()); 
+  }
+
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class MyApp extends StatelessWidget {
@@ -71,7 +76,8 @@ class MyApp extends StatelessWidget {
       case '/register':
         return _buildRoute(settings, RegisterPage());
       case '/map':
-        return _buildRoute(settings, MapPage());
+        Map<String, dynamic> args = settings.arguments as Map;
+        return _buildRoute(settings, MapPage(event: args['event']));
       case '/events':
         return _buildRoute(settings, EventsPage());
       case '/event':

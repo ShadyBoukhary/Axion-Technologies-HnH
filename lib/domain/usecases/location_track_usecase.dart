@@ -10,7 +10,7 @@ class LocationTrackUseCase extends UseCase<Location, void> {
   LocationTrackUseCase(this._locationRepository) : super();
 
   @override
-  Future<Observable<Location>> buildUseCaseObservable(void ignore) async {
+  Future<Observable<Location>> buildUseCaseObservable(_) async {
     // Periodic observable every 1 second
     return Observable.periodic(Duration(seconds: 1), (second) {
       // get 1 location observable

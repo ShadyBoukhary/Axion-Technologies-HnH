@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/components/event_card.dart';
+import 'package:hnh/app/components/user_event_card.dart';
 import 'package:hnh/app/user_events/user_events_controller.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -72,10 +73,9 @@ class _UserEventsPageView extends View<UserEventsPage> {
       );
 
   ListView getEvents() {
-    List<Padding> cards = _controller.events
-        .map((event) => Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: EventCard(event, _controller.currentUser, true)))
+    List<UserEventCard> cards = _controller.events
+        .map((event) => 
+            UserEventCard(event, _controller.currentUser, true))
         .toList();
     return ListView(
       scrollDirection: Axis.vertical,

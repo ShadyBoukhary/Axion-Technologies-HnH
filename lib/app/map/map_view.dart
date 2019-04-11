@@ -1,15 +1,19 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/map/map_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/device/repositories/device_location_repository.dart';
+
 
 class MapPage extends StatefulWidget {
-  MapPage({Key key, this.title}) : super(key: key);
+  MapPage({Key key, @required this.event}) : super(key: key);
 
-  final String title;
+  Event event;
 
   @override
-  _MapPageView createState() => _MapPageView(MapController());
+  _MapPageView createState() => _MapPageView(MapController(DeviceLocationRepository() ,event));
 }
 
 class _MapPageView extends View<MapPage> {
@@ -17,20 +21,8 @@ class _MapPageView extends View<MapPage> {
 
   _MapPageView(this._controller);
 
-  void callHandler(Function fn, {Map<String, dynamic> params}) {
-    setState(() {
-      if (params == null) {
-        fn();
-      } else {
-        fn(params);
-      }
-    });
-  }
-
-  @override
+ @override
   Widget build(BuildContext context) {
-    GoogleMapController _mapController;
-
     return Scaffold(
       drawer: Drawer(elevation: 8.0, child: View.drawer),
       body: Stack(
@@ -40,14 +32,17 @@ class _MapPageView extends View<MapPage> {
             width: MediaQuery.of(context).size.width,
             child: GoogleMap(
               onMapCreated: (controller) {
-                setState(() {
-                  _mapController = controller;
-                });
+                callHandler(_controller.googleMapsOnInit, params: { 'controller': controller});
               },
               initialCameraPosition: CameraPosition(
-                target: LatLng(-33.852, 151.211),
+                target: _controller.initial,
                 zoom: 12,
               ),
+              myLocationEnabled: true,
+              polylines: _controller.polylines,
+              
+              
+              
             ),
           ),
           Positioned(
@@ -69,4 +64,13 @@ class _MapPageView extends View<MapPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    //mapView.dismiss();
+    _controller.dispose();
+    super.dispose();
+  }
 }
+

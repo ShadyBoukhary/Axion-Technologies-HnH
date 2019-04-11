@@ -34,8 +34,12 @@ dependencies:
   modal_progress_hud: ^0.1.2
 
   # Google Maps Provider
-  google_maps_flutter: ^0.2.0+3
-
+  # google_maps_flutter: 
+  #   git:
+  #     url: git://github.com/awazgyawali/plugins/
+  #     path: packages/google_maps_flutter
+  #     ref: cd06409
+  google_maps_flutter: ^0.5.6
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '0.3.3'
 

@@ -64,7 +64,7 @@ class EventsController extends Controller {
   }
 
   void openEvent(event) {
-    Navigator.of(context).pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
+    Navigator.of(context).pushNamed('/event', arguments: {'event': event, 'user': _currentUser, 'isUserEvent': false});
   }
 
   void retrieveData() {
