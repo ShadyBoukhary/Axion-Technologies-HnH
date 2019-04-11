@@ -62,8 +62,9 @@ class EventController extends Controller {
   }
 
   void onSignUpPressed() => Navigator.of(context).pushNamed('/web', arguments: {'title': 'Registration', 'url': HHHConstants.registrationUrl});
+
   void onStartNavigationPressed() {
-    print('hi');
+    Navigator.of(context).pushReplacementNamed('/map', arguments: {'event': _event});
   }
   void _getIsRegistered() {
     startLoading();

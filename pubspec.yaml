@@ -34,7 +34,8 @@ dependencies:
   modal_progress_hud: ^0.1.2
 
   # Google Maps Provider
-  google_maps_flutter: ^0.2.0+3
+  google_maps_flutter: ^0.2.0
+  map_view: ^0.0.13
 
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '0.3.3'

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/domain/entities/local_place.dart';
+import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/entities/user.dart';
 
-class LocalPlaceCard extends StatelessWidget {
-  final LocalPlace _place;
+class UserEventCard extends StatelessWidget {
+  final Event _event;
+  final User _user;
+  final bool isUserEvent;
 
-  LocalPlaceCard(this._place);
+  UserEventCard(this._event, this._user, this.isUserEvent);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class LocalPlaceCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Image.network(
-            _place.hasPhotoReference ? _place.photo : _place.icon,
+            _event.imageUrl,
             fit: BoxFit.cover,
             alignment: Alignment.center,
             colorBlendMode: BlendMode.srcOver,
@@ -68,7 +71,7 @@ class LocalPlaceCard extends StatelessWidget {
             children: <Widget>[
               Flexible(
                 child: Text(
-                  _place.name,
+                  _event.name,
                   textAlign: TextAlign.center,
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
@@ -87,7 +90,7 @@ class LocalPlaceCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  _place.address,
+                  _event.description,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -103,6 +106,9 @@ class LocalPlaceCard extends StatelessWidget {
         ],
       );
 
-  void navigate(context) => Navigator.pushNamed(context, '/web',
-      arguments: {'title': "Navigation", 'url': _place.navigationLink});
+  void navigate(context) {
+    var args = {'event': _event, 'user': _user};
+    args['isUserEvent'] = isUserEvent != null ? true : false;
+    Navigator.pushNamed(context, '/event', arguments: args);
+  }
 }
