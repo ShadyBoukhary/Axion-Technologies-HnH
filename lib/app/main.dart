@@ -12,12 +12,10 @@ import 'home/home_view.dart';
 import 'login/login_view.dart';
 import 'register/register_view.dart';
 import 'package:hnh/app/web/web_view.dart';
-import 'package:map_view/map_view.dart';
-import 'package:hnh/data/utils/sensitive.dart';
+
 
 
 void main() { 
-  MapView.setApiKey(googleApiKey);
   runApp(MyApp()); 
   }
 

@@ -15,6 +15,8 @@ class MapPresenter {
   }
 
   void startTrackingLocation() => _locationTrackUseCase.execute(_LocationTrackObserver(this));
+
+  void dispose() => _locationTrackUseCase.dispose();
 }
 
 class _LocationTrackObserver implements Observer<Location> {
