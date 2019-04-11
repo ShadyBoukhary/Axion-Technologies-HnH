@@ -1,13 +1,8 @@
-subprojects {
-    project.configurations.all {
-        resolutionStrategy.eachDependency { details ->
-            if (details.requested.group == 'com.android.support'
-                    && !details.requested.name.contains('multidex') ) {
-                details.useVersion "26.1.0"
-            }
-        }
-    }
+ext {
+  googlePlayServicesVersion   = "15.0.1"
 }
+
+
 buildscript {
     repositories {
         google()
@@ -16,10 +11,21 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "com.google.android.gms:play-services-tasks:16.0.1"
     }
 }
 
 allprojects {
+
+    subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.google.android.gms' ) {
+                details.useVersion "15.0.1"
+            } 
+        }
+    }
+}
     repositories {
         google()
         jcenter()
@@ -27,8 +33,10 @@ allprojects {
     configurations {
         all {
             resolutionStrategy {
-               // force "android.arch.lifecycle:runtime:1.1.0"
+             //   force "com.google.android.gms:runtime:16.0.1"
                 //force "com.android.support:runtime:1.1.0"
+                force "com.google.android.gms:play-services-basement:$googlePlayServicesVersion"
+                force "com.google.android.gms:play-services-tasks:$googlePlayServicesVersion"
             }
         }
     }
@@ -45,3 +53,4 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
