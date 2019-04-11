@@ -41,4 +41,6 @@ class Coordinates {
 
   @override
   String toString() => '$_lat,$_lon';
+
+  String toString2() => '${_lat}2C$_lon';
 }
