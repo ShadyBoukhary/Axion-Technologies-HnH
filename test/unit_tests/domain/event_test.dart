@@ -17,7 +17,8 @@ void main() {
         'location': {
           'lat': '987523245',
           'lon': '985723982',
-          'timestamp': '28753298357293'
+          'timestamp': '28753298357293',
+          'speed': 5345234.0
         },
         'id': '1234567890',
         'route': [
@@ -43,7 +44,7 @@ void main() {
       };
 
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
-          Location('987523245', '985723982', '28753298357293'), '1234567890', false, [
+          Location('987523245', '985723982', '28753298357293', 5345234.0), '1234567890', false, [
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
