@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
     Logger.root.onRecord.listen((record) {
       dynamic e = record.error;
       print(
-          '${record.loggerName}: ${record.level.name}: ${record.message} ${e != null ? e?.message : ''}');
+          '${record.loggerName}: ${record.level.name}: ${record.message} ${e != null ? e : ''}');
     });
     Logger.root.info("Logger initialized.");
   }
