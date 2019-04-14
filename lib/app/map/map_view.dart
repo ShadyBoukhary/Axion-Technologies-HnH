@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hnh/app/components/gps_details.dart';
 import 'package:hnh/app/map/map_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
+import 'package:hnh/data/repositories/data_weather_repository.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
-
 
 class MapPage extends StatefulWidget {
   MapPage({Key key, @required this.event}) : super(key: key);
@@ -13,7 +14,8 @@ class MapPage extends StatefulWidget {
   Event event;
 
   @override
-  _MapPageView createState() => _MapPageView(MapController(DeviceLocationRepository() ,event));
+  _MapPageView createState() =>
+      _MapPageView(MapController(DeviceLocationRepository(), DataWeatherRepository(), event));
 }
 
 class _MapPageView extends View<MapPage> {
@@ -21,56 +23,125 @@ class _MapPageView extends View<MapPage> {
 
   _MapPageView(this._controller);
 
- @override
+  @override
+  void initState() {
+    _controller.refresh = callHandler;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(elevation: 8.0, child: View.drawer),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: GoogleMap(
-              onMapCreated: (controller) {
-                callHandler(_controller.googleMapsOnInit, params: { 'controller': controller});
-              },
-              initialCameraPosition: CameraPosition(
-                target: _controller.initial,
-                zoom: 12,
-              ),
-              myLocationEnabled: true,
-              polylines: _controller.polylines,
-              
-              
-              
-            ),
+    _controller.context = context;
+    return WillPopScope(
+      child: Scaffold(
+        //  appBar: appBar,
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[mapContainer, exitButton, getTracker()],
           ),
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: AppBar(
-              title: Text(
-                'Maps',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-              ),
-              elevation: 0.0,
-              iconTheme: IconThemeData(color: Colors.white),
-              backgroundColor: Colors.black.withOpacity(0.5),
-              centerTitle: true,
-            ),
-          ),
-        ],
+        ),
       ),
+      onWillPop: _showDialog,
+    );
+  }
+
+  AppBar get appBar => AppBar(
+        title: Text(
+          widget.event.name,
+          style: TextStyle(
+              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+      );
+
+  Container get mapContainer => Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: GoogleMap(
+          onMapCreated: (controller) {
+            callHandler(_controller.googleMapsOnInit,
+                params: {'controller': controller});
+          },
+          initialCameraPosition: CameraPosition(
+            target: _controller.initial,
+            zoom: 11,
+          ),
+          myLocationEnabled: true,
+          polylines: _controller.polylines,
+        ),
+      );
+
+  Widget get exitButton => Positioned(
+      left: 10.0,
+      top: 10.0,
+      width: 40.0,
+      height: 40.0,
+      child: RawMaterialButton(
+        fillColor: Colors.red,
+        splashColor: Colors.redAccent,
+        child: Icon(
+          Icons.settings_power,
+          color: Colors.white,
+          size: 25,
+        ),
+        onPressed: () => _showDialog2(),
+        shape: const StadiumBorder(),
+      ));
+
+  Widget getTracker() {
+    return Positioned(
+        bottom: 10,
+        left: 10,
+        right: 10,
+        child: GPSDetails(_controller.currentLocation, _controller.currentWeather));
+  }
+
+  Future<bool> _showDialog() {
+    return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Exit Session"),
+              content: Text("Are you sure you want to end this session?"),
+              actions: <Widget>[
+                FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () => Navigator.of(context).pop(true)),
+                FlatButton(
+                  child: Text("No"),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
+  }
+
+  void _showDialog2() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Exit Session"),
+          content: Text("Are you sure you want to end this session?"),
+          actions: <Widget>[
+            FlatButton(child: Text("Yes"), onPressed: _controller.pop),
+            FlatButton(
+              child: Text("No"),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    //mapView.dismiss();
     _controller.dispose();
     super.dispose();
   }
 }
-
