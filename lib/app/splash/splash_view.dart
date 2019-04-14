@@ -3,11 +3,11 @@ import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/splash/splash_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
-
+import 'package:hnh/device/repositories/device_location_repository.dart';
 class SplashPage extends StatefulWidget {
   SplashPage();
   @override
-  SplashPageView createState() => SplashPageView(SplashController(DataAuthenticationRepository()));
+  SplashPageView createState() => SplashPageView(SplashController(DataAuthenticationRepository(), DeviceLocationRepository()));
 }
 
 class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixin {
@@ -24,7 +24,7 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     _controller.initAnimation(_animationController, _animation);
-     _controller.refresh = callHandler;
+    _controller.refresh = callHandler;
   }
 
   @override

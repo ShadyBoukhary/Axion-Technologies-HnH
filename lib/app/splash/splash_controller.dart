@@ -2,14 +2,16 @@ import 'package:flutter/animation.dart';
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/splash/splash_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:hnh/domain/repositories/location_repository.dart';
 
 class SplashController extends Controller {
   SplashPresenter _splashPresenter;
-  
-  SplashController(authRepo) {
+  LocationRepository _locationRepository;
+  SplashController(authRepo, this._locationRepository) {
     _splashPresenter = SplashPresenter(authRepo);
     initListeners();
     getAuthStatus();
+    handlePermissions();
   }
 
   /// Initializes [animation] for the view using a given [controller]
@@ -41,6 +43,10 @@ class SplashController extends Controller {
   void initListeners() {
     _splashPresenter.getAuthStatusOnNext = authStatusOnNext;
     _splashPresenter.getAuthStatusOnComplete = () => dismissLoading();
+  }
+
+  void handlePermissions() {
+    _locationRepository.enableDevice();
   }
 
   void dispose() => _splashPresenter.dispose();

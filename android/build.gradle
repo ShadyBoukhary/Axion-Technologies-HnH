@@ -10,13 +10,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "com.google.android.gms:play-services-tasks:16.0.1"
     }
 }
 
 allprojects {
-
     subprojects {
     project.configurations.all {
         resolutionStrategy.eachDependency { details ->
@@ -37,6 +36,7 @@ allprojects {
                 //force "com.android.support:runtime:1.1.0"
                 force "com.google.android.gms:play-services-basement:$googlePlayServicesVersion"
                 force "com.google.android.gms:play-services-tasks:$googlePlayServicesVersion"
+                force 'com.android.support:support-v4:27.1.0'
             }
         }
     }

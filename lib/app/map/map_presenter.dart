@@ -1,7 +1,6 @@
-import 'package:hnh/domain/entities/location.dart';
+import 'package:hnh/domain/entities/weather.dart';
 import 'package:hnh/domain/usecases/observer.dart';
 import 'package:hnh/domain/usecases/location_track_usecase.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPresenter {
   Function locationOnNext;
@@ -10,8 +9,8 @@ class MapPresenter {
 
   LocationTrackUseCase _locationTrackUseCase;
 
-  MapPresenter(locationRepository) {
-    _locationTrackUseCase = LocationTrackUseCase(locationRepository);
+  MapPresenter(locationRepository, weatherRepository) {
+    _locationTrackUseCase = LocationTrackUseCase(locationRepository, weatherRepository);
   }
 
   void startTrackingLocation() => _locationTrackUseCase.execute(_LocationTrackObserver(this));
@@ -19,14 +18,13 @@ class MapPresenter {
   void dispose() => _locationTrackUseCase.dispose();
 }
 
-class _LocationTrackObserver implements Observer<Location> {
+class _LocationTrackObserver implements Observer<LocationTrackResponse> {
   MapPresenter _mapPresenter;
   _LocationTrackObserver(this._mapPresenter);
 
-  void onNext(location) {
+  void onNext(response) {
     assert(_mapPresenter.locationOnNext != null);
-    LatLng latLng = LatLng(location.numLat, location.numLon);
-    _mapPresenter.locationOnNext(latLng);
+    _mapPresenter.locationOnNext(response.location, response.weather);
   }
 
   void onComplete() {
@@ -36,6 +34,7 @@ class _LocationTrackObserver implements Observer<Location> {
 
   void onError(e) {
     assert(_mapPresenter.locationOnError != null);
+    print(e);
     _mapPresenter.locationOnError(e);
   }
 }

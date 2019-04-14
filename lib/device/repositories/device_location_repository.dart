@@ -2,29 +2,40 @@ import 'package:hnh/domain/repositories/location_repository.dart';
 import 'package:hnh/domain/entities/location.dart';
 import 'dart:async';
 import 'package:location/location.dart' as LocationLib;
+import 'package:rxdart/rxdart.dart';
 
 class DeviceLocationRepository implements LocationRepository {
-  //This class is a "singleton", it will only be instantiated once (the _instance)
+
+  // instance
   static final DeviceLocationRepository _instance = DeviceLocationRepository._internal();
-  DeviceLocationRepository._internal();
+  final LocationLib.Location _locationDevice;
+
+  DeviceLocationRepository._internal() : _locationDevice = LocationLib.Location();
+
   factory DeviceLocationRepository() => _instance;
 
-  /// getLocation
-  /// Gets the current location of the device in the format of Location entity
-  /// Returns: A Future<Location> object or null upon failure.
+  /// Retrieves the device's current [Location]
   Future<Location> getLocation() async {
-    //Instantiate the library's class
-    LocationLib.Location locationGetter = new LocationLib.Location();
-    //This is the location as the library returns it, a map of string,double
-    Map location = <String, double>{};
-    //This is the format we will need the location in when we return it
-    Location result;
     try {
-      location = await locationGetter.getLocation();
-      result = Location(location['latitude'].toString(), location['longitude'].toString(), (new DateTime.now().millisecondsSinceEpoch / 1000).toString());
-      return result;
+      LocationLib.LocationData location = await _locationDevice.getLocation();
+      return Location.withoutTime(location.latitude.toString(), location.longitude.toString(), location.speed);
     } catch(e) {
       rethrow;
+    }
+  }
+
+  /// Returns an [Observable<LocationData>] that fires every time the [Location] has changed
+  Observable<LocationLib.LocationData> onLocationChanged() => Observable(_locationDevice.onLocationChanged());
+
+  @override
+  void enableDevice() async {
+    bool enabled = await _locationDevice.serviceEnabled();
+    bool hasPermission = await _locationDevice.hasPermission();
+    if (!enabled) {
+      await _locationDevice.requestService();
+    }
+    if (!hasPermission) {
+      await _locationDevice.requestPermission();
     }
   }
 
