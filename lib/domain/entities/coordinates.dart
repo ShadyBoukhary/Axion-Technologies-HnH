@@ -43,4 +43,10 @@ class Coordinates {
   String toString() => '$_lat,$_lon';
 
   String toString2() => '${_lat}2C$_lon';
+
+    @override
+    operator ==(dynamic other) => other is Coordinates && _lat == other._lat && _lon == other._lon; 
+
+    @override
+    int get hashCode => _lat.hashCode ^ _lon.hashCode;
 }
