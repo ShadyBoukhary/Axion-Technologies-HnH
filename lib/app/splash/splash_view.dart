@@ -69,6 +69,7 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
                 opacity: _animation,
                 child: Image(
                   image: AssetImage(Resources.logo),
+                  width: 200.0,
                 )),
           ],
         ),
