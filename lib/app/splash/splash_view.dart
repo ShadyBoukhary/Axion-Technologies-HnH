@@ -55,7 +55,7 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
         height: MediaQuery.of(context).size.height,
         child: Image.asset(
           Resources.background,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       );
 
@@ -69,7 +69,6 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
                 opacity: _animation,
                 child: Image(
                   image: AssetImage(Resources.logo),
-                  width: 200.0,
                 )),
           ],
         ),
