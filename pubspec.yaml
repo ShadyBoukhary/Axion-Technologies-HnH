@@ -49,6 +49,14 @@ dev_dependencies:
     sdk: flutter
   test: ^1.5.1
 
+  # For creation of the Launcher Icons
+  flutter_launcher_icons: ^0.7.0
+  
+flutter_icons:
+  image_path_android: "assets/img/icon.png"
+  image_path_ios: "assets/img/icon.png"
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
