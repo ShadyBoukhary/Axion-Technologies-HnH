@@ -1,5 +1,6 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/home/home_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
 import 'package:hnh/domain/entities/hhh.dart';
@@ -30,9 +31,8 @@ class HomeController extends Controller {
     };
 
     _homePresenter.getHHHOnError = (e) {
-      // TODO: show the user the error
       dismissLoading();
-      print(e);
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
     };
 
     _homePresenter.getHHHOnComplete = () {
@@ -47,7 +47,7 @@ class HomeController extends Controller {
 
     _homePresenter.getUserOnError = (e) {
       dismissLoading();
-      // TODO: show the user the error
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
       print(e);
     };
 
@@ -63,7 +63,9 @@ class HomeController extends Controller {
     _homePresenter.getUser();
   }
 
+  @override
   void dispose() {
     _homePresenter.dispose();
+    super.dispose();
   }
 }

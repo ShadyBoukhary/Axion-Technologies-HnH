@@ -1,4 +1,5 @@
 import 'package:hnh/app/abstract/controller.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/domain/repositories/authentication_repository.dart';
 import 'package:hnh/app/register/register_presenter.dart';
@@ -7,27 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 class RegisterController extends Controller {
-  String _firstName;
-  String _lastName;
-  String _userEmail;
-  String _userPassword;
+  TextEditingController firstName;
+  TextEditingController lastName;
+  TextEditingController email;
+  TextEditingController password;
+  TextEditingController confirmedPassword;
 
-  Logger logger;
-  dynamic _context;
   bool agreedToTOS;
-
-  AuthenticationRepository _authenticationRepository;
+  GlobalKey<ScaffoldState> _scaffoldKey;
   RegisterPresenter _registerPresenter;
 
-  RegisterController() {
-     _authenticationRepository = DataAuthenticationRepository();
-    _registerPresenter = RegisterPresenter(_authenticationRepository);
-    _firstName = 'Shady';
-    _lastName = 'Boukhary';
-    _userEmail = 'test@test.com';
-    _userPassword = 'shady';
+  RegisterController(authRepo) {
+    _registerPresenter = RegisterPresenter(authRepo);
+    firstName = TextEditingController();
+    lastName = TextEditingController();
+    email = TextEditingController();
+    password = TextEditingController();
+    confirmedPassword = TextEditingController();
     agreedToTOS = false;
-    logger = Logger('RegisterController');
 
     initListeners();
   }
@@ -35,25 +33,21 @@ class RegisterController extends Controller {
   void initListeners() {
     _registerPresenter.registerOnComplete = () {
       logger.finest("Complete: Registration success.");
+      showGenericSnackbar(_scaffoldKey, Strings.registrationSuccessful);
+      Navigator.of(context).pop();
     };
 
-    _registerPresenter.registerOnError = () {
-      logger.shout("ERROR: Registration failed.");
+    _registerPresenter.registerOnError = (e) {
+      showGenericSnackbar(_scaffoldKey, e.message, isError: true);
     };
   }
 
-  void register(context) {
-    _context = context;
+  void register() {
 
-    // _registerPresenter.register(
-    //     firstName: _firstName,
-    //     lastName: _lastName,
-    //     email: _userEmail,
-    //     password: _userPassword);
-    DataAuthenticationRepository().register(firstName: _firstName,
-         lastName: _lastName,
-         email: _userEmail,
-        password: _userPassword);
+    _registerPresenter.register(firstName: firstName.text,
+         lastName: lastName.text,
+         email: email.text,
+        password: password.text);
   }
 
   void setAgreedToTOS() {
@@ -61,35 +55,31 @@ class RegisterController extends Controller {
   }
 
   void checkForm(Map<String, dynamic> params) {
-    _context = params['context'];
     dynamic formKey = params['formKey'];
-    dynamic scaffoldKey = params['scaffoldKey'];
+    _scaffoldKey = params['scaffoldKey'];
 
     // Validate params
-    assert(_context is BuildContext);
     assert(formKey is GlobalKey<FormState>);
-    assert(scaffoldKey is GlobalKey<ScaffoldState>);
-
-    final snackBar = SnackBar(
-      content: Text(
-        'Form must be filled out and TOS accepted.',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.red,
-          fontSize: 16.0,
-        ),
-      ),
-    );
+    assert(_scaffoldKey is GlobalKey<ScaffoldState>);
 
     if (formKey.currentState.validate()) {
       if (agreedToTOS) {
-        logger.finest('Registration send successful');
-        Navigator.of(_context).pop();
-        register(_context);
+        register();
+      } else {
+        showGenericSnackbar(_scaffoldKey, Strings.tosNotAccepted, isError: true);
       }
     } else {
       logger.shout('Registration failed');
-      scaffoldKey.currentState.showSnackBar(snackBar);
+      showGenericSnackbar(_scaffoldKey, Strings.registrationFormIncomplete, isError: true);
     }
   }
+
+  @override
+  void dispose() {
+    _registerPresenter.dispose();
+    super.dispose();
+  }
+
+  
+
 }

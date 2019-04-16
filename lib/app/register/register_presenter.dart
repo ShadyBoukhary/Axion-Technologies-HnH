@@ -15,7 +15,7 @@ class RegisterPresenter {
     _registerUserCase = RegisterUserCase(_authenticationRepository);
   }
 
-  void _dispose() {
+  void dispose() {
     _registerUserCase.dispose();
   }
 
@@ -33,12 +33,10 @@ class RegisterPresenter {
     void onNext(ignore) {}
 
     void onComplete() {
-      _registerPresenter._dispose();
       _registerPresenter.registerOnComplete();
     }
 
     void onError(e) {
-      _registerPresenter._dispose();
       if(_registerPresenter.registerOnError != null) {
         _registerPresenter.registerOnError(e);
       }

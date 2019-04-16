@@ -6,6 +6,7 @@ import 'package:hnh/data/repositories/data_local_places_repository.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
+import 'package:flutter/cupertino.dart';
 
 class LocalPlacesPage extends StatefulWidget {
   LocalPlacesPage({Key key}) : super(key: key);
@@ -20,13 +21,14 @@ class _LocalPlacesPageView extends View<LocalPlacesPage> {
   LocalPlacesController _controller;
 
   _LocalPlacesPageView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
     WidgetsBinding.instance.addObserver(_controller);
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      key: scaffoldKey,
       length: 2,
       initialIndex: 0,
       child: Scaffold(
@@ -69,7 +71,7 @@ class _LocalPlacesPageView extends View<LocalPlacesPage> {
         bottom: TabBar(
           tabs: [
             Tab(icon: Icon(Icons.restaurant)),
-            Tab(icon: Icon(Icons.local_hotel))
+            Tab(icon: Icon(Icons.local_hotel)),
           ],
         ),
       );

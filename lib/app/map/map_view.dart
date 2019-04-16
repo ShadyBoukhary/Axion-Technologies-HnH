@@ -11,7 +11,7 @@ import 'package:hnh/device/repositories/device_location_repository.dart';
 class MapPage extends StatefulWidget {
   MapPage({Key key, @required this.event}) : super(key: key);
 
-  Event event;
+  final Event event;
 
   @override
   _MapPageView createState() =>
@@ -25,14 +25,14 @@ class _MapPageView extends View<MapPage> {
 
   @override
   void initState() {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
     return WillPopScope(
+      key: scaffoldKey,
       child: Scaffold(
         //  appBar: appBar,
         body: SafeArea(

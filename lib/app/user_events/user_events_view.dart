@@ -23,7 +23,7 @@ class _UserEventsPageView extends View<UserEventsPage> {
   UserEventsController _controller;
 
   _UserEventsPageView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
     WidgetsBinding.instance.addObserver(_controller);
   }
 
@@ -35,8 +35,8 @@ class _UserEventsPageView extends View<UserEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
     return Scaffold(
+        key: scaffoldKey,
         drawer: Drawer(elevation: 8.0, child: View.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
