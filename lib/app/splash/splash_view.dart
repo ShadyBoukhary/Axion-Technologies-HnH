@@ -55,7 +55,7 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
         height: MediaQuery.of(context).size.height,
         child: Image.asset(
           Resources.background,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       );
 
