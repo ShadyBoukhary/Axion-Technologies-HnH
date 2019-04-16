@@ -1,3 +1,4 @@
+import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'package:hnh/domain/repositories/authentication_repository.dart';
 import 'package:hnh/domain/usecases/auth/login_usecase.dart';
 import 'package:hnh/domain/usecases/observer.dart';
@@ -17,7 +18,7 @@ class LoginPresenter {
   }
 
   /// Disposed of the [LoginUseCase] and unsubscribes
-  void _dispose() {
+  void dispose() {
     _loginUseCase.dispose();
   }
 
@@ -41,7 +42,6 @@ class _LoginUserCaseObserver implements Observer<void> {
   /// Login is successfull, trigger event in [LoginController]
   void onComplete() {
     // any cleaning or preparation goes here
-    _loginPresenter._dispose();
     _loginPresenter.loginOnComplete();
 
   }
@@ -49,7 +49,6 @@ class _LoginUserCaseObserver implements Observer<void> {
   /// Login was unsuccessful, trigger event in [LoginController]
   void onError(e) {
     // any cleaning or preparation goes here
-    _loginPresenter._dispose();
     if (_loginPresenter.loginOnError != null) {
       _loginPresenter.loginOnError(e);
     }

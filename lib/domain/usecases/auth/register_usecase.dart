@@ -21,7 +21,7 @@ class RegisterUserCase extends CompletableUseCase<RegisterUserCaseParams> {
       await _authenticationRepository.register(firstName: params._firstName, lastName: params._lastName, email: params._email, password: params._password);
       controller.close();
     } catch (e) {
-      print(e);
+      logger.severe('RegisterUseCase unsuccessful.', e);
       controller.addError(e);
     }
     return Observable(controller.stream);

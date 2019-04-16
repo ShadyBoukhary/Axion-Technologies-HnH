@@ -24,14 +24,14 @@ class LoginPageView extends View<LoginPage> {
   LoginController _controller;
 
   LoginPageView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
     // ModalProgressHUD wraps the entire body with a loading using the controller.isLoading
     return Scaffold(
+      key: scaffoldKey,
         body: ModalProgressHUD(
             child: body,
             inAsyncCall: _controller.isLoading,

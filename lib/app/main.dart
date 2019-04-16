@@ -7,13 +7,13 @@ import 'package:hnh/app/map/map_view.dart';
 import 'package:hnh/app/splash/splash_view.dart';
 import 'package:hnh/app/sponsors/sponsors_view.dart';
 import 'package:hnh/app/user_events/user_events_view.dart';
+import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'package:logging/logging.dart';
 import 'home/home_view.dart';
 import 'login/login_view.dart';
 import 'register/register_view.dart';
 import 'package:hnh/app/web/web_view.dart';
-
-
+import 'package:flutter/cupertino.dart';
 
 void main() { 
   runApp(MyApp()); 
@@ -116,8 +116,9 @@ class MyApp extends StatelessWidget {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((record) {
       dynamic e = record.error;
+      String m = e is APIException ? e.message : e.toString();
       print(
-          '${record.loggerName}: ${record.level.name}: ${record.message} ${e != null ? e : ''}');
+          '${record.loggerName}: ${record.level.name}: ${record.message} ${m != 'null' ? m : ''}');
     });
     Logger.root.info("Logger initialized.");
   }

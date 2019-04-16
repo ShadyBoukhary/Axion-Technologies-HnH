@@ -1,5 +1,6 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/sponsors/sponsors_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/sponsor.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
@@ -34,7 +35,8 @@ class SponsorsController extends Controller {
     };
 
     _sponsorsPresenter.getHHHOnError = (e) {
-      // TODO: show the user the error
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
       print(e);
     };
 
@@ -49,7 +51,8 @@ class SponsorsController extends Controller {
     };
 
     _sponsorsPresenter.getUserOnError = (e) {
-      // TODO: show the user the error
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
       print(e);
     };
 
@@ -67,5 +70,6 @@ class SponsorsController extends Controller {
 
   void dispose() {
     _sponsorsPresenter.dispose();
+    super.dispose();
   }
 }

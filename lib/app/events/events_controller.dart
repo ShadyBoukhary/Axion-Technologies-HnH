@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/events/events_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:logging/logging.dart';
@@ -37,7 +38,8 @@ class EventsController extends Controller {
 
     _eventsPresenter.getUserOnError = (e) {
       // TODO: show the user the error
-      print(e);
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
     };
 
     _eventsPresenter.getUserOnComplete = () {
@@ -52,8 +54,8 @@ class EventsController extends Controller {
     };
 
     _eventsPresenter.getEventsOnError = (e) {
-      // TODO: show the user the error
-      print(e);
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
     };
 
     _eventsPresenter.getEventsOnComplete = () {
@@ -64,7 +66,7 @@ class EventsController extends Controller {
   }
 
   void openEvent(event) {
-    Navigator.of(context).pushNamed('/event', arguments: {'event': event, 'user': _currentUser, 'isUserEvent': false});
+    Navigator.of(getContext()).pushNamed('/event', arguments: {'event': event, 'user': _currentUser, 'isUserEvent': false});
   }
 
   void retrieveData() {
@@ -72,7 +74,9 @@ class EventsController extends Controller {
     _eventsPresenter.getAllEvents();
   }
 
+  @override
   void dispose() {
     _eventsPresenter.dispose();
+    super.dispose();
   }
 }

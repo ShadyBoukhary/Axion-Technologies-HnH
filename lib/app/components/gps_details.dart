@@ -19,10 +19,10 @@ class GPSDetails extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: <Widget>[
-              getExpanded('Speed mph', _location.speedInMiles.toStringAsPrecision(2), 10),
+              getExpanded('Speed mph', _location.speedInMiles.toStringAsPrecision(2), 9),
               getExpanded('Temp', '${_weather.temperature.toStringAsFixed(0)}℉', 8),
-              getExpanded('s', 'd', 8),
-
+              getExpanded('Wind mph', '${_weather.windSpeed}', 8),
+              getExpanded('Wind ↢', '${_weather.windDegrees}', 8),
             ],
           ),
         )

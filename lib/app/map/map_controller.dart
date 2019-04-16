@@ -61,13 +61,15 @@ class MapController extends Controller {
     print('Google maps initialized.');
   }
 
+  @override
   void dispose() {
     _mapPresenter.dispose();
+    super.dispose();
   }
 
   void pop() {
-    Navigator.of(context, rootNavigator: true).pop(); // dialog
-    Navigator.of(context, rootNavigator: true).pop(); //
+    Navigator.of(getContext(), rootNavigator: true).pop(); // dialog
+    Navigator.of(getContext(), rootNavigator: true).pop(); //
   }
 
   void initPolylines() {

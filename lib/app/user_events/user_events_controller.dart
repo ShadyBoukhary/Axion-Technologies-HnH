@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/user_events/user_events_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
 
@@ -27,7 +28,8 @@ class UserEventsController extends Controller {
     };
 
     _eventsPresenter.getUserEventsOnError = (e) {
-      // TODO: show the user the error
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
       print(e);
     };
 
@@ -37,15 +39,17 @@ class UserEventsController extends Controller {
   }
 
   void openEvent(event) {
-    Navigator.of(context).pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
+    Navigator.of(getContext()).pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
   }
 
   void retrieveData() {
     _eventsPresenter.getUserEvents(uid: _currentUser.uid);
   }
 
+  @override
   void dispose() {
     _eventsPresenter.dispose();
+    super.dispose();
   }
 
   @override

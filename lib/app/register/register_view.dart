@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/register/register_controller.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key, this.title}) : super(key: key);
@@ -8,31 +9,22 @@ class RegisterPage extends StatefulWidget {
   final String title;
 
   @override
-  _RegisterPageView createState() => _RegisterPageView(RegisterController());
+  _RegisterPageView createState() => _RegisterPageView(RegisterController(DataAuthenticationRepository()));
 }
 
 class _RegisterPageView extends View<RegisterPage> {
   RegisterController _controller;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  _RegisterPageView(this._controller);
-
-  void callHandler(Function fn, {Map<String, dynamic> params}) {
-    setState(() {
-      if (params == null) {
-        fn();
-      } else {
-        fn(params);
-      }
-    });
+  _RegisterPageView(this._controller) {
+    _controller.initController(scaffoldKey, callHandler);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('New User Registration'),
         centerTitle: true,
@@ -47,6 +39,7 @@ class _RegisterPageView extends View<RegisterPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    controller: _controller.firstName,
                     decoration: InputDecoration(
                       hintText: 'First Name',
                     ),
@@ -58,6 +51,7 @@ class _RegisterPageView extends View<RegisterPage> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
+                    controller: _controller.lastName,
                     decoration: InputDecoration(
                       hintText: 'Last Name',
                     ),
@@ -69,6 +63,7 @@ class _RegisterPageView extends View<RegisterPage> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
+                    controller: _controller.email,
                     decoration: InputDecoration(
                       hintText: 'Email Address',
                     ),
@@ -80,6 +75,7 @@ class _RegisterPageView extends View<RegisterPage> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
+                    controller: _controller.password,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
@@ -87,6 +83,19 @@ class _RegisterPageView extends View<RegisterPage> {
                     validator: (String value) {
                       if (value.trim().isEmpty) {
                         return 'Password is required.';
+                      }
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: _controller.confirmedPassword,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm Password',
+                    ),
+                    validator: (String value) {
+                      if (value.trim().isEmpty || _controller.confirmedPassword.text != _controller.password.text) {
+                        return 'Passwords must match.';
                       }
                     },
                   ),
@@ -108,12 +117,12 @@ class _RegisterPageView extends View<RegisterPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                //  SizedBox(height: .0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
+                      RawMaterialButton(
+                        onPressed: () {
                           // TODO: Open the TOS for view
                         },
                         child: Text(
@@ -126,16 +135,16 @@ class _RegisterPageView extends View<RegisterPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 80.0),
+                  SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: () => callHandler(_controller.checkForm,
+                      RawMaterialButton(
+                        onPressed: () => callHandler(_controller.checkForm,
                                 params: {
                                   'context': context,
                                   'formKey': _formKey,
-                                  'scaffoldKey': _scaffoldKey
+                                  'scaffoldKey': scaffoldKey
                                 }),
                         child: Container(
                           width: 320.0,
@@ -161,5 +170,11 @@ class _RegisterPageView extends View<RegisterPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

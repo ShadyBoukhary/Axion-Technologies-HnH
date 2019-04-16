@@ -24,13 +24,14 @@ class _SponsorsPageView extends View<SponsorsPage> {
   SponsorsController _controller;
 
   _SponsorsPageView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
     WidgetsBinding.instance.addObserver(_controller);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: scaffoldKey,
         drawer: Drawer(elevation: 8.0, child: View.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
@@ -41,63 +42,31 @@ class _SponsorsPageView extends View<SponsorsPage> {
   }
 
   ListView getBody() {
-
     List<Widget> children = [
-        SizedBox(height: 10.0),
-        Container(
-          padding: EdgeInsets.only(left: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text(
-                'Sponsors',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ];
+      SizedBox(height: 10.0),
+    ];
 
     // get all events and add them to view
     List<SponsorCard> sponsors = sponsorCards;
     if (sponsors.length > 0) {
       children.addAll(sponsors);
     }
-    return ListView(padding: EdgeInsets.symmetric(horizontal: 10.0), children: children);
+    return ListView(
+        padding: EdgeInsets.symmetric(horizontal: 10.0), children: children);
   }
 
-  List<SponsorCard> get sponsorCards => _controller.sponsors.map((sponsor) => SponsorCard(sponsor)).toList();
+  List<SponsorCard> get sponsorCards =>
+      _controller.sponsors.map((sponsor) => SponsorCard(sponsor)).toList();
 
   AppBar get appBar => AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, right: 5.0),
-              child: CircleAvatar(
-                radius: 15.0,
-                backgroundColor: Colors.red,
-                child: Text(
-                  _controller.isLoading
-                      ? "GU"
-                      : _controller.currentUser?.initials,
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-          ],
+        title: Text(
+          'Sponsors',
+          style: TextStyle(
+              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        centerTitle: true,
       );
 
   @override

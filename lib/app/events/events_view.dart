@@ -20,15 +20,15 @@ class _EventsPageView extends View<EventsPage> {
   EventsController _controller;
   
   _EventsPageView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
     WidgetsBinding.instance.addObserver(_controller);
     
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
     return Scaffold(
+        key: scaffoldKey,
         drawer: Drawer(elevation: 8.0, child: View.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
@@ -101,28 +101,6 @@ class _EventsPageView extends View<EventsPage> {
   }
 
   AppBar get appBar => AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, right: 5.0),
-              child: CircleAvatar(
-                radius: 15.0,
-                backgroundColor: Colors.red,
-                child: Text(
-                  _controller.isLoading
-                      ? "GU"
-                      : _controller.currentUser?.initials,
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       );

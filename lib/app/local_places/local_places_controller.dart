@@ -1,5 +1,6 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/local_places/local_places_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/local_place.dart';
 
 class LocalPlacesController extends Controller {
@@ -21,8 +22,8 @@ class LocalPlacesController extends Controller {
     _placesPresenter.getLocalPlacesOnNext = (List<LocalPlace> places) => _places = places;
 
     _placesPresenter.getLocalPlacesOnError = (e) {
-      // TODO: show the user the error
-      print(e);
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.toString(), isError: true);
     };
 
     _placesPresenter.getLocalPlacesOnComplete = () => dismissLoading();
@@ -32,8 +33,9 @@ class LocalPlacesController extends Controller {
     _placesPresenter.getLocalPlaces();
   }
 
+  @override
   void dispose() {
-    isMounted = false;
     _placesPresenter.dispose();
+    super.dispose();
   }
 }
