@@ -10,7 +10,7 @@ class HHDrawerController extends Controller {
   PackageInfo _info;
 
   User get user => _currentUser;
-  String get info => '${_info.appName} v${_info.version}';
+  String get info => '${_info.appName} v${_info.version} ${_info.buildNumber}';
 
   HHDrawerController(authRepository) {
     _drawerPresenter = HHDrawerPresenter(authRepository);
@@ -35,7 +35,6 @@ class HHDrawerController extends Controller {
   void retrieveData() async {
     _drawerPresenter.getUser();
     _info = await PackageInfo.fromPlatform();
-
   }
 
   void navigate(String page, context) =>
