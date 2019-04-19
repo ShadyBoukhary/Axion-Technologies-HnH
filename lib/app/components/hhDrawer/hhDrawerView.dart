@@ -4,14 +4,14 @@ import 'package:hnh/app/components/hhDrawer/hhDrawer_controller.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
 class HhDrawer extends StatefulWidget {
-  final HHDrawerController _controller = HHDrawerController(DataAuthenticationRepository());
+  final HHDrawerController _controller =
+      HHDrawerController(DataAuthenticationRepository());
 
   @override
   _HhDrawerView createState() => _HhDrawerView(_controller);
 }
 
 class _HhDrawerView extends View<HhDrawer> {
-  
   final HHDrawerController _controller;
   _HhDrawerView(this._controller) {
     _controller.initController(scaffoldKey, callHandler);
@@ -19,22 +19,49 @@ class _HhDrawerView extends View<HhDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      key: scaffoldKey,
-      children: <Widget>[
-        header,
-        createPageTile('Home', Icons.home, () => _controller.navigate('/home', context)),
-        createPageTile('Events', Icons.calendar_today, () => _controller.navigate('/events', context)),
-        createPageTile('My Events', Icons.calendar_today, () => _controller.navigateWithArgs('/userEvents', context, {'user': _controller.user})),
-        createPageTile('Local', Icons.hotel, () => _controller.navigate('/localPlaces', context)),
-        Divider(),
-        createPageTile('Sponsors', Icons.business, () => _controller.navigate('/sponsors', context)),
-        createPageTile('About', Icons.info),
-        Divider(),
-        createPageTile('Logout', Icons.exit_to_app, _controller.logout)
-      ],
-    );
+    return Stack(key: scaffoldKey, children: [
+      Column(
+        children: <Widget>[
+          header,
+          createPageTile('Home', Icons.home, () => _controller.navigate('/home', context)),
+          createPageTile('Events', Icons.calendar_today, () => _controller.navigate('/events', context)),
+          createPageTile(
+              'My Events',
+              Icons.calendar_today,
+              () => _controller.navigateWithArgs(
+                  '/userEvents', context, {'user': _controller.user})),
+          createPageTile('Local', Icons.hotel,
+              () => _controller.navigate('/localPlaces', context)),
+          Divider(),
+          createPageTile('Sponsors', Icons.business, () => _controller.navigate('/sponsors', context)),
+          createPageTile('About', Icons.info),
+          Divider(),
+          createPageTile('Logout', Icons.exit_to_app, _controller.logout),
+        ],
+      ),
+      version
+    ]);
   }
+
+  Widget get version => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Text(
+                '${_controller.info}',
+                style: TextStyle(
+                    fontSize: 11.0,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.grey,
+                    fontStyle: FontStyle.italic),
+              )
+            ])
+          ],
+        ),
+      );
 
   UserAccountsDrawerHeader get header => UserAccountsDrawerHeader(
         accountName: Text(
@@ -78,11 +105,9 @@ class _HhDrawerView extends View<HhDrawer> {
     );
   }
 
-  @override 
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
-
 }
