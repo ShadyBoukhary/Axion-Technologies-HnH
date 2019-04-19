@@ -24,5 +24,3 @@ class GetAllEventsUseCase extends UseCase<List<Event>, void> {
     return Observable(controller.stream);
   }
 }
-
-

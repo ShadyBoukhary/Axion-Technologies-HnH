@@ -38,15 +38,16 @@ class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
             response.location.toCoordinates() != lastKnownLocation)
         // update last known location
         .map((response) {
-          lastKnownLocation = response.location.toCoordinates();
-          return response;
-        });
+      lastKnownLocation = response.location.toCoordinates();
+      return response;
+    });
   }
 
   /// Converts location data to `LocationTrackResponse` observable
   Observable<LocationTrackResponse> convertToResponse(data) {
     // parse location data
-    Location location = Location.withoutTime(data.latitude.toString(), data.longitude.toString(), data.speed);
+    Location location = Location.withoutTime(
+        data.latitude.toString(), data.longitude.toString(), data.speed);
     // log info
     if (location.toCoordinates() != lastKnownLocation) {
       logger.finest('Retrieved location successfully: $location');
@@ -68,7 +69,8 @@ class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
       _initialRetrieval = false;
       _lastRetrievalTime = DateTime.now();
       try {
-        Weather weather = await _weatherRepository.getWeather(location.toCoordinates());
+        Weather weather =
+            await _weatherRepository.getWeather(location.toCoordinates());
         logger.finest('Retrieved weather successfully');
         return LocationTrackResponse(location, weather);
       } catch (e) {
@@ -76,7 +78,8 @@ class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
         return LocationTrackResponse(location, null);
       }
     }
-    logger.info('Did not retrieve new weather data. Time elapsed: ${elapsed.inMinutes}:${elapsed.inSeconds % 60} minute(s).');
+    logger.info(
+        'Did not retrieve new weather data. Time elapsed: ${elapsed.inMinutes}:${elapsed.inSeconds % 60} minute(s).');
     return LocationTrackResponse(location, null);
   }
 }

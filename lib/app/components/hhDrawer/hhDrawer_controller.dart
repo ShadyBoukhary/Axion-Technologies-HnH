@@ -26,7 +26,7 @@ class HHDrawerController extends Controller {
       print(e);
     };
 
-    _drawerPresenter.logoutOnComplete = () => navigate('/login', context);
+    _drawerPresenter.logoutOnComplete = () => navigate('/login', getContext());
   }
 
   void retrieveData() => _drawerPresenter.getUser();

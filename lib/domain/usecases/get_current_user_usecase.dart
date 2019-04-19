@@ -13,7 +13,6 @@ class GetCurrentUserUseCase extends UseCase<User, void> {
   Future<Observable<User>> buildUseCaseObservable(void ignore) async {
     final StreamController<User> controller = StreamController();
     try {
-
       User user = await _authenticationRepository.getCurrentUser();
       controller.add(user);
       logger.finest('GetCurrentUserUseCase successful.');
@@ -26,7 +25,3 @@ class GetCurrentUserUseCase extends UseCase<User, void> {
     return Observable(controller.stream);
   }
 }
-
-
-
-

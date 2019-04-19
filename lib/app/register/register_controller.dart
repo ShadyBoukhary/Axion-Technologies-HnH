@@ -1,11 +1,7 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:hnh/data/repositories/data_authentication_repository.dart';
-import 'package:hnh/domain/repositories/authentication_repository.dart';
 import 'package:hnh/app/register/register_presenter.dart';
-import 'package:hnh/domain/entities/user.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 
 class RegisterController extends Controller {
   TextEditingController firstName;
@@ -34,7 +30,7 @@ class RegisterController extends Controller {
     _registerPresenter.registerOnComplete = () {
       logger.finest("Complete: Registration success.");
       showGenericSnackbar(_scaffoldKey, Strings.registrationSuccessful);
-      Navigator.of(context).pop();
+      Navigator.of(getContext()).pop();
     };
 
     _registerPresenter.registerOnError = (e) {

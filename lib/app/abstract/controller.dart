@@ -3,7 +3,6 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 abstract class Controller with WidgetsBindingObserver, RouteAware {
-  BuildContext context; // needed for navigation
   Function refresh; // callback function for refreshing the UI
   bool isLoading; // indicates whether a loading dialog is present
   bool _isMounted = true;

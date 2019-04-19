@@ -31,7 +31,7 @@ class SplashController extends Controller {
 
   void authStatusOnNext(bool isAuth) {
     String page = isAuth ? '/home' : '/login';
-    Navigator.of(context).pushReplacementNamed(page);
+    Navigator.of(getContext()).pushReplacementNamed(page);
   }
 
   void getAuthStatus() async {

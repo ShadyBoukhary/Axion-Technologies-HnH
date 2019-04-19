@@ -7,6 +7,7 @@ export interface Event {
     description: string;
     location: Location;
     route: Coordinates[];
+    stops: Coordinates[];
     imageUrl: string;
     isFeatured: Boolean;
 }

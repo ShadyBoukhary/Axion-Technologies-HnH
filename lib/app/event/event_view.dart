@@ -6,6 +6,7 @@ import 'package:hnh/data/repositories/data_event_repository.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter/cupertino.dart';
 
 class EventPage extends StatefulWidget {
   final Event event;
@@ -31,14 +32,14 @@ class _EventPageView extends View<EventPage> {
   EventController _controller;
 
   _EventPageView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
     WidgetsBinding.instance.addObserver(_controller);
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
     return Scaffold(
+        key: scaffoldKey,
         body: ModalProgressHUD(
             child: body,
             inAsyncCall: _controller.isLoading,

@@ -40,6 +40,12 @@ void main() {
           },
         ],
         'imageUrl': 'https://something.com/sme/image',
+        'stops': [
+          {
+            'lat': '987523245',
+            'lon': '985723982',
+          }
+        ],
         'isFeatured': false
       };
 
@@ -49,7 +55,8 @@ void main() {
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982')
-      ], 'https://something.com/sme/image');
+      ], 'https://something.com/sme/image',
+        [Coordinates('987523245', '985723982')]);
     });
 
     test('.fromMap(map) creates an Event correctly.', () {
@@ -85,6 +92,7 @@ void main() {
       expect(event.route.length, testEvent.route.length);
       expect(event.imageUrl, testEvent.imageUrl);
       expect(event.isFeatured, testEvent.isFeatured);
+      expect(event.stops, testEvent.stops);
     }); // .fromEvent
   }); // end group
 } // end main

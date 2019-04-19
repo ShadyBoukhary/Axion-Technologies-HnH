@@ -21,6 +21,7 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
   @override
   void initState() {
     super.initState();
+    _controller.initController(scaffoldKey, callHandler);
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     _controller.initAnimation(_animationController, _animation);
@@ -36,8 +37,7 @@ class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixi
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
-    return Scaffold(body: body);
+    return Scaffold(key: scaffoldKey, body: body);
   }
 
   // Scaffold body

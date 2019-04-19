@@ -14,13 +14,13 @@ class _HhDrawerView extends View<HhDrawer> {
   
   final HHDrawerController _controller;
   _HhDrawerView(this._controller) {
-    _controller.refresh = callHandler;
+    _controller.initController(scaffoldKey, callHandler);
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.context = context;
     return ListView(
+      key: scaffoldKey,
       children: <Widget>[
         header,
         createPageTile('Home', Icons.home, () => _controller.navigate('/home', context)),

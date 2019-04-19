@@ -70,6 +70,7 @@ class _MapPageView extends View<MapPage> {
           ),
           myLocationEnabled: true,
           polylines: _controller.polylines,
+          markers: _controller.markers,
         ),
       );
 
