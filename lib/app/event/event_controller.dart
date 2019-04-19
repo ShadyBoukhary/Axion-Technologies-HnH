@@ -61,10 +61,10 @@ class EventController extends Controller {
 
   }
 
-  void onSignUpPressed() => Navigator.of(context).pushNamed('/web', arguments: {'title': 'Registration', 'url': HHHConstants.registrationUrl});
+  void onSignUpPressed() => Navigator.of(getContext()).pushNamed('/web', arguments: {'title': 'Registration', 'url': HHHConstants.registrationUrl});
 
   void onStartNavigationPressed() {
-    Navigator.of(context).pushReplacementNamed('/map', arguments: {'event': _event});
+    Navigator.of(getContext()).pushReplacementNamed('/map', arguments: {'event': _event});
   }
   void _getIsRegistered() {
     startLoading();
@@ -80,7 +80,9 @@ class EventController extends Controller {
     }
   }
     
+  @override
   void dispose() {
     _eventPresenter.dispose();
+    super.dispose();
   }
 }

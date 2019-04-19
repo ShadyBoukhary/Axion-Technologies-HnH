@@ -31,7 +31,7 @@ class LoginPageView extends View<LoginPage> {
   Widget build(BuildContext context) {
     // ModalProgressHUD wraps the entire body with a loading using the controller.isLoading
     return Scaffold(
-      key: scaffoldKey,
+        key: scaffoldKey,
         body: ModalProgressHUD(
             child: body,
             inAsyncCall: _controller.isLoading,
