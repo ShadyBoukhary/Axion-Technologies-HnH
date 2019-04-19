@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
+import 'package:hnh/app/components/mini_map.dart';
 import 'package:hnh/app/event/event_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
@@ -53,29 +54,31 @@ class _EventPageView extends View<EventPage> {
             width: MediaQuery.of(context).size.width,
             child: eventHeader,
           ),
-          SizedBox(height: 20.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    _controller.event.name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1.0,
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      _controller.event.name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.0,
+                      ),
+                      overflow: TextOverflow.clip,
+                      softWrap: true,
                     ),
-                    overflow: TextOverflow.clip,
-                    softWrap: true,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Container(
             padding: EdgeInsets.all(20.0),
@@ -94,10 +97,13 @@ class _EventPageView extends View<EventPage> {
               ],
             ),
           ),
-          SizedBox(height: 20.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: MiniMap(widget.event),
+          ),
           Padding(
             padding:
-                const EdgeInsets.only(right: 30.0, bottom: 20.0, left: 30.0),
+                const EdgeInsets.only(right: 30.0, bottom: 20.0, left: 30.0, top: 20),
             child: getSignupButton(),
           ),
         ],
