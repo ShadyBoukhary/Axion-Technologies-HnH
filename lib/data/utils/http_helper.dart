@@ -22,7 +22,6 @@ class HttpHelper {
   static Future<List<dynamic>> invokeHttp2(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
     List<dynamic> responseBody;
-
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
     } on APIException {
@@ -69,8 +68,8 @@ class HttpHelper {
       rethrow;
 
       // handle no internet connection
-    } on SocketException {
-      throw Exception('Internet connection could not be established.');
+    } on SocketException catch(e) {
+      throw Exception(e.osError.message);
     } catch (error) {
       rethrow;
     }

@@ -7,6 +7,7 @@ import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
+import 'package:flutter/cupertino.dart';
 
 class UserEventsPage extends StatefulWidget {
   UserEventsPage(this.routeObserver, {Key key, this.user}) : super(key: key);
