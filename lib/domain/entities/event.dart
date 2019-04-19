@@ -30,6 +30,7 @@ class Event {
   DateTime get eventTime => DateTime.fromMillisecondsSinceEpoch(int.parse(_location.timestamp) * 1000);
   String get imageUrl => _imageUrl;
   bool get isFeatured => _isFeatured;
+  bool get isRace => _route.length > 0;
 
   // Constructors
 

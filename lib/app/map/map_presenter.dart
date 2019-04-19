@@ -1,4 +1,3 @@
-import 'package:hnh/domain/entities/weather.dart';
 import 'package:hnh/domain/usecases/observer.dart';
 import 'package:hnh/domain/usecases/location_track_usecase.dart';
 

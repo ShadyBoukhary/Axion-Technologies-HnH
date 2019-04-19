@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/map/map_presenter.dart';
-import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/utils/google_maps_mapper.dart';
