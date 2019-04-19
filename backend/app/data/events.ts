@@ -3,6 +3,7 @@ import { TwentyFiveMileRouteCoordinates } from "./routes/25_mile.gpxCoordinates"
 import { FiftyMileRouteCoordinates } from "./routes/50_mile.gpxCoordinates";
 import { OneHundredKMRouteCoordinates } from "./routes/100_km.gpxCoordinates";
 import { OneHundredMileRouteCoordinates } from "./routes/100_mile.gpxCoordinates";
+import { Stops } from "./restStops";
 
 // create events
 const Dinners: Event[] = [
@@ -12,6 +13,7 @@ const Dinners: Event[] = [
         description: 'The Spaghetti dinner is presented by the members of the North Texas Restaurant Association with all proceeds going to benefit their charities primarily the Wichita Falls Interfaith Ministries.\nWhere: Lower Level MPEC Coliseum \nDate: Friday, August 23, 2019 \nTime: 5:30 PM to 9:00 PM \nCost: $10 in advance or at the door',
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566599400'},
         route: [],
+        stops: [],
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
         isFeatured: true
     },
@@ -28,6 +30,7 @@ Time: 5:00 AM to 7:00 AM
 Price: Only $10.00 in advance or at the door`,
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566554400'},
         route: [],
+        stops: [],
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
         isFeatured: true
     },
@@ -46,6 +49,7 @@ Friday, August 23, 2019, 1:00pm – 10:00pm
 Saturday, August 24, 2018, 9am – 2pm`,
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566504000'},
         route: [],
+        stops: [],
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762f3e4be659492f0394165/1466102758272/DSC_2378.JPG',
         isFeatured: true
     },
@@ -61,18 +65,20 @@ Saturday, August 24, 2018, 8:00AM – 6:00PM
 Sunday, August 25, 2018, Optional 7:00AM – 2:00PM'`,
         location: { lat: '33.915518', lon: '-98.499189', timestamp: '1566590400'},
         route: [],
+        stops: [],
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762f4dc6b8f5b87e313f735/1466103020625/',
         isFeatured: true
     },
 ]
 
-export const EVENTS: Event[] = [
+const Races: Event[] = [
     {
         _id: '5c68d750cf2095b99753c693',
         name: 'Hotter \'n Hell Hundred 25 Mile Race',
         description: 'Hotter \'n Hell Hundred 25 Mile Race',
         location: { lat: '352523525', lon: '2423523525', timestamp: (Math.floor(Date.now() / 1000)).toString() },
         route: TwentyFiveMileRouteCoordinates,
+        stops: Stops,
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
         isFeatured: false
     },
@@ -82,6 +88,7 @@ export const EVENTS: Event[] = [
         description: 'Hotter \'n Hell Hundred 50 Mile Race',
         location: { lat: '35251223525', lon: '24234321523525', timestamp: (Math.floor(Date.now() / 1000)).toString() },
         route: FiftyMileRouteCoordinates,
+        stops: Stops,
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
         isFeatured: false
     },
@@ -91,6 +98,7 @@ export const EVENTS: Event[] = [
         description: 'Hotter \'n Hell Hundred 100 Kilometer Race',
         location: { lat: '352522343525', lon: '2423234523525', timestamp: (Math.floor(Date.now() / 1000)).toString() },
         route: OneHundredKMRouteCoordinates,
+        stops: Stops,
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
         isFeatured: false
     },
@@ -100,9 +108,14 @@ export const EVENTS: Event[] = [
         description: 'Hotter \'n Hell Hundred 100 Mile Race',
         location: { lat: '352522343525', lon: '2423234523525', timestamp: (Math.floor(Date.now() / 1000)).toString() },
         route: OneHundredMileRouteCoordinates,
+        stops: Stops,
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
         isFeatured: false
-    },
+    }
+]
+
+export const EVENTS: Event[] = [
+    ...Races,
     ...Dinners,
     ...ConsumerShowAndFinishLine,
 ]

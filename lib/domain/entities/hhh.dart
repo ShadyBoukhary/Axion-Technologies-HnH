@@ -20,10 +20,13 @@ class HHH {
   String get timestamp => _timestamp;
   List<String> get sponsors => _sponsors;
   List<String> get events => _events;
-  DateTime get eventTime => DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
+  DateTime get eventTime =>
+      DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
 
   // Constructors
-  HHH(this._id, this._description, this._mailingAddress, this._timestamp, this._sponsors, this._events);
+  HHH(this._id, this._description, this._mailingAddress, this._timestamp,
+      this._sponsors, this._events);
+
   /// From a [map]
   HHH.fromJson(Map<String, dynamic> map) {
     _id = map['id'];
@@ -33,6 +36,7 @@ class HHH {
     _sponsors = map['sponsors'].cast<String>().toList();
     _events = map['events'].cast<String>().toList();
   }
+
   /// From an [hhh]
   HHH.fromHHH(HHH hhh) {
     _id = hhh._id;
@@ -44,26 +48,24 @@ class HHH {
   }
 
   /// To a nested `Map`
-  Map<String, dynamic> toJson() => 
-  {
-    'id': _id,
-    'description': _description,
-    'mailingAddress': _mailingAddress,
-    'timestamp': _timestamp,
-    'sponsors': _sponsors,
-    'events': _events
-  };
+  Map<String, dynamic> toJson() => {
+        'id': _id,
+        'description': _description,
+        'mailingAddress': _mailingAddress,
+        'timestamp': _timestamp,
+        'sponsors': _sponsors,
+        'events': _events
+      };
 
   /// To a `string` `map`
-  Map<String, String> toJson2() => 
-  {
-    'id': _id,
-    'description': _description,
-    'mailingAddress': _mailingAddress,
-    'timestamp': _timestamp,
-    'sponsors': jsonEncode(_sponsors),
-    'events': jsonEncode(_events)
-  };
+  Map<String, String> toJson2() => {
+        'id': _id,
+        'description': _description,
+        'mailingAddress': _mailingAddress,
+        'timestamp': _timestamp,
+        'sponsors': jsonEncode(_sponsors),
+        'events': jsonEncode(_events)
+      };
 
   /// Adds a list of [eventIds] to [_events]
   void addEvents(List<String> eventIds) {
@@ -74,5 +76,4 @@ class HHH {
   void addSponsors(List<String> sponsorIds) {
     _sponsors.addAll(sponsorIds);
   }
-
 }

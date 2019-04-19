@@ -1,7 +1,6 @@
 // Shady Boukhary
 
 class Sponsor {
-
   // Members
   String _name;
   String _website;
@@ -15,9 +14,9 @@ class Sponsor {
   String get year => _year;
 
   // Constructors
-  
+
   Sponsor(this._name, this._website, this._imageUrl, this._year);
-  
+
   Sponsor.from(Sponsor sponsor) {
     _name = sponsor._name;
     _website = sponsor._website;
@@ -32,20 +31,20 @@ class Sponsor {
     _year = map['year'];
   }
 
-  Map<String, dynamic> toJson() =>
-    {
-      'name': _name,
-      'website': _website,
-      'imageUrl': _imageUrl,
-      'year': _year
-    };
+  Map<String, dynamic> toJson() => {
+        'name': _name,
+        'website': _website,
+        'imageUrl': _imageUrl,
+        'year': _year
+      };
 
   Map<String, String> toJson2() => toJson().cast<String, String>();
 
-    @override
-    operator ==(dynamic sponsor) => sponsor is Sponsor && _website == sponsor._website;
+  @override
+  operator ==(dynamic sponsor) =>
+      sponsor is Sponsor && _website == sponsor._website;
 
-    @override
-    int get hashCode => _name.hashCode ^ _website.hashCode ^ _imageUrl.hashCode ^ _year.hashCode;
-    
+  @override
+  int get hashCode =>
+      _name.hashCode ^ _website.hashCode ^ _imageUrl.hashCode ^ _year.hashCode;
 }

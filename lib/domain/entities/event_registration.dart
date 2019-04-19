@@ -7,7 +7,6 @@ import 'package:hnh/domain/utils/utils.dart';
 /// Represents an association between a [User] and an [Event].
 /// The [User] is registered in the [Event].
 class EventRegistration {
-
   // Members
   String _uid;
   String _eventId;
@@ -35,17 +34,15 @@ class EventRegistration {
   }
 
   // Serializer
-  Map<String, dynamic> toJson() =>
-    {
-      'uid': uid,
-      'eventId': eventId,
-      'timestamp': timestamp,
-    };
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'eventId': eventId,
+        'timestamp': timestamp,
+      };
 
-  Map<String, String> toJson2() => 
-    {
-      'uid': _uid,
-      'eventId': eventId,
-      'timestamp': timestamp,
-    };
+  Map<String, String> toJson2() => {
+        'uid': _uid,
+        'eventId': eventId,
+        'timestamp': timestamp,
+      };
 }

@@ -7,7 +7,6 @@ import 'package:hnh/domain/entities/local_place.dart';
 
 /// Retrieves [LocalPlaces] for the user.
 abstract class LocalPlacesRepository {
-
   /// Retrieves all local [LocalPlace]s that are restaurants using [latlon].
   Future<List<LocalPlace>> getLocalRestaurants({@required Coordinates latlon});
 

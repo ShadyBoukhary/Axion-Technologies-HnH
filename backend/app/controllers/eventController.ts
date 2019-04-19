@@ -40,6 +40,7 @@ export async function getEvents(req: Request, res: Response, next: NextFunction)
                 description: event.description,
                 location: event.location,
                 route: event.route,
+                stops: event.stops,
                 id: event.id,
                 imageUrl: event.imageUrl,
                 isFeatured: event.isFeatured
@@ -140,7 +141,9 @@ export async function createEvents(req: Request, res: Response) {
                 console.log(error);
                 if (error.code === 11000) {
                     console.log('Event already exists, updating.');
-                    await Event.updateOne({_id: event._id}, event).exec();
+                    try {
+                        await Event.updateOne({_id: event._id}, event).exec();
+                    } catch(e) {console.log(e);}
                 } else {
                     res.status(400);
                     res.send(error);

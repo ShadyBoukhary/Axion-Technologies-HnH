@@ -12,6 +12,7 @@ class Event {
   Location _location; // also contains the start time
   String _id;
   List<Coordinates> _route;
+  List<Coordinates> _stops;
   String _imageUrl;
   bool _isFeatured;
 
@@ -21,6 +22,11 @@ class Event {
   Location get location => _location;
   String get id => _id;
   List<Coordinates> get route => _route;
+  List<Coordinates> get stops => _stops;
+  Coordinates get hellsGate => _stops != null ? _stops[0] : Coordinates('', '');
+  Coordinates get finishLine => _stops != null ? _stops[1] : Coordinates('', '');
+  Coordinates get medicalStop => _stops != null ? _stops[2] : Coordinates('', '');
+  
   DateTime get eventTime => DateTime.fromMillisecondsSinceEpoch(int.parse(_location.timestamp) * 1000);
   String get imageUrl => _imageUrl;
   bool get isFeatured => _isFeatured;
@@ -28,7 +34,7 @@ class Event {
   // Constructors
 
   // Default
-  Event(this._name, this._description, this._location, this._id, [this._isFeatured, this._route, this._imageUrl]);
+  Event(this._name, this._description, this._location, this._id, [this._isFeatured, this._route, this._imageUrl, this._stops]);
 
   /// From an [Event]
   Event.fromEvent(Event event) {
@@ -39,6 +45,7 @@ class Event {
     _route = List<Coordinates>()..addAll(event._route);
     _imageUrl = event._imageUrl;
     _isFeatured = event._isFeatured;
+    _stops = event._stops;
   }
 
   /// From a [map]
@@ -51,6 +58,8 @@ class Event {
     _route = List<Coordinates>.from(coordsIt);
     _imageUrl = map['imageUrl'];
     _isFeatured = map['isFeatured'];
+    var stopsList = (map['stops'].cast<Map<String, dynamic>>()).toList().map((map) => Coordinates.fromJson(map));
+    _stops = List<Coordinates>.from(stopsList);
   }
 
   Map<String, dynamic> toJson() => 
@@ -61,7 +70,8 @@ class Event {
     'id': _id,
     'route': jsonDecode(jsonEncode(_route)),
     'imageUrl': _imageUrl,
-    'isFeatured': _isFeatured
+    'isFeatured': _isFeatured,
+    'stops': jsonDecode(jsonEncode(_stops)),
   };
 
   Map<String, String> toJson2() => 
@@ -72,7 +82,8 @@ class Event {
     'id': _id,
     'route': jsonEncode(_route),
     'imageUrl': _imageUrl,
-    'isFeatured': jsonEncode(_isFeatured)
+    'isFeatured': jsonEncode(_isFeatured),
+    'stops': jsonEncode(_stops),
   };
 
   /// Append [coordinates] to the [_route]

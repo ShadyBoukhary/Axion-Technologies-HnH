@@ -17,7 +17,8 @@ class LocalPlace {
   String get address => _address;
   Coordinates get coordinates => _coordinates;
   LocalPlaceType get type => _type;
-  String get typeString => _type == LocalPlaceType.restaurant ? 'restaurant' : 'hotel';
+  String get typeString =>
+      _type == LocalPlaceType.restaurant ? 'restaurant' : 'hotel';
   double get rating => _rating;
   String get icon => _icon;
   bool get isOpen => _isOpen;
@@ -25,7 +26,17 @@ class LocalPlace {
   bool get hasPhotoReference => _photoReference != '404';
   String get navigationLink => _navigationLink;
 
-  LocalPlace(this._name, this._address, this._type, this._coordinates, this._rating, this._icon, this.photo, this._isOpen, this._photoReference, this._navigationLink);
+  LocalPlace(
+      this._name,
+      this._address,
+      this._type,
+      this._coordinates,
+      this._rating,
+      this._icon,
+      this.photo,
+      this._isOpen,
+      this._photoReference,
+      this._navigationLink);
 
   LocalPlace.from(LocalPlace localPlace) {
     _name = localPlace._name;
@@ -53,42 +64,39 @@ class LocalPlace {
     _navigationLink = map['navigationLink'];
   }
 
-  Map<String, dynamic> toJson() =>
-    {
-      'name': _name,
-      'address': _address,
-      'coordinates': _coordinates.toJson(),
-      'type': _type,
-      'rating': _rating,
-      'icon': _icon,
-      'photo': photo,
-      'isOpen': _isOpen,
-      'photoReference': _photoReference,
-      'navigationLink': _navigationLink
-    };
+  Map<String, dynamic> toJson() => {
+        'name': _name,
+        'address': _address,
+        'coordinates': _coordinates.toJson(),
+        'type': _type,
+        'rating': _rating,
+        'icon': _icon,
+        'photo': photo,
+        'isOpen': _isOpen,
+        'photoReference': _photoReference,
+        'navigationLink': _navigationLink
+      };
 
-  Map<String, String> toJson2() =>
-    {
-      'name': _name,
-      'address': _address,
-      'coordinates': jsonEncode(_coordinates),
-      'type': jsonEncode(_type),
-      'rating': jsonEncode(_rating),
-      'icon': _icon,
-      'photo': photo,
-      'isOpen': jsonEncode(_isOpen),
-      'photoReference': _photoReference,
-      'navigationLink': _navigationLink
-    };
+  Map<String, String> toJson2() => {
+        'name': _name,
+        'address': _address,
+        'coordinates': jsonEncode(_coordinates),
+        'type': jsonEncode(_type),
+        'rating': jsonEncode(_rating),
+        'icon': _icon,
+        'photo': photo,
+        'isOpen': jsonEncode(_isOpen),
+        'photoReference': _photoReference,
+        'navigationLink': _navigationLink
+      };
 
-    @override
-    operator ==(dynamic localPlace) => localPlace is LocalPlace && _name == localPlace._name;
+  @override
+  operator ==(dynamic localPlace) =>
+      localPlace is LocalPlace && _name == localPlace._name;
 
-    @override
-    int get hashCode => _name.hashCode ^ _address.hashCode ^ _type.hashCode ^ _rating.hashCode;
+  @override
+  int get hashCode =>
+      _name.hashCode ^ _address.hashCode ^ _type.hashCode ^ _rating.hashCode;
 }
 
-enum LocalPlaceType {
-  restaurant,
-  hotel
-}
+enum LocalPlaceType { restaurant, hotel }

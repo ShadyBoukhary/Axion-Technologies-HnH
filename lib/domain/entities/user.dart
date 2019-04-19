@@ -1,5 +1,4 @@
 class User {
-
   // Members
   String _firstName;
   String _lastName;
@@ -16,7 +15,7 @@ class User {
 
   // Contructors
   User(this._firstName, this._lastName, this._uid, this._email);
-  
+
   User.fromUser(User user) {
     _firstName = user.firstName;
     _lastName = user.lastName;
@@ -31,26 +30,27 @@ class User {
     _email = map['email'];
   }
 
-  Map<String, dynamic> toJson() =>
-    {
-      'firstName': _firstName,
-      'lastName': _lastName,
-      'uid': _uid,
-      'email': _email
-    };
+  Map<String, dynamic> toJson() => {
+        'firstName': _firstName,
+        'lastName': _lastName,
+        'uid': _uid,
+        'email': _email
+      };
 
-  Map<String, String> toJson2() =>
-    {
-      'firstName': _firstName,
-      'lastName': _lastName,
-      'uid': _uid,
-      'email': _email
-    };
+  Map<String, String> toJson2() => {
+        'firstName': _firstName,
+        'lastName': _lastName,
+        'uid': _uid,
+        'email': _email
+      };
 
-    @override
-    operator ==(dynamic user) => user is User && _uid == user._uid;
+  @override
+  operator ==(dynamic user) => user is User && _uid == user._uid;
 
-    @override
-    int get hashCode => _firstName.hashCode ^ _lastName.hashCode ^ _uid.hashCode ^ _email.hashCode;
-    
+  @override
+  int get hashCode =>
+      _firstName.hashCode ^
+      _lastName.hashCode ^
+      _uid.hashCode ^
+      _email.hashCode;
 }
