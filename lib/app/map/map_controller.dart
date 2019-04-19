@@ -14,6 +14,8 @@ class MapController extends Controller {
   Location _initialPosition;
   Location _currentLocation;
   Weather _currentWeather;
+  double _totalDistance;
+  double _remainingDistance;
   bool _isInitialSet;
   bool isNavigating;
   Set<Polyline> polylines;
@@ -24,6 +26,8 @@ class MapController extends Controller {
       LatLng(_initialPosition.numLat, _initialPosition.numLon);
   Location get currentLocation => _currentLocation;
   Weather get currentWeather => _currentWeather;
+  String get totalDistance => _totalDistance.toStringAsPrecision(2);
+  String get remainingDistance => _remainingDistance.toStringAsPrecision(2);
 
   MapController(locationRepository, weatherRepository, this._event) {
     _mapPresenter = MapPresenter(locationRepository, weatherRepository);
@@ -34,10 +38,23 @@ class MapController extends Controller {
     markers = Set<Marker>();
     _isInitialSet = false;
     isNavigating = true;
+    init();
+    _mapPresenter.startTrackingLocation();
+  }
+
+  void init() {
     initListeners();
     initPolylines();
     initMarkers();
-    _mapPresenter.startTrackingLocation();
+    // intialize distances
+    if (_event.isRace) {
+      _totalDistance = _event.calculateRouteDistance();
+    } else {
+      _totalDistance = 0;
+      _remainingDistance = 0;
+    }
+
+    // set
   }
 
   void initListeners() {
@@ -59,7 +76,7 @@ class MapController extends Controller {
       // if no new weather
       _currentWeather = weather;
     }
-
+    _remainingDistance = _event.distanceRemaining(location.toCoordinates());
     refreshUI();
   }
 
@@ -100,7 +117,7 @@ class MapController extends Controller {
 
   void pop() {
     Navigator.of(getContext(), rootNavigator: true).pop(); // dialog
-    Navigator.of(getContext(), rootNavigator: true).pop(); //
+    Navigator.of(getContext(), rootNavigator: true).pop(); // page
   }
 
   void initPolylines() {
@@ -113,18 +130,38 @@ class MapController extends Controller {
   }
 
   void initMarkers() {
-    _event.stops.forEach((stop) {
+    if (_event.isRace) {
+      // rest stop markers
+      _event.stops.forEach((stop) {
+        markers.add(Marker(
+          markerId: MarkerId(markers.length.toString()),
+          position: mapCoordinatesToLatLng(stop),
+          icon: stop == _event.hellsGate
+              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
+              : BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(
+              title: stop == _event.hellsGate
+                  ? 'Hells Gate'
+                  : 'Rest Stop #${markers.length}'),
+        ));
+      });
+      // start line
       markers.add(Marker(
         markerId: MarkerId(markers.length.toString()),
-        position: mapCoordinatesToLatLng(stop),
-        icon: stop == _event.hellsGate
-            ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
-            : BitmapDescriptor.defaultMarker,
+        position: mapCoordinatesToLatLng(_event.route.first),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         infoWindow: InfoWindow(
-            title: stop == _event.hellsGate
-                ? 'Hells Gate'
-                : 'Rest Stop #${markers.length}'),
+            title: 'Starting Line', snippet: 'This is where the race starts.'),
       ));
-    });
+
+      // finish line
+      markers.add(Marker(
+        markerId: MarkerId(markers.length.toString()),
+        position: mapCoordinatesToLatLng(_event.route.last),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        infoWindow: InfoWindow(
+            title: 'Finish Line', snippet: 'This is where the race ends.'),
+      ));
+    }
   }
 }
