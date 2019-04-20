@@ -31,8 +31,7 @@ class MapController extends Controller {
 
   MapController(locationRepository, weatherRepository, this._event) {
     _mapPresenter = MapPresenter(locationRepository, weatherRepository);
-    _currentLocation =
-        _initialPosition = Location('33.911614', '-98.496268', '0', 1);
+    _currentLocation = _initialPosition = Location.wichitaFalls();
     _currentWeather = Weather.empty();
     polylines = Set<Polyline>();
     markers = Set<Marker>();
@@ -76,7 +75,12 @@ class MapController extends Controller {
       // if no new weather
       _currentWeather = weather;
     }
-    _remainingDistance = _event.distanceRemaining(location.toCoordinates());
+    _remainingDistance = _event.advancePosition(location.toCoordinates());
+    double distanceToHG = _event.distanceToHellsGate(location.toCoordinates());
+    if (_remainingDistance == 0) {
+      // race completed
+      // TODO: let the user know
+    }
     refreshUI();
   }
 

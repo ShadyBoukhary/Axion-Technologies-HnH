@@ -17,9 +17,9 @@ class Weather {
         minTemperature = Utils.kelvinToFah(map['main']['temp_min']),
         maxTemperature = Utils.kelvinToFah(map['main']['temp_max']),
         humidity = map['main']['humidity'],
-        pressure = map['main']['pressure'],
+        pressure = map['main']['pressure'].toInt(),
         windSpeed = map['wind']['speed'],
-        windDegrees = map['wind']['deg'];
+        windDegrees = map['wind']['deg'].toInt();
 
   Weather.empty()
       : temperature = 0,
