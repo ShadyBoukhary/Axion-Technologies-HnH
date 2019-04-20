@@ -16,6 +16,8 @@ class Event {
   int lastVisitedPoint;
   bool _isFeatured;
   double _totalDistance;
+  double _distanceTravelled;
+  Coordinates _lastKnownPosition;
 
   // Getters
   String get name => _name;
@@ -35,16 +37,17 @@ class Event {
   String get imageUrl => _imageUrl;
   bool get isFeatured => _isFeatured;
   bool get isRace => _route.length > 0;
+  double get distanceTravelled => _distanceTravelled; 
 
   // Constructors
 
   // Default
   Event(this._name, this._description, this._location, this._id,
       [this._isFeatured, this._route, this._imageUrl, this._stops])
-      : _totalDistance = -1, lastVisitedPoint = -1;
+      : _totalDistance = -1, lastVisitedPoint = -1, _distanceTravelled = 0;
 
   /// From an [Event]
-  Event.fromEvent(Event event) : _totalDistance = -1, lastVisitedPoint = -1 {
+  Event.fromEvent(Event event) : _totalDistance = -1, lastVisitedPoint = -1, _distanceTravelled = 0 {
     _name = event._name;
     _description = event._description;
     _location = Location.fromLocation(event._location);
@@ -56,7 +59,7 @@ class Event {
   }
 
   /// From a [map]
-  Event.fromJson(Map<String, dynamic> map) : _totalDistance = -1, lastVisitedPoint = -1 {
+  Event.fromJson(Map<String, dynamic> map) : _totalDistance = -1, lastVisitedPoint = -1, _distanceTravelled = 0 {
     _name = map['name'];
     _description = map['description'];
     _location = Location.fromJson(map['location']);
@@ -190,6 +193,11 @@ class Event {
   /// Worst-case complexity: `O(n^2)`
   /// Average complexity: `O(n)`
   double advancePosition(Coordinates currentPosition, {DistanceUnit unit = DistanceUnit.miles}) {
+    if (_lastKnownPosition == null) {
+      _lastKnownPosition = currentPosition;
+    }
+    _distanceTravelled += currentPosition.distanceTo(_lastKnownPosition, unit);
+
     // if already reached finish line
     if (lastVisitedPoint == _route.length - 1) {
       return 0;

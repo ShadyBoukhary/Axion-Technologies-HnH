@@ -14,8 +14,8 @@ class MapPage extends StatefulWidget {
   final Event event;
 
   @override
-  _MapPageView createState() =>
-      _MapPageView(MapController(DeviceLocationRepository(), DataWeatherRepository(), event));
+  _MapPageView createState() => _MapPageView(MapController(
+      DeviceLocationRepository(), DataWeatherRepository(), event));
 }
 
 class _MapPageView extends View<MapPage> {
@@ -93,10 +93,15 @@ class _MapPageView extends View<MapPage> {
 
   Widget getTracker() {
     return Positioned(
-        bottom: 10,
-        left: 10,
-        right: 10,
-        child: GPSDetails(_controller.currentLocation, _controller.currentWeather));
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: GPSDetails(
+            _controller.currentLocation,
+            _controller.currentWeather,
+            widget.event.name,
+            _controller.remainingDistance,
+            _controller.distanceTravelled));
   }
 
   Future<bool> _showDialog() {
