@@ -60,7 +60,7 @@ class LoginPageView extends View<LoginPage> {
                       children: <Widget>[
                         Padding(
                           padding:
-                              const EdgeInsets.only(top: 125.0, bottom: 10.0),
+                               EdgeInsets.only(top: MediaQuery.of(context).size.height / 8, bottom: 10.0),
                           child: Image(
                             image: AssetImage(Resources.logo),
                             width: 200.0,
@@ -79,7 +79,7 @@ class LoginPageView extends View<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 150.0),
+                    padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
