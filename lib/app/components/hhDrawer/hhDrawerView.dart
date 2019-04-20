@@ -30,11 +30,10 @@ class _HhDrawerView extends View<HhDrawer> {
               Icons.calendar_today,
               () => _controller.navigateWithArgs(
                   '/userEvents', context, {'user': _controller.user})),
-          createPageTile('Local', Icons.hotel,
-              () => _controller.navigate('/localPlaces', context)),
           Divider(),
           createPageTile('Sponsors', Icons.business, () => _controller.navigate('/sponsors', context)),
-          createPageTile('About', Icons.info),
+          createPageTile('Local', Icons.hotel,
+              () => _controller.navigate('/localPlaces', context)),
           Divider(),
           createPageTile('Logout', Icons.exit_to_app, _controller.logout),
         ],

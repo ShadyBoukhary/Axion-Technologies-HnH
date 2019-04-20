@@ -12,7 +12,6 @@ abstract class View<Page extends StatefulWidget> extends State<Page> {
 
   void callHandler(Function fn, {Map<String, dynamic> params}) {
     setState(() {
-      print('refresh');
       if (params == null) {
         fn();
       } else {

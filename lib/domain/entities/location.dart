@@ -37,6 +37,8 @@ class Location extends Coordinates {
     _speed = map['speed'];
   }
 
+  factory Location.wichitaFalls() => Location('33.911614', '-98.496268', '0', 0); 
+
   @override
   String toString() =>
       '{ lat: $lat, lon: $lon, timestamp: $timestamp, speed: $_speed }';

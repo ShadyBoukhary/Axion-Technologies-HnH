@@ -14,7 +14,6 @@ class Event {
   List<Coordinates> _stops;
   String _imageUrl;
   bool _isFeatured;
-  double _totalDistance;
 
   // Getters
   String get name => _name;
@@ -39,11 +38,10 @@ class Event {
 
   // Default
   Event(this._name, this._description, this._location, this._id,
-      [this._isFeatured, this._route, this._imageUrl, this._stops])
-      : _totalDistance = -1;
+      [this._isFeatured, this._route, this._imageUrl, this._stops]);
 
   /// From an [Event]
-  Event.fromEvent(Event event) : _totalDistance = -1 {
+  Event.fromEvent(Event event) {
     _name = event._name;
     _description = event._description;
     _location = Location.fromLocation(event._location);
@@ -55,7 +53,7 @@ class Event {
   }
 
   /// From a [map]
-  Event.fromJson(Map<String, dynamic> map) : _totalDistance = -1 {
+  Event.fromJson(Map<String, dynamic> map) {
     _name = map['name'];
     _description = map['description'];
     _location = Location.fromJson(map['location']);
@@ -97,54 +95,5 @@ class Event {
   /// Append [coordinates] to the [_route]
   void appendRoute(List<Coordinates> coordinates) {
     _route.addAll(coordinates);
-  }
-
-  /// Calculates the total distance of the [_route].
-  /// Complexity: `O(n)` if called for the first time and `O(1)` if called again.
-  /// Lazily calcualtes the total route for the race.
-  double calculateRouteDistance({DistanceUnit unit = DistanceUnit.miles}) {
-    if (_totalDistance != -1) {
-      return _totalDistance;
-    }
-
-    _totalDistance = 0;
-    for (int i = 0; i < _route.length - 2; i++) {
-      _totalDistance += _route[i].distanceTo(_route[i + 1], unit);
-    }
-    return _totalDistance;
-  }
-
-  /// Finds the remaining distance to the finish line given the [currentPosition].
-  /// Calculated in a give [unit] of distance.
-  /// Worst-case complexity of `O(n^2)`
-  double distanceRemaining(Coordinates currentPosition, {DistanceUnit unit = DistanceUnit.miles}) {
-    int currentIdxInRoute = _findClosest(currentPosition, unit);
-    double remainingDistance = 0;
-
-    // Find the remaining distance starting from the current calculated index
-    for (int i = currentIdxInRoute; i < _route.length - 2; i++) {
-      remainingDistance += _route[i].distanceTo(_route[i + 1], unit);
-    }
-
-    return remainingDistance;
-  }
-
-  /// Finds the closes [Coordinates] index in the [_route] to a given [currentPosition]
-  /// in a specific [unit] of distance.
-  /// `O(n)` complexity
-  int _findClosest(Coordinates currentPosition, DistanceUnit unit) {
-    int closestIdx = 0;
-    double closestDistance = currentPosition.distanceTo(_route[closestIdx], unit);
-
-    /// `O(n - 1)` loop to find the shortest distance
-    for (int i = 1; i < _route.length - 1; i++) {
-      double distance = currentPosition.distanceTo(_route[i], unit);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIdx = i;
-      }
-    }
-
-    return closestIdx;
   }
 }

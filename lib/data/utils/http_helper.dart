@@ -8,13 +8,11 @@ class HttpHelper {
   static Future<Map<String, dynamic>> invokeHttp(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
     Map<String, dynamic> responseBody;
-
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
     } catch (error) {
       rethrow;
     }
-
     responseBody = jsonDecode(response.body);
     return responseBody;
   }
