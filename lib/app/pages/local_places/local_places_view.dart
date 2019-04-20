@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
-import 'package:hnh/app/local_places/local_places_controller.dart';
-import 'package:hnh/app/local_places/local_places_tabs.dart';
+import 'package:hnh/app/pages/local_places/local_places_controller.dart';
+import 'package:hnh/app/pages/local_places/local_places_tabs.dart';
 import 'package:hnh/data/repositories/data_local_places_repository.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';

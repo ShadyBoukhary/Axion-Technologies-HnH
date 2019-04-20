@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/components/sponsor_card.dart';
-import 'package:hnh/app/sponsors/sponsors_controller.dart';
+import 'package:hnh/app/pages/sponsors/sponsors_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_hhh_repository.dart';

@@ -1,5 +1,5 @@
 import 'package:hnh/app/abstract/controller.dart';
-import 'package:hnh/app/local_places/local_places_presenter.dart';
+import 'package:hnh/app/pages/local_places/local_places_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/local_place.dart';
 

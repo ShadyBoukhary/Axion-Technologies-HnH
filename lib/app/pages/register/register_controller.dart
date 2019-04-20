@@ -1,6 +1,6 @@
 import 'package:hnh/app/abstract/controller.dart';
+import 'package:hnh/app/pages/register/register_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:hnh/app/register/register_presenter.dart';
 import 'package:flutter/material.dart';
 
 class RegisterController extends Controller {

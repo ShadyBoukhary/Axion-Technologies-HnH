@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hnh/app/event/event_view.dart';
-import 'package:hnh/app/events/events_view.dart';
-import 'package:hnh/app/local_places/local_places_view.dart';
-import 'package:hnh/app/map/map_view.dart';
-import 'package:hnh/app/splash/splash_view.dart';
-import 'package:hnh/app/sponsors/sponsors_view.dart';
-import 'package:hnh/app/user_events/user_events_view.dart';
+import 'package:hnh/app/pages/event/event_view.dart';
+import 'package:hnh/app/pages/events/events_view.dart';
+import 'package:hnh/app/pages/home/home_view.dart';
+import 'package:hnh/app/pages/local_places/local_places_view.dart';
+import 'package:hnh/app/pages/login/login_view.dart';
+import 'package:hnh/app/pages/map/map_view.dart';
+import 'package:hnh/app/pages/register/register_view.dart';
+import 'package:hnh/app/pages/splash/splash_view.dart';
+import 'package:hnh/app/pages/sponsors/sponsors_view.dart';
+import 'package:hnh/app/pages/user_events/user_events_view.dart';
+import 'package:hnh/app/pages/web/web_view.dart';
 import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'package:logging/logging.dart';
-import 'home/home_view.dart';
-import 'login/login_view.dart';
-import 'register/register_view.dart';
-import 'package:hnh/app/web/web_view.dart';
 import 'package:flutter/cupertino.dart';
 
 void main() { 

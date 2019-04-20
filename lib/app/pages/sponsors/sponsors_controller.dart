@@ -1,57 +1,62 @@
 import 'package:hnh/app/abstract/controller.dart';
-import 'package:hnh/app/home/home_presenter.dart';
+import 'package:hnh/app/pages/sponsors/sponsors_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/domain/entities/sponsor.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
 import 'package:hnh/domain/entities/hhh.dart';
 
-class HomeController extends Controller {
-
-  HomePresenter _homePresenter;
+class SponsorsController extends Controller {
+  SponsorsPresenter _sponsorsPresenter;
   User _currentUser;
   HHH _currentHHH;
+  List<Sponsor> _sponsors;
 
   DateTime get eventTime => _currentHHH?.eventTime;
   User get currentUser => _currentUser;
+  List<Sponsor> get sponsors => _sponsors;
   Logger logger;
   bool userRetrieved;
   bool hhhRetrieved;
 
-  HomeController(hhhRepository, sponsorRepository, authRepository) {
-    _homePresenter = HomePresenter(hhhRepository, sponsorRepository, authRepository);
+  SponsorsController(hhhRepository, sponsorRepository, authRepository) {
+    _sponsorsPresenter =  SponsorsPresenter(hhhRepository, sponsorRepository, authRepository);
+    _sponsors = List<Sponsor>();
     initListeners();
     isLoading = true;
-    userRetrieved = hhhRetrieved = false;
+    userRetrieved =hhhRetrieved = false;
     retrieveData();
   }
 
   void initListeners() {
-    _homePresenter.getHHHOnNext = (HHH hhh) {
+    _sponsorsPresenter.getHHHOnNext = (HHH hhh, List<Sponsor> sponsors) {
       _currentHHH = hhh;
+      _sponsors = sponsors;
     };
 
-    _homePresenter.getHHHOnError = (e) {
-      dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
-    };
-
-    _homePresenter.getHHHOnComplete = () {
-      hhhRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
-    };
-
-    _homePresenter.getUserOnNext = (User user) {
-      _currentUser = user;
-    };
-
-    _homePresenter.getUserOnError = (e) {
+    _sponsorsPresenter.getHHHOnError = (e) {
       dismissLoading();
       showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
       print(e);
     };
 
-    _homePresenter.getUserOnComplete = () {
+    _sponsorsPresenter.getHHHOnComplete = () {
+      hhhRetrieved = true;
+      if (userRetrieved)
+        dismissLoading();
+    };
+
+    _sponsorsPresenter.getUserOnNext = (User user) {
+      _currentUser = user;
+    };
+
+    _sponsorsPresenter.getUserOnError = (e) {
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      print(e);
+    };
+
+    _sponsorsPresenter.getUserOnComplete = () {
       userRetrieved = true;
       if (hhhRetrieved)
         dismissLoading();
@@ -59,13 +64,12 @@ class HomeController extends Controller {
   }
 
   void retrieveData() {
-    _homePresenter.getCurrentHHH();
-    _homePresenter.getUser();
+    _sponsorsPresenter.getCurrentHHH();
+    _sponsorsPresenter.getUser();
   }
 
-  @override
   void dispose() {
-    _homePresenter.dispose();
+    _sponsorsPresenter.dispose();
     super.dispose();
   }
 }

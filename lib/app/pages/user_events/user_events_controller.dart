@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:hnh/app/abstract/controller.dart';
-import 'package:hnh/app/user_events/user_events_presenter.dart';
+import 'package:hnh/app/pages/user_events/user_events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';

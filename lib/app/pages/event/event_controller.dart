@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/controller.dart';
-import 'package:hnh/app/event/event_presenter.dart';
+import 'package:hnh/app/pages/event/event_presenter.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';

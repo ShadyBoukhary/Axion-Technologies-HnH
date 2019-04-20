@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hnh/app/abstract/controller.dart';
-import 'package:hnh/app/map/map_presenter.dart';
+import 'package:hnh/app/models/race_tracker.dart';
+import 'package:hnh/app/pages/map/map_presenter.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/utils/google_maps_mapper.dart';
@@ -21,7 +22,7 @@ class MapController extends Controller {
   bool isNavigating;
   Set<Polyline> polylines;
   Set<Marker> markers;
-  Event _event;
+  RaceTracker _event;
 
   LatLng get initial =>
       LatLng(_initialPosition.numLat, _initialPosition.numLon);
@@ -31,7 +32,8 @@ class MapController extends Controller {
   String get remainingDistance => _remainingDistance.toStringAsPrecision(2);
   String get distanceTravelled => _distanceTravelled.toStringAsFixed(1);
 
-  MapController(locationRepository, weatherRepository, this._event) {
+  MapController(locationRepository, weatherRepository, Event event) {
+    _event = RaceTracker.fromEvent(event);
     _mapPresenter = MapPresenter(locationRepository, weatherRepository);
     _currentLocation = _initialPosition = Location.wichitaFalls();
     _currentWeather = Weather.empty();

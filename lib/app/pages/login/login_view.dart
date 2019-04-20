@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/login/login_controller.dart';
 import 'package:hnh/app/abstract/view.dart';
+import 'package:hnh/app/pages/login/login_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/components/inputField.dart';
 import 'package:hnh/app/utils/constants.dart';

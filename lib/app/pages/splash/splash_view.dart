@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
-import 'package:hnh/app/splash/splash_controller.dart';
+import 'package:hnh/app/pages/splash/splash_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';

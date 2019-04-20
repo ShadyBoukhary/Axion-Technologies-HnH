@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/components/mini_map.dart';
-import 'package:hnh/app/event/event_controller.dart';
+import 'package:hnh/app/pages/event/event_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
 import 'package:hnh/domain/entities/event.dart';

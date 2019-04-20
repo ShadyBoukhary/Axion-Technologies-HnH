@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/abstract/view.dart';
-import 'package:hnh/app/register/register_controller.dart';
+import 'package:hnh/app/pages/register/register_controller.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
 class RegisterPage extends StatefulWidget {
