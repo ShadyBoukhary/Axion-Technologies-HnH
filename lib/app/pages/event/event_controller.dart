@@ -27,38 +27,27 @@ class EventController extends Controller {
       _isRegistered = status;
     };
 
-    _eventPresenter.isRegisteredOnError = (e) {
-      print(e);
-      dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message);
-    };
-
+    _eventPresenter.isRegisteredOnError = (e) => handleError(e);
     _eventPresenter.isRegisteredOnComplete = () {
       dismissLoading();
     };
 
-    _eventPresenter.registerOnError = (e) {
-      // TODO: show the user the error
-      dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message);
-    };
-
+    _eventPresenter.registerOnError = (e) => handleError(e);
     _eventPresenter.registerOnComplete = () {
       _isRegistered = true;
       dismissLoading();
     };
 
-    _eventPresenter.unRegisterOnError = (e) {
-      // TODO: show the user the error
-      print(e);
-      dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message);
-    };
-
+    _eventPresenter.unRegisterOnError = (e) => handleError(e);
     _eventPresenter.unRegisterOnComplete = () {
       _isRegistered = false;
       dismissLoading();
     };
+  }
+
+  void handleError(e) {
+    dismissLoading();
+    showGenericSnackbar(getScaffoldKey(), e.message);
   }
 
   void onSignUpPressed() =>
@@ -96,12 +85,15 @@ class EventController extends Controller {
   _launchMaps() async {
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${event.location.lat},${event.location.lon}';
     String appleUrl = 'https://maps.apple.com/?sll=${event.location.lat},${event.location.lon}&z=10&t=s';
+
     if (await canLaunch(googleUrl)) {
-      print('launching com googleUrl');
+      logger.info('Launching Google Maps: $googleUrl');
       await launch(googleUrl);
+
     } else if (await canLaunch(appleUrl)) {
-      print('launching apple url');
+      logger.info('Launching Apple Maps: $appleUrl');
       await launch(appleUrl);
+
     } else {
       showGenericSnackbar(getScaffoldKey(), 'A problem occured.');
     }
