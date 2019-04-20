@@ -61,14 +61,15 @@ class GPSDetails extends StatelessWidget {
                   'Speed mph', _location.speedInMiles.toStringAsPrecision(2)),
               getUnitColumn(
                   'Temp', '${_weather.temperature.toStringAsFixed(0)}℉'),
-              getUnitColumn('Wind mph', '${_weather.windSpeed}')
+                  getUnitColumn('Rem. miles', _remainingDistance),
+              
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               getUnitColumn('Wind ↢', '${_weather.windDegrees}'),
-              getUnitColumn('Rem. miles', _remainingDistance),
+              getUnitColumn('Wind mph', '${_weather.windSpeed}'),
               getUnitColumn('Travelled', _distanceTravelled)
             ],
           ),

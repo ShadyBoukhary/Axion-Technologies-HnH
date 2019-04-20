@@ -13,12 +13,12 @@ class Weather {
       this.humidity, this.pressure, this.windSpeed, this.windDegrees);
 
   Weather.fromMap(Map<String, dynamic> map)
-      : temperature = Utils.kelvinToFah(map['main']['temp']),
-        minTemperature = Utils.kelvinToFah(map['main']['temp_min']),
-        maxTemperature = Utils.kelvinToFah(map['main']['temp_max']),
-        humidity = map['main']['humidity'],
+      : temperature = Utils.kelvinToFah(map['main']['temp'].toDouble()),
+        minTemperature = Utils.kelvinToFah(map['main']['temp_min'].toDouble()),
+        maxTemperature = Utils.kelvinToFah(map['main']['temp_max'].toDouble()),
+        humidity = map['main']['humidity'].toInt(),
         pressure = map['main']['pressure'].toInt(),
-        windSpeed = map['wind']['speed'],
+        windSpeed = map['wind']['speed'].toDouble(),
         windDegrees = map['wind']['deg'].toInt();
 
   Weather.empty()

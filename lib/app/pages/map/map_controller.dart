@@ -28,7 +28,7 @@ class MapController extends Controller {
       LatLng(_initialPosition.numLat, _initialPosition.numLon);
   Location get currentLocation => _currentLocation;
   Weather get currentWeather => _currentWeather;
-  String get totalDistance => _totalDistance.toStringAsPrecision(2);
+  String get totalDistance => _totalDistance.toStringAsFixed(2);
   String get remainingDistance => _remainingDistance.toStringAsPrecision(2);
   String get distanceTravelled => _distanceTravelled.toStringAsFixed(1);
 
@@ -41,7 +41,7 @@ class MapController extends Controller {
     polylines = Set<Polyline>();
     markers = Set<Marker>();
     _isInitialSet = false;
-    isNavigating = true;
+    isNavigating = false;
     init();
     _mapPresenter.startTrackingLocation();
   }
@@ -125,11 +125,6 @@ class MapController extends Controller {
     super.dispose();
   }
 
-  void pop() {
-    Navigator.of(getContext(), rootNavigator: true).pop(); // dialog
-    Navigator.of(getContext(), rootNavigator: true).pop(); // page
-  }
-
   void initPolylines() {
     polylines.add(Polyline(
         polylineId: PolylineId(polylines.length.toString()),
@@ -172,6 +167,14 @@ class MapController extends Controller {
         infoWindow: InfoWindow(
             title: 'Finish Line', snippet: 'This is where the race ends.'),
       ));
+    }
+  }
+
+  void handleStart() async {
+    isNavigating = !isNavigating;
+    if (isNavigating) {
+      _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: mapCoordinatesToLatLng(_currentLocation.toCoordinates()), zoom: 18.5, tilt: 45)));
     }
   }
 }

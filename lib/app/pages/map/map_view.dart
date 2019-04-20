@@ -7,7 +7,7 @@ import 'package:hnh/app/pages/map/map_controller.dart';
 import 'package:hnh/data/repositories/data_weather_repository.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
-
+import 'package:flutter/cupertino.dart';
 class MapPage extends StatefulWidget {
   MapPage({Key key, @required this.event}) : super(key: key);
 
@@ -18,9 +18,8 @@ class MapPage extends StatefulWidget {
       DeviceLocationRepository(), DataWeatherRepository(), event));
 }
 
-class _MapPageView extends View<MapPage> {
+class _MapPageView extends View<MapPage> with SingleTickerProviderStateMixin {
   MapController _controller;
-
   _MapPageView(this._controller);
 
   @override
@@ -34,22 +33,36 @@ class _MapPageView extends View<MapPage> {
     return WillPopScope(
       key: scaffoldKey,
       child: Scaffold(
-        //  appBar: appBar,
+        appBar: appBar,
         body: SafeArea(
           child: Stack(
-            children: <Widget>[mapContainer, exitButton, getTracker()],
+            children: <Widget>[mapContainer, getTracker()],
           ),
         ),
       ),
-      onWillPop: _showDialog,
+      onWillPop: () async {
+        // fixes a bug where if the user clicks on the appbar back button and clicks outside
+        // the dialog, the material button returns null and crashes the app
+        // this processes the dialog result manually
+        bool result = await _showDialog();
+        return result != null ? Future.value(result) : Future.value(false);
+      },
     );
   }
 
   AppBar get appBar => AppBar(
-        title: Text(
-          widget.event.name,
-          style: TextStyle(
-              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w500),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            RawMaterialButton(
+              textStyle: TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.red,
+                  fontWeight: FontWeight.w500),
+                  child: Text(_controller.isNavigating ? 'Unlock Camera' : "Lock Camera"),
+                  onPressed: () => callHandler(_controller.handleStart),
+            ),
+          ],
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -73,23 +86,6 @@ class _MapPageView extends View<MapPage> {
           markers: _controller.markers,
         ),
       );
-
-  Widget get exitButton => Positioned(
-      left: 10.0,
-      top: 10.0,
-      width: 40.0,
-      height: 40.0,
-      child: RawMaterialButton(
-        fillColor: Colors.red,
-        splashColor: Colors.redAccent,
-        child: Icon(
-          Icons.settings_power,
-          color: Colors.white,
-          size: 25,
-        ),
-        onPressed: () => _showDialog2(),
-        shape: const StadiumBorder(),
-      ));
 
   Widget getTracker() {
     return Positioned(
@@ -124,25 +120,6 @@ class _MapPageView extends View<MapPage> {
           },
         ) ??
         false;
-  }
-
-  void _showDialog2() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Exit Session"),
-          content: Text("Are you sure you want to end this session?"),
-          actions: <Widget>[
-            FlatButton(child: Text("Yes"), onPressed: _controller.pop),
-            FlatButton(
-              child: Text("No"),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
