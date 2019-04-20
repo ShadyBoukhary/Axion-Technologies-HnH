@@ -80,14 +80,6 @@ class _EventsPageView extends View<EventsPage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            Text(
-              'See All (${_controller.upComingEvents.length})',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
           ],
         ),
       ),

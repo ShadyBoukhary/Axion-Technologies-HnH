@@ -49,15 +49,8 @@ class _LocalPlacesPageView extends View<LocalPlacesPage> {
         HotelsTab(_controller.hotels),
       ],
     );
-
-    // get all events and add them to view
-    // List<SponsorCard> sponsors = sponsorCards;
-    // if (sponsors.length > 0) {
-    //   children.addAll(sponsors);
-    // }
   }
 
-  //List<SponsorCard> get sponsorCards => _controller.places.map((sponsor) => SponsorCard(sponsor)).toList();
 
   AppBar get appBar => AppBar(
         title: Text(

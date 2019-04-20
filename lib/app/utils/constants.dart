@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class UIConstants {
   static const TextStyle fieldHintStyle = TextStyle(fontWeight: FontWeight.w300, color: Colors.black);
   static const String appName = "Hotter'n Hell";
-  static const double progressBarOpacity = 0.8;
+  static const double progressBarOpacity = 0.6;
   static const Color progressBarColor = Colors.black;
 }
 

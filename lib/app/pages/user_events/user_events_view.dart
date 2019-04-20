@@ -50,13 +50,17 @@ class _UserEventsPageView extends View<UserEventsPage> {
     Widget child = _controller.events.isNotEmpty
         ? getEvents()
         : Center(
+            child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-            'No saved events.',
-            style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.w200,
-                  ),
+              'No saved events. Click on the star in the event page to save.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 19.0,
+                fontWeight: FontWeight.w200,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ));
     return Padding(padding: EdgeInsets.only(top: 25), child: child);
   }
@@ -74,8 +78,7 @@ class _UserEventsPageView extends View<UserEventsPage> {
 
   ListView getEvents() {
     List<UserEventCard> cards = _controller.events
-        .map((event) => 
-            UserEventCard(event, _controller.currentUser, true))
+        .map((event) => UserEventCard(event, _controller.currentUser, true))
         .toList();
     return ListView(
       scrollDirection: Axis.vertical,

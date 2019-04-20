@@ -55,7 +55,7 @@ class LocalPlaceCard extends StatelessWidget {
             fit: BoxFit.cover,
             alignment: Alignment.center,
             colorBlendMode: BlendMode.srcOver,
-            color: Colors.black.withOpacity(0.7),
+            color: Colors.black.withOpacity(0.6),
           ),
         ),
       );

@@ -26,22 +26,26 @@ class HotelsTab extends StatelessWidget {
 
 /// Constructs a body for either tabs using
 Widget getBody(List<LocalPlace> localPlaces) {
-
   // return a list of LocalPlaceCards if there are places
   if (localPlaces.length > 0) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: ListView.builder(
           itemCount: localPlaces.length,
-          itemBuilder: (BuildContext ctxt, int index) => LocalPlaceCard(localPlaces[index]),
+          itemBuilder: (BuildContext ctxt, int index) =>
+              LocalPlaceCard(localPlaces[index]),
           padding: EdgeInsets.symmetric(horizontal: 10.0)),
     );
   }
 
-  // returna centered text if there are no local places
+  // return a centered text if there are no local places
   return Center(
-    child: Text(
+      child: Text(
     'Nothing found. Try again later.',
-    style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w500),
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 19.0,
+      fontWeight: FontWeight.w200,
+    ),
   ));
 }

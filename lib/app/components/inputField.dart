@@ -4,18 +4,23 @@ class InputField extends StatelessWidget {
 
   final TextEditingController _controller;
   final String _hintText;
+  final FocusNode _focusNode;
+  TextInputType _type;
   bool isPassword;
 
-  InputField(this._controller, this._hintText, {bool isPassword = false}) {
+  InputField(this._controller, this._hintText, this._focusNode, {bool isPassword = false, TextInputType type = TextInputType.text}) {
     this.isPassword = isPassword;
+    _type = type;
   }
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 5.0),
         child: TextFormField(
+          keyboardType: _type,
           controller: _controller,
-          obscureText: isPassword,
+          focusNode: _focusNode,
+          obscureText: isPassword,     
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(15.0),
             border: OutlineInputBorder(

@@ -4,6 +4,7 @@ import 'package:hnh/app/pages/login/login_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/components/inputField.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/app/components/ensure_focus.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -22,8 +23,12 @@ class LoginPageView extends View<LoginPage> {
   static const String registerButtonText = 'No account? Create one.';
 
   LoginController _controller;
+  final FocusNode _emailFocus;
+  final FocusNode _passFocus;
 
-  LoginPageView(this._controller) {
+  LoginPageView(this._controller)
+      : _emailFocus = FocusNode(),
+        _passFocus = FocusNode() {
     _controller.initController(scaffoldKey, callHandler);
   }
 
@@ -42,16 +47,7 @@ class LoginPageView extends View<LoginPage> {
   // Scaffold body
   Stack get body => Stack(
         children: <Widget>[
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            height: MediaQuery.of(context).size.height,
-            child: Image.asset(
-              Resources.background,
-              fit: BoxFit.cover,
-            ),
-          ),
+          background,
           ListView(
             physics: PageScrollPhysics(),
             children: <Widget>[
@@ -114,16 +110,36 @@ class LoginPageView extends View<LoginPage> {
         ],
       );
 
+  Widget get background => Positioned(
+        top: 0.0,
+        left: 0.0,
+        right: 0.0,
+        height: MediaQuery.of(context).size.height,
+        child: Image.asset(
+          Resources.background,
+          fit: BoxFit.cover,
+        ),
+      );
+
   // Fields and Buttons
 
   /// Email input field
-  InputField get emailField =>
-      InputField(_controller.emailTextController, emailPrompt);
+  Widget get emailField => EnsureVisibleWhenFocused(
+      child: InputField(
+        _controller.emailTextController,
+        emailPrompt,
+        _emailFocus,
+        type: TextInputType.emailAddress,
+      ),
+      focusNode: _emailFocus);
 
   /// Password input field
-  InputField get passwordField =>
-      InputField(_controller.passwordTextController, passwordPrompt,
-          isPassword: true);
+  Widget get passwordField => EnsureVisibleWhenFocused(
+        child: InputField(
+            _controller.passwordTextController, passwordPrompt, _passFocus,
+            isPassword: true),
+        focusNode: _passFocus,
+      );
 
   GestureDetector get forgotPasswordButton => GestureDetector(
         onTap: () {},

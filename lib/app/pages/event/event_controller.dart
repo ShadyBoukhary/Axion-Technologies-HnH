@@ -3,9 +3,9 @@ import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/pages/event/event_presenter.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
-import 'package:logging/logging.dart';
-import 'package:hnh/domain/entities/hhh.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class EventController extends Controller {
   EventPresenter _eventPresenter;
   Event _event;
@@ -23,7 +23,6 @@ class EventController extends Controller {
   }
 
   void initListeners() {
-
     _eventPresenter.isRegisteredOnNext = (bool status) {
       _isRegistered = status;
     };
@@ -31,6 +30,7 @@ class EventController extends Controller {
     _eventPresenter.isRegisteredOnError = (e) {
       print(e);
       dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message);
     };
 
     _eventPresenter.isRegisteredOnComplete = () {
@@ -39,8 +39,8 @@ class EventController extends Controller {
 
     _eventPresenter.registerOnError = (e) {
       // TODO: show the user the error
-      print(e);
       dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message);
     };
 
     _eventPresenter.registerOnComplete = () {
@@ -52,20 +52,31 @@ class EventController extends Controller {
       // TODO: show the user the error
       print(e);
       dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message);
     };
 
     _eventPresenter.unRegisterOnComplete = () {
       _isRegistered = false;
       dismissLoading();
     };
-
   }
 
-  void onSignUpPressed() => Navigator.of(getContext()).pushNamed('/web', arguments: {'title': 'Registration', 'url': HHHConstants.registrationUrl});
+  void onSignUpPressed() =>
+      Navigator.of(getContext()).pushNamed('/web', arguments: {
+        'title': 'Registration',
+        'url': HHHConstants.registrationUrl
+      });
 
   void onStartNavigationPressed() {
-    Navigator.of(getContext()).pushReplacementNamed('/map', arguments: {'event': _event});
+    // navigate to maps page if the event is a race
+    // otherwise, try to open Google or Apple maps
+    if (event.isRace) {
+      Navigator.of(getContext()).pushReplacementNamed('/map', arguments: {'event': _event});
+    } else {
+      _launchMaps();
+    }
   }
+
   void _getIsRegistered() {
     startLoading();
     _eventPresenter.isRegistered(uid: _user.uid, eventId: _event.id);
@@ -79,7 +90,23 @@ class EventController extends Controller {
       _eventPresenter.registerForEvent(uid: _user.uid, eventId: _event.id);
     }
   }
-    
+
+  /// Launches Apple Maps or Google Maps, whichever is available with the 
+  /// [event.location] to navigate to the event if not a race
+  _launchMaps() async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${event.location.lat},${event.location.lon}';
+    String appleUrl = 'https://maps.apple.com/?sll=${event.location.lat},${event.location.lon}&z=10&t=s';
+    if (await canLaunch(googleUrl)) {
+      print('launching com googleUrl');
+      await launch(googleUrl);
+    } else if (await canLaunch(appleUrl)) {
+      print('launching apple url');
+      await launch(appleUrl);
+    } else {
+      showGenericSnackbar(getScaffoldKey(), 'A problem occured.');
+    }
+  }
+
   @override
   void dispose() {
     _eventPresenter.dispose();
