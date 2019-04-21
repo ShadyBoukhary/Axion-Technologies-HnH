@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/local_place.dart';
+import 'package:logging/logging.dart';
 
 class LocalPlaceCard extends StatelessWidget {
   final LocalPlace _place;
+ // final GlobalKey<ScaffoldState> key;
 
-  LocalPlaceCard(this._place);
+  LocalPlaceCard(this._place);//: key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: key,
       padding: const EdgeInsets.all(3.0),
       child: Stack(
         children: <Widget>[
@@ -28,7 +32,7 @@ class LocalPlaceCard extends StatelessWidget {
         elevation: 8.0,
         child: InkWell(
           splashColor: Colors.black,
-          onTap: () => navigate(context),
+          onTap: () => open(),
           child: Stack(
             children: <Widget>[
               getImage(context),
@@ -103,6 +107,5 @@ class LocalPlaceCard extends StatelessWidget {
         ],
       );
 
-  void navigate(context) => Navigator.pushNamed(context, '/web',
-      arguments: {'title': "Navigation", 'url': _place.navigationLink});
+  void open() => launchMaps(_place.coordinates, Logger('LocalPlaceCard'), key);
 }

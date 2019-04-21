@@ -4,8 +4,7 @@ import 'package:hnh/app/pages/event/event_presenter.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:io';
+
 
 class EventController extends Controller {
   EventPresenter _eventPresenter;
@@ -65,7 +64,7 @@ class EventController extends Controller {
     if (event.isRace) {
       Navigator.of(getContext()).pushReplacementNamed('/map', arguments: {'event': _event});
     } else {
-      _launchMaps();
+      launchMaps(_event.location, logger, getScaffoldKey());
     }
   }
 
@@ -83,30 +82,6 @@ class EventController extends Controller {
     }
   }
 
-  /// Launches Apple Maps or Google Maps, whichever is available with the 
-  /// [event.location] to navigate to the event if not a race
-  _launchMaps() async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${event.location.lat},${event.location.lon}';
-    String url = '';
-    if (Platform.isIOS) {
-        String googleUrl = 'comgooglemaps://?q=${event.location.lat},${event.location.lon}';
-        String appleUrl = 'https://maps.apple.com/?q=${event.location.lat},${event.location.lon}';
-        if (await canLaunch(googleUrl)) {
-          url = googleUrl;
-        } else if (await canLaunch(appleUrl)) {
-          url = appleUrl;
-        }
-    } else if (Platform.isAndroid && await canLaunch(googleUrl)) {
-        url = googleUrl;
-    }
-
-    if (url != '') {
-      logger.info('launching: $url');
-      await launch(url);
-    } else {
-      showGenericSnackbar(getScaffoldKey(), 'A problem occured.');
-    }
-  }
 
   @override
   void dispose() {
