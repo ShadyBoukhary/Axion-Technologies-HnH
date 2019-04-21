@@ -9,18 +9,18 @@ class Router {
 
   Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/home':
+      case Pages.home:
         return _buildRoute(settings, HomePage());
-      case '/login':
+      case Pages.login:
         return _buildRoute(settings, LoginPage());
-      case '/register':
+      case Pages.register:
         return _buildRoute(settings, RegisterPage());
-      case '/map':
+      case Pages.map:
         Map<String, dynamic> args = settings.arguments as Map;
         return _buildRoute(settings, MapPage(event: args['event']));
-      case '/events':
+      case Pages.events:
         return _buildRoute(settings, EventsPage());
-      case '/event':
+      case Pages.event:
         Map<String, dynamic> args = settings.arguments as Map;
         return _buildRoute(
             settings,
@@ -28,15 +28,15 @@ class Router {
                 event: args['event'],
                 user: args['user'],
                 isUserEvent: args['isUserEvent']));
-      case '/userEvents':
+      case Pages.userEvents:
         Map<String, dynamic> args = settings.arguments as Map;
         return _buildRoute(
             settings, UserEventsPage(routeObserver, user: args['user']));
-      case '/sponsors':
+      case Pages.sponsors:
         return _buildRoute(settings, SponsorsPage());
-      case '/localPlaces':
+      case Pages.localPlaces:
         return _buildRoute(settings, LocalPlacesPage());
-      case '/web':
+      case Pages.web:
         Map<String, String> args = settings.arguments as Map;
         return _buildRoute(
             settings, WebPage(title: args['title'], url: args['url']));

@@ -4,7 +4,15 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 
+/// A `static` helepr for `HTTP` requests throughout the application.
 class HttpHelper {
+
+  /// Invokes an `http` request given.
+  /// [url] can either be a `string` or a `Uri`.
+  /// The [type] can be any of the [RequestType]s.
+  /// [body] and [encoding] only apply to [RequestType.post] and [RequestType.put] requests. Otherwise,
+  /// they have no effect.
+  /// This is optimized for requests that anticipate a response body of type `Map<String, dynamic>`, as in a json file-type response.
   static Future<Map<String, dynamic>> invokeHttp(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
     Map<String, dynamic> responseBody;
@@ -17,6 +25,12 @@ class HttpHelper {
     return responseBody;
   }
 
+  /// Invokes an `http` request given.
+  /// [url] can either be a `string` or a `Uri`.
+  /// The [type] can be any of the [RequestType]s.
+  /// [body] and [encoding] only apply to [RequestType.post] and [RequestType.put] requests. Otherwise,
+  /// they have no effect.
+  /// This is optimized for requests that anticipate a response body of type `List<dynamic>`, as in a list of json objects.
   static Future<List<dynamic>> invokeHttp2(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
     List<dynamic> responseBody;
@@ -32,6 +46,7 @@ class HttpHelper {
     return responseBody;
   }
 
+  /// Invoke the `http` request, returning the [http.Response] unparsed.
   static Future<http.Response> _invoke(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
 

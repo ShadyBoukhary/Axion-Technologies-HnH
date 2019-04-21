@@ -29,9 +29,13 @@ class Sponsor {
         imageUrl = map['imageUrl'],
         year = map['year'];
 
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
   Map<String, dynamic> toJson() =>
       {'name': name, 'website': website, 'imageUrl': imageUrl, 'year': year};
 
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => toJson().cast<String, String>();
 
   @override

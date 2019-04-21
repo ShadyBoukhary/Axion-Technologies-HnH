@@ -44,10 +44,14 @@ class Location extends Coordinates {
   String toString() =>
       '{ lat: $lat, lon: $lon, timestamp: $timestamp, speed: $speed }';
 
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
   @override
   Map<String, dynamic> toJson() =>
       {'lat': lat, 'lon': lon, 'timestamp': timestamp, 'speed': speed};
 
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => {
         'lat': lat,
         'lon': lon,

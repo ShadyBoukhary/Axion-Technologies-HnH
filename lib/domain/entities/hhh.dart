@@ -49,7 +49,8 @@ class HHH {
         sponsors = List.from(hhh.sponsors),
         events = List.from(hhh.events);
 
-  /// To a nested `Map`
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
   Map<String, dynamic> toJson() => {
         'id': id,
         'description': description,
@@ -59,7 +60,8 @@ class HHH {
         'events': events
       };
 
-  /// To a `string` `map`
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => {
         'id': id,
         'description': description,

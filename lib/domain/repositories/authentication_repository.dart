@@ -5,9 +5,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:hnh/domain/entities/user.dart';
 
-/// Abstract class that defines the expected behavior of an [AuthenticationRepository]
-/// A repository tasked with user authentication and registration
-/// To be implemented in the Data layer
+/// A repository tasked with user authentication and registration.
 abstract class AuthenticationRepository {
   /// Registers a new user using the provided [username] and [password]
   Future<void> register(
@@ -20,15 +18,15 @@ abstract class AuthenticationRepository {
   Future<void> authenticate(
       {@required String email, @required String password});
 
-  /// Returns a `Future<bool>` whether the current user is authenticated
+  /// Returns whether the [User] is authenticated.
   Future<bool> isAuthenticated();
 
-  // Returns the current authenticated `User` wrapped in a `Future`
+  /// Returns the current authenticated [User].
   Future<User> getCurrentUser();
 
-  /// Resets the password of a user
+  /// Resets the password of a [User]
   void resetPassword();
 
-  /// Logs out the user
+  /// Logs out the [User]
   Future<void> logout();
 }

@@ -25,11 +25,15 @@ class Coordinates {
       : lat = map['lat'],
         lon = map['lon'];
 
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
   Map<String, dynamic> toJson() => {
         'lat': lat,
         'lon': lon,
       };
 
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => {
         'lat': lat,
         'lon': lon,

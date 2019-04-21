@@ -33,6 +33,8 @@ class User {
         uid = map['uid'],
         email = map['email'];
 
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
         'lastName': lastName,
@@ -40,6 +42,8 @@ class User {
         'email': email
       };
 
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => {
         'firstName': firstName,
         'lastName': lastName,

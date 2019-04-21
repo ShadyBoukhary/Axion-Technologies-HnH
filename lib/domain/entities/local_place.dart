@@ -14,7 +14,7 @@ class LocalPlace {
   /// Location of the local place
   Coordinates _coordinates;
 
-  /// Type of the local place
+  /// Type of the local place, either a [LocalPlaceType.restaurant] or [LocalPlaceType.hotel]
   LocalPlaceType _type;
 
   /// The average user rarting of the local place
@@ -101,6 +101,8 @@ class LocalPlace {
         'navigationLink': _navigationLink
       };
 
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => {
         'name': _name,
         'address': _address,

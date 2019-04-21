@@ -6,8 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UIConstants {
-  static const TextStyle fieldHintStyle =
-      TextStyle(fontWeight: FontWeight.w300, color: Colors.black);
+  static const TextStyle fieldHintStyle = TextStyle(fontWeight: FontWeight.w300, color: Colors.black);
   static const String appName = "Hotter'n Hell";
   static const double progressBarOpacity = 0.6;
   static const Color progressBarColor = Colors.black;
@@ -15,8 +14,7 @@ class UIConstants {
 
 class Strings {
   static const String registrationFormIncomplete = 'Form must be filled out.';
-  static const String tosNotAccepted =
-      'Please accept the Terms of Service to register.';
+  static const String tosNotAccepted = 'Please accept the Terms of Service to register.';
   static const String registrationSuccessful = 'Registration Successful!';
 }
 

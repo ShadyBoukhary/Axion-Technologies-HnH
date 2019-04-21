@@ -28,13 +28,16 @@ class EventRegistration {
         eventId = map['eventId'],
         timestamp = map['timestamp'];
 
-  // Serializer
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
   Map<String, dynamic> toJson() => {
         'uid': uid,
         'eventId': eventId,
         'timestamp': timestamp,
       };
 
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
   Map<String, String> toJson2() => {
         'uid': uid,
         'eventId': eventId,
