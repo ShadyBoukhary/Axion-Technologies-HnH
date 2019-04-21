@@ -4,27 +4,29 @@ import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
 
 class EventCard extends StatelessWidget {
-
   final Event _event;
   final User _user;
-  final bool isUserEvent;  // indicates whether the event card is being used for user events for styling purposes
+  final bool
+      isUserEvent; // indicates whether the event card is being used for user events for styling purposes
 
   EventCard(this._event, this._user, [this.isUserEvent]);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-          child: Padding(
+      child: Padding(
         padding: EdgeInsets.only(right: (isUserEvent == null ? 15.0 : 0)),
         child: Stack(
           children: <Widget>[
             Container(
-              width:  isUserEvent == null ? MediaQuery.of(context).size.width / 1.4 : MediaQuery.of(context).size.width / 1.15,
+              width: isUserEvent == null
+                  ? MediaQuery.of(context).size.width / 1.4
+                  : MediaQuery.of(context).size.width / 1.15,
               height: MediaQuery.of(context).size.height / 4,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: InkWell(
-                  onTap: () => { navigate(context) },
+                  onTap: () => {navigate(context)},
                   splashColor: Colors.black,
                   child: Image.network(
                     _event.imageUrl,
@@ -58,7 +60,7 @@ class EventCard extends StatelessWidget {
                 ),
                 child: InkWell(
                   splashColor: Colors.black,
-                  onTap: () => { navigate(context) },
+                  onTap: () => {navigate(context)},
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -67,12 +69,15 @@ class EventCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              _event.name,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500,
+                            Flexible(
+                              child: Text(
+                                _event.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ],
@@ -106,10 +111,9 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  void navigate(context) { 
+  void navigate(context) {
     var args = {'event': _event, 'user': _user};
     args['isUserEvent'] = isUserEvent != null ? true : false;
     Navigator.pushNamed(context, '/event', arguments: args);
   }
-
 }

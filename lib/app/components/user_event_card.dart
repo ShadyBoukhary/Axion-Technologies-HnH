@@ -12,7 +12,7 @@ class UserEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: <Widget>[
           SizedBox(
@@ -28,7 +28,7 @@ class UserEventCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        elevation: 8.0,
+        elevation: 6.0,
         child: InkWell(
           splashColor: Colors.black,
           onTap: () => navigate(context),

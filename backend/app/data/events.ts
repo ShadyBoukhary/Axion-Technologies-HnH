@@ -103,14 +103,14 @@ const Races: Event[] = [
         isFeatured: false
     },
     {
-        _id: '5a68d740df1094b82752c695',
+        _id: '5a68d750cf1084b92753c695',
         name: 'Hotter \'n Hell Hundred 100 Mile Race',
         description: 'Hotter \'n Hell Hundred 100 Mile Race',
         location: { lat: '33.915518', lon: '-98.499189', timestamp: (Math.floor(Date.now() / 1000)).toString() },
         route: OneHundredMileRouteCoordinates,
         stops: Stops,
         imageUrl: 'https://static1.squarespace.com/static/5755853d20c6478394a9a05c/t/5762dc38e3df28879d163bc3/1466096766456/?format=1500w',
-        isFeatured: false
+        isFeatured: true
     }
 ]
 

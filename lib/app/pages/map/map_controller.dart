@@ -29,7 +29,7 @@ class MapController extends Controller {
   Location get currentLocation => _currentLocation;
   Weather get currentWeather => _currentWeather;
   String get totalDistance => _totalDistance.toStringAsFixed(2);
-  String get remainingDistance => _remainingDistance.toStringAsPrecision(2);
+  String get remainingDistance => _remainingDistance.toStringAsPrecision(3);
   String get distanceTravelled => _distanceTravelled.toStringAsFixed(1);
 
   MapController(locationRepository, weatherRepository, Event event) {

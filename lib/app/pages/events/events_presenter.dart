@@ -67,7 +67,9 @@ class _GetAllEventsObserver implements Observer<List<Event>> {
     assert(events is List<Event>);
     assert(_eventPresenter.getEventsOnNext != null);
     List<Event> featured = events.where((event) => event.isFeatured).toList();
+    featured.sort((event1, event2) => event1.isRace ? 0 : 1);
     List<Event> upcoming = events.where((event) => !event.isFeatured).toList();
+    upcoming.sort((event1, event2) => event1.route.length.compareTo(event2.route.length));
     _eventPresenter.getEventsOnNext(featured, upcoming);
   }
 
