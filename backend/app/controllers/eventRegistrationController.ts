@@ -2,7 +2,7 @@
 
 import { Request, Response } from 'express-serve-static-core';
 import { NextFunction } from 'connect';
-import{ EventRegistration }from '../models/eventRegistrationModel';
+import { EventRegistration } from '../models/eventRegistrationModel';
 import * as eg from '../interfaces/non_modals/eventRegistration';
 
 /**
@@ -30,23 +30,24 @@ export async function createEventRegistration(req: Request, res: Response, next:
     console.log(JSON.stringify(eventRegistration));
     eventRegistration.save((err, eventReg) => {
         if (err) {
+            let message = err.message;
             if (err.code === 11000) {
-                res.status(400).send({
-                    'status': '400',
-                    'message': 'Already registered to event.',
-                    'statusText': 'Bad Request'
-                });
+                message = 'Already registered to event.';
             }
-
-            return next(err);
+            res.status(400).send({
+                'status': '400',
+                'message': message,
+                'statusText': 'Bad Request'
+            });
+        } else {
+            res.status(200);
+            res.send({
+                uid: eventReg.uid,
+                event: eventReg.eventId,
+                timestamp: eventReg.timestamp
+            });
 
         }
-        res.status(200);
-        res.send({
-            uid: eventReg.uid,
-            event: eventReg.eventId,
-            timestamp: eventReg.timestamp
-        });
     });
 }
 
@@ -70,7 +71,7 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
             throw Error('User ID was not provided.');
         }
 
-        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({uid: uid }, '-_id').exec();
+        let eventRegistrations: eg.EventRegistration[] = await EventRegistration.find({ uid: uid }, '-_id').exec();
         if (eventRegistrations.length < 1) {
             res.status(200).send([]);
         } else {
@@ -101,12 +102,12 @@ export async function getEventRegistrationsByUser(req: Request, res: Response, n
 export async function deleteEventRegistration(req: Request, res: Response, next: NextFunction) {
     try {
         console.log(req.query);
-        
+
         let uid = req.query.uid;
         let eventId = req.query.eventId;
         if (!uid || !eventId)
             throw Error('EventId or uid was not provided');
-        await EventRegistration.findOneAndRemove({uid: uid, eventId: eventId}).exec();
+        await EventRegistration.findOneAndRemove({ uid: uid, eventId: eventId }).exec();
         res.status(200).send({
             'status': 200,
             'message': 'OK',
