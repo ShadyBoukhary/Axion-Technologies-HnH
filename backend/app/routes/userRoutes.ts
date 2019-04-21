@@ -19,6 +19,15 @@ export function userRoutes(app: express.Application) {
     .put(verifyToken, User.updateUser)
     .delete(verifyToken, User.deleteUser);
 
+  app.route('/forgotPassword')
+    .get(User.forgotPassword);
+
+  app.route('/resetPassword')
+    .get(User.resetPassword);
+
+  app.route('/newPassword')
+    .get(User.newPassword);
+
   app.route('/login')
     .post(User.login);
 };

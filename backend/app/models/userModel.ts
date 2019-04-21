@@ -32,11 +32,23 @@ UserSchema.pre<IUserDocument>('save', async function (next) {
     }
 });
 
+UserSchema.pre<IUserDocument>('update', async function (next) {
+
+    try {
+        let hash = await User.hashPassword(this.password);
+        this.password = hash;
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
 //authenticate input against database
 /* eslint-disable */
 
 UserSchema.static('hashPassword', async (password: string) => {
     try {
+        console.log(password);
         let hash = await bcrypt.hash(password, 10);
         return hash;
     } catch (error) {
@@ -59,7 +71,7 @@ UserSchema.static('authenticate', async (email: string, password: string) => {
 
     try {
         let user = await User.findOne({email: email});
-        if (user == null) throw "No user with this email is registerd on our system."
+        if (user == null) throw "No user with this email is registered in our system."
         let match = await user.comparePassword(password);
         if (!match) throw "The password provided is incorrect.";
         return user;
