@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hnh/app/abstract/view.dart';
 import 'package:hnh/app/components/mini_map.dart';
 import 'package:hnh/app/pages/event/event_controller.dart';
@@ -38,76 +39,111 @@ class _EventPageView extends View<EventPage> {
   }
 
   @override
+  void initState() {
+    // hacky way to display the app after the page and the transition
+    // has completely finished. The future delay is just an extra measure
+    // to prevent any jittering when calling setstate
+    // this makes the page load faster since the google map
+    // is only displayed and the UI updated after the page has 
+    // already loaded
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(Duration(milliseconds: 300), () {
+          setState(() {
+            _controller.finishedLoading = true;
+          });
+        });
+      });
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
         body: ModalProgressHUD(
-            child: body,
+            child: getBody(),
             inAsyncCall: _controller.isLoading,
             color: UIConstants.progressBarColor,
-            opacity: UIConstants.progressBarOpacity));
+            opacity: 0));
   }
 
-  ListView get body => ListView(
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: eventHeader,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      _controller.event.name,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.0,
-                      ),
-                      overflow: TextOverflow.clip,
-                      softWrap: true,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  _controller.event.description,
+  ListView getBody() {
+    List<Widget> children = [
+      Container(
+        width: MediaQuery.of(context).size.width,
+        child: eventHeader,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  _controller.event.name,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15.0,
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w500,
                     letterSpacing: 1.0,
                   ),
+                  overflow: TextOverflow.clip,
+                  softWrap: true,
                 ),
-              ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: MiniMap(widget.event),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(right: 30.0, bottom: 20.0, left: 30.0, top: 20),
-            child: getSignupButton(),
-          ),
-        ],
-      );
+          ],
+        ),
+      ),
+      Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              _controller.event.description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 15.0,
+                color: Colors.white,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 1.0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ];
+
+    // load the map only after the page has already finished loading
+    // improve performance on somewhat slow devices
+    if (_controller.finishedLoading) {
+      children.add(Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: MiniMap(widget.event),
+      ));
+    } else {
+      children.add(Container(
+        height: 265,
+        width: 115,
+        color: Colors.transparent,
+      ));
+    }
+
+    children.add(Padding(
+      padding:
+          const EdgeInsets.only(right: 30.0, bottom: 20.0, left: 30.0, top: 20),
+      child: getSignupButton(),
+    ));
+
+    return ListView(children: children);
+  }
 
   Stack get eventHeader => Stack(
         children: <Widget>[
@@ -121,7 +157,7 @@ class _EventPageView extends View<EventPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              BackButton(color: Colors.grey),
+              const BackButton(color: Colors.grey),
             ],
           ),
           Positioned(
@@ -155,7 +191,7 @@ class _EventPageView extends View<EventPage> {
         ),
         child: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.white,
               fontSize: 20.0,
               fontWeight: FontWeight.w300,

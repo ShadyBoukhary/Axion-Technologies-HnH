@@ -13,12 +13,14 @@ class EventController extends Controller {
   User _user;
   bool _isRegistered;
   final bool _isUserEvent;
+  bool finishedLoading; // flag to display map
   bool get isRegistered => _isRegistered;
 
   Event get event => _event;
   EventController(eventRepo, this._event, this._user, this._isUserEvent) {
     _eventPresenter = EventPresenter(eventRepo);
     _isRegistered = false;
+    finishedLoading = false;
     initListeners();
     _getIsRegistered();
   }
