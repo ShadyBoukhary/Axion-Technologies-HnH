@@ -3,44 +3,42 @@ import 'dart:math';
 
 /// Represents a generic set of GPS coordinates
 class Coordinates {
-  // Members
-  String _lat;
-  String _lon;
+  /// Latitude as a `String`
+  final String lat;
 
-  // Properties
-  String get lat => _lat;
-  String get lon => _lon;
+  /// Longitude as a `String`
+  final String lon;
 
-  double get numLat => double.parse(_lat);
-  double get numLon => double.parse(_lon);
+  /// Latitude as a `double`
+  double get numLat => double.parse(lat);
 
-  // Constructors
-  Coordinates(this._lat, this._lon);
+  /// Longitude as a `double`
+  double get numLon => double.parse(lon);
 
-  Coordinates.from(Coordinates location) {
-    _lat = location._lat;
-    _lon = location._lon;
-  }
+  Coordinates(this.lat, this.lon);
 
-  Coordinates.fromJson(Map<String, dynamic> map) {
-    _lat = map['lat'];
-    _lon = map['lon'];
-  }
+  Coordinates.from(Coordinates location)
+      : lat = location.lat,
+        lon = location.lon;
+
+  Coordinates.fromJson(Map<String, dynamic> map)
+      : lat = map['lat'],
+        lon = map['lon'];
 
   Map<String, dynamic> toJson() => {
-        'lat': _lat,
-        'lon': _lon,
+        'lat': lat,
+        'lon': lon,
       };
 
   Map<String, String> toJson2() => {
-        'lat': _lat,
-        'lon': _lon,
+        'lat': lat,
+        'lon': lon,
       };
 
   /// Calculate the distance between this [Coordinates] and [other] in a specific [unit]
   /// Source adapted from: `https://www.geodatasource.com/developers/javascript`
   double distanceTo(Coordinates other, DistanceUnit unit) {
-    if ((_lat == other._lat) && (_lon == other._lon)) {
+    if ((lat == other.lat) && (lon == other.lon)) {
       return 0;
     } else {
       var radlat1 = pi * numLat / 180;
@@ -65,17 +63,20 @@ class Coordinates {
     }
   }
 
+  /// Returns a `String` in the form of `lat,lon`
   @override
-  String toString() => '$_lat,$_lon';
+  String toString() => '$lat,$lon';
 
-  String toString2() => '${_lat}2C$_lon';
+  /// Returns a `String` in the form of `lat2Clon`
+  String toString2() => '${lat}2C$lon';
 
   @override
   operator ==(dynamic other) =>
-      other is Coordinates && _lat == other._lat && _lon == other._lon;
+      other is Coordinates && lat == other.lat && lon == other.lon;
 
   @override
-  int get hashCode => _lat.hashCode ^ _lon.hashCode;
+  int get hashCode => lat.hashCode ^ lon.hashCode;
 }
 
+/// The unit in which distance is measured.
 enum DistanceUnit { miles, nMiles, kilometers }

@@ -7,31 +7,26 @@ import 'package:hnh/domain/utils/utils.dart';
 /// Represents an association between a [User] and an [Event].
 /// The [User] is registered in the [Event].
 class EventRegistration {
-  // Members
-  String _uid;
-  String _eventId;
-  String _timestamp;
-  // Getters
-  String get uid => _uid;
-  String get eventId => _eventId;
-  String get timestamp => _timestamp;
-  // Constructors
+  /// The [User]'s unique ID that registered.
+  final String uid;
 
-  EventRegistration(this._uid, this._eventId) {
-    _timestamp = Utils.newTimestamp;
-  }
+  /// The [Event] unique ID in which the [User] registered.
+  final String eventId;
 
-  EventRegistration.fromEventRegistration(EventRegistration eventRegistration) {
-    _uid = eventRegistration.uid;
-    _eventId = eventRegistration.eventId;
-    _timestamp = eventRegistration._timestamp;
-  }
+  /// The Unix timestamp of the registration.
+  final String timestamp;
 
-  EventRegistration.fromJson(Map<String, dynamic> map) {
-    _uid = map['uid'];
-    _eventId = map['eventId'];
-    _timestamp = map['timestamp'];
-  }
+  EventRegistration(this.uid, this.eventId) : timestamp = Utils.newTimestamp;
+
+  EventRegistration.fromEventRegistration(EventRegistration eventRegistration)
+      : uid = eventRegistration.uid,
+        eventId = eventRegistration.eventId,
+        timestamp = eventRegistration.timestamp;
+
+  EventRegistration.fromJson(Map<String, dynamic> map)
+      : uid = map['uid'],
+        eventId = map['eventId'],
+        timestamp = map['timestamp'];
 
   // Serializer
   Map<String, dynamic> toJson() => {
@@ -41,7 +36,7 @@ class EventRegistration {
       };
 
   Map<String, String> toJson2() => {
-        'uid': _uid,
+        'uid': uid,
         'eventId': eventId,
         'timestamp': timestamp,
       };

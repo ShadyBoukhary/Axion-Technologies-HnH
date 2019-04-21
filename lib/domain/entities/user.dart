@@ -1,56 +1,56 @@
+/// A user of the application.
 class User {
-  // Members
-  String _firstName;
-  String _lastName;
-  String _uid;
-  String _email;
 
-  // Properties
-  String get firstName => _firstName;
-  String get lastName => _lastName;
-  String get uid => _uid;
-  String get email => _email;
-  String get initials => '${_firstName[0]}${_lastName[0]}'.toUpperCase();
-  String get fullName => '$_firstName $lastName';
+  /// The user's first name.
+  final String firstName;
 
-  // Contructors
-  User(this._firstName, this._lastName, this._uid, this._email);
+  /// The user's last name.
+  final String lastName;
 
-  User.fromUser(User user) {
-    _firstName = user.firstName;
-    _lastName = user.lastName;
-    _uid = user._uid;
-    _email = user._email;
-  }
+  /// The user's unique ID.
+  final String uid;
 
-  User.fromJson(Map<String, dynamic> map) {
-    _firstName = map['firstName'];
-    _lastName = map['lastName'];
-    _uid = map['uid'];
-    _email = map['email'];
-  }
+  /// The user's email address.
+  final String email;
+
+  /// The user's initials in all caps.
+  String get initials => '${firstName[0]}${lastName[0]}'.toUpperCase();
+
+  /// The user's full name separated by a space.
+  String get fullName => '$firstName $lastName';
+
+  User(this.firstName, this.lastName, this.uid, this.email);
+
+  User.fromUser(User user)
+      : firstName = user.firstName,
+        lastName = user.lastName,
+        uid = user.uid,
+        email = user.email;
+
+  User.fromJson(Map<String, dynamic> map)
+      : firstName = map['firstName'],
+        lastName = map['lastName'],
+        uid = map['uid'],
+        email = map['email'];
 
   Map<String, dynamic> toJson() => {
-        'firstName': _firstName,
-        'lastName': _lastName,
-        'uid': _uid,
-        'email': _email
+        'firstName': firstName,
+        'lastName': lastName,
+        'uid': uid,
+        'email': email
       };
 
   Map<String, String> toJson2() => {
-        'firstName': _firstName,
-        'lastName': _lastName,
-        'uid': _uid,
-        'email': _email
+        'firstName': firstName,
+        'lastName': lastName,
+        'uid': uid,
+        'email': email
       };
 
   @override
-  operator ==(dynamic user) => user is User && _uid == user._uid;
+  operator ==(dynamic user) => user is User && uid == user.uid;
 
   @override
   int get hashCode =>
-      _firstName.hashCode ^
-      _lastName.hashCode ^
-      _uid.hashCode ^
-      _email.hashCode;
+      firstName.hashCode ^ lastName.hashCode ^ uid.hashCode ^ email.hashCode;
 }
