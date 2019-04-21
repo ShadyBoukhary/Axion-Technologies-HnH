@@ -5,9 +5,8 @@ import 'package:logging/logging.dart';
 
 class LocalPlaceCard extends StatelessWidget {
   final LocalPlace _place;
- // final GlobalKey<ScaffoldState> key;
 
-  LocalPlaceCard(this._place);//: key = GlobalKey<ScaffoldState>();
+  LocalPlaceCard(this._place);
 
   @override
   Widget build(BuildContext context) {

@@ -4,15 +4,33 @@ import 'package:hnh/domain/entities/location.dart';
 import 'package:hnh/domain/entities/coordinates.dart';
 import 'dart:convert';
 
+/// An HHH event. The event could either be a regular event of a race, in which case
+/// it has more functionality. 
 class Event {
-  // Members
+
+  /// The official name of the event.
   String _name;
+
+  /// The description of the event. This can be multi-line and include information
+  /// such as start and end dates - as well as price for entry.
   String _description;
-  Location _location; // also contains the start time
+
+  /// The location at which the event will be held. This also includes the start time.
+  Location _location; 
+
+  /// The unique ID of the event.
   String _id;
+
+  /// The route of the event. Empty if not a race.
   List<Coordinates> _route;
+
+  /// The rest stops of the event. Empty if not a race.
   List<Coordinates> _stops;
+
+  /// The link to the image of the event.
   String _imageUrl;
+
+  /// Whether the event should be a part of the `featured` events.
   bool _isFeatured;
 
   // Getters
