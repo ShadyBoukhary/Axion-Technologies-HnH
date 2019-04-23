@@ -8,6 +8,7 @@ export 'package:hnh/app/pages/register/register_view.dart';
 export 'package:hnh/app/pages/sponsors/sponsors_view.dart';
 export 'package:hnh/app/pages/user_events/user_events_view.dart';
 export 'package:hnh/app/pages/web/web_view.dart';
+export 'package:hnh/app/pages/forgot_pw/forgot_pw_view.dart';
 
 
 class Pages {
@@ -21,4 +22,5 @@ class Pages {
   static const String sponsors = '/sponsors';
   static const String localPlaces = '/localPlaces';
   static const String web = '/web';
+  static const String forgot = '/forgotPw';
 }

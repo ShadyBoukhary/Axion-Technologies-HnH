@@ -15,6 +15,8 @@ class Router {
         return _buildRoute(settings, LoginPage());
       case Pages.register:
         return _buildRoute(settings, RegisterPage());
+      case Pages.forgot:
+        return _buildRoute(settings, ForgotPwPage());
       case Pages.map:
         Map<String, dynamic> args = settings.arguments as Map;
         return _buildRoute(settings, MapPage(event: args['event']));
