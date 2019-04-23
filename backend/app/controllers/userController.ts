@@ -185,10 +185,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
  */
 export async function forgotPassword(req: Request, res: Response, next: NextFunction) {
     let email = req.query.email;
-    let uid = req.query.uid
 
     // Verify query params were sent
-    if (!email || !uid) {
+    if (!email) {
         res.status(400);
         res.statusMessage = 'No email was provided.';
         res.send({
@@ -199,11 +198,15 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
     } else {
 
         try {
+            let user = await User.findOne({email: email}).exec();
+            if (user === null) {
+                throw Error('No users with that email are registered in our system.');
+            }
             // Create new document
             let token = Math.floor(Date.now() / 1000).toString();
-            let passwordReset = new PassReset({ email: email, uid: uid, token: token });
+            let passwordReset = new PassReset({ email: email, uid: user._id, token: token });
             // Save documment
-            await PassReset.updateOne({ uid: uid, email: email }, {
+            await PassReset.updateOne({ uid: user._id, email: email }, {
                 token: passwordReset.token,
                 email: passwordReset.email,
                 uid: passwordReset.uid
@@ -273,7 +276,7 @@ export async function resetPassword(req: Request, res: Response) {
                 req.session.uid = uid;
                 req.session.token = token;
                 console.log(req.session);
-                res.sendFile(path.join(__dirname+'/forgot.html'));
+                res.sendFile(path.join(__dirname+'/../../app/controllers/forgot.html'));
             }
 
         }
