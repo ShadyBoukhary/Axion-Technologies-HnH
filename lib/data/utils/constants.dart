@@ -22,6 +22,7 @@ class Constants {
     static const String gooleDirectionsPath = '/maps/api/directions/json';
     static const String googlePlacePath = '/maps/place';
     static const String eventsPathOnly = '/events';
+    static const String forgotPasswordPath = '/forgotPassword';
     static const String sponsorsPathOnly = '/sponsors';
     static const String eventRegistrationsPathOnly = '/eventRegistrations';
     static const String wichitaFallsId=  '4741752';

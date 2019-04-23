@@ -78,8 +78,15 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     }
   }
 
-  void resetPassword() {
-    throw Exception('Not implemented.');
+  Future<void> forgotPassword(String email) async {
+    Uri uri = Uri.http(Constants.baseUrlNoPrefix, Constants.eventsPathOnly, {'email': email} );
+
+    try {
+      await HttpHelper.invokeHttp2(uri, RequestType.get);
+    } catch (error) {
+      _logger.warning('Could not send reset password request.', error);
+      rethrow;
+    }
   }
 
   /// Logs the current `User` out by clearing credentials.
