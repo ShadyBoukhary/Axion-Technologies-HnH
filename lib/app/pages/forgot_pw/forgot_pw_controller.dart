@@ -1,36 +1,40 @@
 import 'package:hnh/app/abstract/controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hnh/app/pages/forgot_pw/forgot_pw_presenter.dart';
 class ForgotPwController extends Controller {
   TextEditingController email;
-
-  GlobalKey<ScaffoldState> _scaffoldKey;
-
+  ForgotPwPresenter _forgotPwPresenter;
   ForgotPwController(authRepo) {
     email = TextEditingController();
-
+    _forgotPwPresenter = ForgotPwPresenter(authRepo);
     initListeners();
   }
 
   void initListeners() {
+    _forgotPwPresenter.forgotOnComplete = () {
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), 'Email has been send!');
+      Navigator.of(getContext()).pop();
+    };
 
+    _forgotPwPresenter.forgotOnError = (e) {
+      dismissLoading();
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+    };
   }
 
   void checkForm(Map<String, dynamic> params) {
     dynamic formKey = params['formKey'];
-    _scaffoldKey = params['scaffoldKey'];
 
     // Validate params
     assert(formKey is GlobalKey<FormState>);
-    assert(_scaffoldKey is GlobalKey<ScaffoldState>);
 
     if (formKey.currentState.validate()) {
-      logger.shout('Registration successful');
-      showGenericSnackbar(_scaffoldKey, Strings.forgotEmailSent, isError: false);
+      resumeLoading();
+      _forgotPwPresenter.forgotPassword(email: email.text);
     } else {
-      logger.shout('Registration failed');
-      showGenericSnackbar(_scaffoldKey, Strings.registrationFormIncomplete, isError: true);
+      showGenericSnackbar(getScaffoldKey(), Strings.registrationFormIncomplete, isError: true);
     }
   }
 

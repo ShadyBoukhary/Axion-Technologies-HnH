@@ -185,6 +185,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
  */
 export async function forgotPassword(req: Request, res: Response, next: NextFunction) {
     let email = req.query.email;
+    console.log(`Forgot Password: ${email}`);
 
     // Verify query params were sent
     if (!email) {
@@ -200,6 +201,7 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
         try {
             let user = await User.findOne({email: email}).exec();
             if (user === null) {
+                console.log('Email not found');
                 throw Error('No users with that email are registered in our system.');
             }
             // Create new document
@@ -212,7 +214,7 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
                 uid: passwordReset.uid
             }, { upsert: true }).exec();
             await sendEmail(passwordReset);
-            res.sendStatus(200);
+            res.status(200).send({'status': 200});
         } catch (error) {
             console.log(error);
             res.statusMessage = error.message;

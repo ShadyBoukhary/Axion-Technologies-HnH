@@ -142,9 +142,7 @@ class LoginPageView extends View<LoginPage> {
       );
 
   GestureDetector get forgotPasswordButton => GestureDetector(
-        onTap: () {
-          callHandler(_controller.forgotPassword);
-        },
+        onTap: _controller.forgotPassword,
         child: Text(
           forgotPassswordButtonText,
           style: new TextStyle(

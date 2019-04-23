@@ -79,10 +79,10 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   }
 
   Future<void> forgotPassword(String email) async {
-    Uri uri = Uri.http(Constants.baseUrlNoPrefix, Constants.eventsPathOnly, {'email': email} );
+    Uri uri = Uri.http(Constants.baseUrlNoPrefix, Constants.forgotPasswordPath, {'email': email} );
 
     try {
-      await HttpHelper.invokeHttp2(uri, RequestType.get);
+      await HttpHelper.invokeHttp(uri, RequestType.get);
     } catch (error) {
       _logger.warning('Could not send reset password request.', error);
       rethrow;

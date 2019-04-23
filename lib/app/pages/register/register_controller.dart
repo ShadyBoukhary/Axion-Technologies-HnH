@@ -11,7 +11,6 @@ class RegisterController extends Controller {
   TextEditingController confirmedPassword;
 
   bool agreedToTOS;
-  GlobalKey<ScaffoldState> _scaffoldKey;
   RegisterPresenter _registerPresenter;
 
   RegisterController(authRepo) {
@@ -29,12 +28,12 @@ class RegisterController extends Controller {
   void initListeners() {
     _registerPresenter.registerOnComplete = () {
       logger.finest("Complete: Registration success.");
-      showGenericSnackbar(_scaffoldKey, Strings.registrationSuccessful);
+      showGenericSnackbar(getScaffoldKey(), Strings.registrationSuccessful);
       Navigator.of(getContext()).pop();
     };
 
     _registerPresenter.registerOnError = (e) {
-      showGenericSnackbar(_scaffoldKey, e.message, isError: true);
+      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
     };
   }
 
@@ -52,21 +51,19 @@ class RegisterController extends Controller {
 
   void checkForm(Map<String, dynamic> params) {
     dynamic formKey = params['formKey'];
-    _scaffoldKey = params['scaffoldKey'];
 
     // Validate params
     assert(formKey is GlobalKey<FormState>);
-    assert(_scaffoldKey is GlobalKey<ScaffoldState>);
 
     if (formKey.currentState.validate()) {
       if (agreedToTOS) {
         register();
       } else {
-        showGenericSnackbar(_scaffoldKey, Strings.tosNotAccepted, isError: true);
+        showGenericSnackbar(getScaffoldKey(), Strings.tosNotAccepted, isError: true);
       }
     } else {
       logger.shout('Registration failed');
-      showGenericSnackbar(_scaffoldKey, Strings.registrationFormIncomplete, isError: true);
+      showGenericSnackbar(getScaffoldKey(), Strings.registrationFormIncomplete, isError: true);
     }
   }
 

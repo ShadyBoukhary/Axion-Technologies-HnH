@@ -1,20 +1,23 @@
 import 'package:hnh/domain/usecases/observer.dart';
 import 'package:flutter/foundation.dart';
-
+import 'package:hnh/domain/usecases/forgot_password_usecase.dart';
 class ForgotPwPresenter {
 
   Function forgotOnComplete;
   Function forgotOnError;
+  ForgotPasswordUseCase _forgotPasswordUseCase;
 
-  ForgotPwPresenter() {
+  ForgotPwPresenter(authRepo) {
+    _forgotPasswordUseCase = ForgotPasswordUseCase(authRepo);
   }
+
 
   void dispose() {
-
+    _forgotPasswordUseCase.dispose();
   }
 
-  void forgot({@required String email}) {
-    
+  void forgotPassword({@required String email}) {
+    _forgotPasswordUseCase.execute(_ForgotPwUserCaseObserver(this), ForgotPasswordUseCaseParams(email));
   }
 }
   
@@ -23,15 +26,16 @@ class ForgotPwPresenter {
 
     _ForgotPwUserCaseObserver(this._forgotPwPresenter);
 
-    void onNext(ignore) {}
+    void onNext(_) {}
 
     void onComplete() {
+      assert (_forgotPwPresenter.forgotOnComplete != null);
       _forgotPwPresenter.forgotOnComplete();
     }
 
     void onError(e) {
-      if(_forgotPwPresenter.forgotOnError != null) {
-        _forgotPwPresenter.forgotOnError(e);
-      }
+      assert (_forgotPwPresenter.forgotOnError != null);
+      _forgotPwPresenter.forgotOnError(e);
+      
     }
 }
