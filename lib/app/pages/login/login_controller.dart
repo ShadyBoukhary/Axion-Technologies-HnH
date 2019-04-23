@@ -49,7 +49,7 @@ class LoginController extends Controller {
     Navigator.of(getContext()).pushNamed('/register');
   }
 
-  void _forgotPassword() {
-
+  void forgotPassword() {
+    Navigator.of(getContext()).pushNamed('/forgotPw');
   }
 }

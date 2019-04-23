@@ -16,6 +16,8 @@ class Strings {
   static const String registrationFormIncomplete = 'Form must be filled out.';
   static const String tosNotAccepted = 'Please accept the Terms of Service to register.';
   static const String registrationSuccessful = 'Registration Successful!';
+  static const String forgotEmailSent = 'Check your email for reset instructions.';
+  static const String forgotPwInstructions = 'Enter the email address associated with the forgotten account. Further instructions will be sent the account email.';
 }
 
 class HHHConstants {
