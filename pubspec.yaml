@@ -7,7 +7,7 @@ description: Hotter'n Hell Hundred event app.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0+3
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -20,20 +20,38 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   rxdart: ^0.20.0
+  mockito: ^4.0.0
 
   # user location
-  location: ^1.4.1
+  location: ^2.3.5
   
   http: ^0.12.0+1
   shared_preferences: ^0.5.0
   logging: ^0.11.3+2
   uuid: ^2.0.0
+  # UI
+  modal_progress_hud: ^0.1.2
+
+  google_maps_flutter: ^0.5.6
+  url_launcher: ^5.0.2
+  # Do not change this version to anything newer for now due to AndroidX dependency issues
+  webview_flutter: '0.3.3'
+  package_info: ^0.4.0+3
 
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.5.1
+
+  # For creation of the Launcher Icons
+  flutter_launcher_icons: ^0.7.0
+  
+flutter_icons:
+  image_path_android: "assets/img/icon.png"
+  image_path_ios: "assets/img/icon.png"
+  android: true
+  ios: true
 
 
 # For information on the generic Dart part of this file, see the

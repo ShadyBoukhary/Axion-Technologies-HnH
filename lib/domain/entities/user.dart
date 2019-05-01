@@ -1,42 +1,60 @@
+/// A user of the application.
 class User {
-  String _firstName;
-  String _lastName;
-  String _uid;
-  String _email;
 
-  String get firstName => _firstName;
-  String get lastName => _lastName;
-  String get uid => _uid;
-  String get email => _email;
+  /// The user's first name.
+  final String firstName;
 
-  User(this._firstName, this._lastName, this._uid, this._email);
-  
-  User.fromUser(User user) {
-    _firstName = user.firstName;
-    _lastName = user.lastName;
-    _uid = user._uid;
-    _email = user._email;
-  }
+  /// The user's last name.
+  final String lastName;
 
-  User.fromJson(Map<String, dynamic> map) {
-    _firstName = map['firstName'];
-    _lastName = map['lastName'];
-    _uid = map['uid'];
-    _email = map['email'];
-  }
+  /// The user's unique ID.
+  final String uid;
 
-  Map<String, dynamic> toJson() =>
-    {
-      'firstName': _firstName,
-      'lastName': _lastName,
-      'uid': _uid,
-      'email': _email
-    };
+  /// The user's email address.
+  final String email;
 
-    @override
-    operator ==(dynamic user) => user is User && _uid == user._uid;
+  /// The user's initials in all caps.
+  String get initials => '${firstName[0]}${lastName[0]}'.toUpperCase();
 
-    @override
-    int get hashCode => _firstName.hashCode ^ _lastName.hashCode ^ _uid.hashCode ^ _email.hashCode;
-    
+  /// The user's full name separated by a space.
+  String get fullName => '$firstName $lastName';
+
+  User(this.firstName, this.lastName, this.uid, this.email);
+
+  User.fromUser(User user)
+      : firstName = user.firstName,
+        lastName = user.lastName,
+        uid = user.uid,
+        email = user.email;
+
+  User.fromJson(Map<String, dynamic> map)
+      : firstName = map['firstName'],
+        lastName = map['lastName'],
+        uid = map['uid'],
+        email = map['email'];
+
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
+  Map<String, dynamic> toJson() => {
+        'firstName': firstName,
+        'lastName': lastName,
+        'uid': uid,
+        'email': email
+      };
+
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
+  Map<String, String> toJson2() => {
+        'firstName': firstName,
+        'lastName': lastName,
+        'uid': uid,
+        'email': email
+      };
+
+  @override
+  operator ==(dynamic user) => user is User && uid == user.uid;
+
+  @override
+  int get hashCode =>
+      firstName.hashCode ^ lastName.hashCode ^ uid.hashCode ^ email.hashCode;
 }

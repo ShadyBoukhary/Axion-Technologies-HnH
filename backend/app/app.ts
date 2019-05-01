@@ -4,20 +4,16 @@ import express from 'express';
 import * as path from "path";
 import cors from "cors";
 import { connect } from 'mongoose';
-
+import { MONGO_CREDS } from './mongoConfig';
+import session from 'express-session';
 // import routes
 import { userRoutes } from './routes/userRoutes';
 import { eventRoutes } from "./routes/eventRoute";
-// Create a new express application instance
-// const app: express.Application = express();
-
-// app.get('/', function (req, res) {
-//   res.send('Hello World!');
-// });
-
-// app.listen(3000, function () {
-//   console.log('Example app listening on port 3000!');
-// });
+import { eventRegistrationRoutes } from './routes/eventRegistrationRoute';
+import { hhhRoutes } from "./routes/hhhRoute";
+import { sponsorRoutes } from "./routes/sponsorRoute";
+import { SESSION_SECRET } from "./config";
+import cookieParser = require("cookie-parser");
 
 class Server {
     public app: express.Application;
@@ -55,6 +51,9 @@ class Server {
     this.app.use(express.static(path.join(__dirname, "public")));
     this.app.use(express.static(path.join(__dirname, "bower_components")));
     this.app.listen(this.port, () => console.log(`Listening to port ${this.port}`));
+    this.app.use(cookieParser());
+    this.app.use(session({secret: SESSION_SECRET}));
+
 
   }
 
@@ -68,10 +67,13 @@ class Server {
   private routes() {
     userRoutes(this.app);
     eventRoutes(this.app);
+    eventRegistrationRoutes(this.app);
+    hhhRoutes(this.app);
+    sponsorRoutes(this.app);
   }
 
   private initDB() {
-      connect('mongodb://localhost/hnhDB');
+      connect('mongodb://localhost/hnhDB', {user: MONGO_CREDS.username, pass: MONGO_CREDS.password, authdb: 'admin'});
   }
 }
 

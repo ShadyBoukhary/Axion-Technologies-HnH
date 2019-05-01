@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/utils/utils.dart';
@@ -5,44 +7,40 @@ import 'package:hnh/domain/utils/utils.dart';
 /// Represents an association between a [User] and an [Event].
 /// The [User] is registered in the [Event].
 class EventRegistration {
+  /// The [User]'s unique ID that registered.
+  final String uid;
 
-  // Members
-  User _user;
-  Event _event;
-  String _registrationTime;
-  String _id;
-  // Getters
-  User get user => _user;
-  Event get event => _event;
-  String get registrationTime => _registrationTime;
-  String get id => _id;
-  // Constructors
+  /// The [Event] unique ID in which the [User] registered.
+  final String eventId;
 
-  EventRegistration(this._user, this._event) {
-    _registrationTime = (DateTime.now().millisecondsSinceEpoch / 1000).toString();
-    _id = Utils.uuidRandom();
-  }
+  /// The Unix timestamp of the registration.
+  final String timestamp;
 
-  EventRegistration.fromEventRegistration(EventRegistration eventRegistration) {
-    _user = User.fromUser(eventRegistration.user);
-    _event = Event.fromEvent(eventRegistration.event);
-    _registrationTime = eventRegistration.registrationTime;
-    _id = eventRegistration._id;
-  }
+  EventRegistration(this.uid, this.eventId) : timestamp = Utils.newTimestamp;
 
-  EventRegistration.fromJson(Map<String, dynamic> map) {
-    _user = User.fromJson(map['user']);
-    _event = Event.fromJson(map['event']);
-    _registrationTime = map['registrationTime'];
-    _id = map['id'];
-  }
+  EventRegistration.fromEventRegistration(EventRegistration eventRegistration)
+      : uid = eventRegistration.uid,
+        eventId = eventRegistration.eventId,
+        timestamp = eventRegistration.timestamp;
 
-  // Serializer
-  Map<String, dynamic> toJson() =>
-    {
-      'user': user.toJson(),
-      'event': event.toJson(),
-      'registrationTime': _registrationTime,
-      'id': _id
-    };
+  EventRegistration.fromJson(Map<String, dynamic> map)
+      : uid = map['uid'],
+        eventId = map['eventId'],
+        timestamp = map['timestamp'];
+
+  /// Convert [this] to a Json `Map<String, dynamic>`. Complex structures keep their initial
+  /// types.
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'eventId': eventId,
+        'timestamp': timestamp,
+      };
+
+  /// Convert [this] to a Json `Map<String, String>`. All complex structures
+  /// are also converted to `String`.
+  Map<String, String> toJson2() => {
+        'uid': uid,
+        'eventId': eventId,
+        'timestamp': timestamp,
+      };
 }

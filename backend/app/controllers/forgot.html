@@ -1,0 +1,34 @@
+<html>
+
+<head>
+ 
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<form name="form" action="http://45.32.197.143:8000/newPassword" onsubmit="return validateForm()">
+    New Password:<br>
+    <input type="text" name="pass" value="" minlength="6" required><br>
+    Confirm Password:<br>
+    <input type="text" name="confirm" value="" min="6" required><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+
+  <script>
+  
+    function validateForm() {
+        let pass = document.forms["form"]["pass"].value;
+        let confirmPass = document.forms["form"]["confirm"].value;
+
+        if (pass.length >= 6 && pass === confirmPass) {
+            return true;
+        } else {
+            alert('Passwords must match and be 6 or more characters long');
+            return false;
+        }
+    }
+  </script>
+
+</html>

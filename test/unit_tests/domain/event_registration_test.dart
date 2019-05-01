@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 import 'package:test/test.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/coordinates.dart';
@@ -18,7 +20,8 @@ void main() {
         'location': {
           'lat': '987523245',
           'lon': '985723982',
-          'timestamp': '28753298357293'
+          'timestamp': '28753298357293',
+          'speed': 5345234.0
         },
         'id': '1234567890',
         'route': [
@@ -49,41 +52,30 @@ void main() {
       };
 
       eventRegistrationMap = {
-        'user': user,
-        'event': event,
-        'registrationTime': '829375429835',
-        'id': 'replace'
+        'uid': user['uid'],
+        'eventId': event['id'],
+        'timestamp': '829375429835',
       };
       testUser = User('John', 'Smith', 'kjasdh8458y_43fadsfw43', 'john_smith@unittest.com');
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
-          Location('987523245', '985723982', '28753298357293'), '1234567890', [
+          Location('987523245', '985723982', '28753298357293', 5345234.0), '1234567890', false, [
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982')
       ]);
-      testEventRegistration = EventRegistration(testUser, testEvent);
-      eventRegistrationMap['registrationTime'] = testEventRegistration.registrationTime;
-      eventRegistrationMap['id'] = testEventRegistration.id;
+      testEventRegistration = EventRegistration('kjasdh8458y_43fadsfw43', '1234567890');
+      eventRegistrationMap['timestamp'] = testEventRegistration.timestamp;
     }); // end setup
 
     test('.fromJson creates a correct EventRegistration', () {
       EventRegistration eventRegistration = EventRegistration.fromJson(eventRegistrationMap);
       expect(eventRegistration, TypeMatcher<EventRegistration>());
-      expect(eventRegistration.id, testEventRegistration.id);
+      expect(eventRegistration.timestamp, eventRegistrationMap['timestamp']);
       // test User
-      expect(eventRegistration.user.firstName, testUser.firstName);
-      expect(eventRegistration.user.lastName, testUser.lastName);
-      expect(eventRegistration.user.uid, testUser.uid);
-      expect(eventRegistration.user.email, testUser.email);
-
+      expect(eventRegistration.uid, testUser.uid);
       // test Event
-      expect(eventRegistration.event.name, testEvent.name);
-      expect(eventRegistration.event.description, testEvent.description);
-      expect(eventRegistration.event.location.lat, testEvent.location.lat);
-      expect(eventRegistration.event.location.lon, testEvent.location.lon);
-      expect(eventRegistration.event.id, testEvent.id);
-      expect(eventRegistration.event.route.length, testEvent.route.length);
+      expect(eventRegistration.eventId, testEvent.id);
     }); // end .fromJson test
 
     test('.toJson() returns a correct json.', () {
@@ -94,21 +86,13 @@ void main() {
     test('.fromEventRegistration() creates a correct EventRegistration', () {
       EventRegistration eventRegistration = EventRegistration.fromEventRegistration(testEventRegistration);
       expect(eventRegistration, predicate((eventRegistration) => eventRegistration != testEventRegistration));
-      expect(eventRegistration.registrationTime, testEventRegistration.registrationTime);
+      expect(eventRegistration.timestamp, testEventRegistration.timestamp);
 
       // test User
-      expect(eventRegistration.user.firstName, testEventRegistration.user.firstName);
-      expect(eventRegistration.user.lastName, testEventRegistration.user.lastName);
-      expect(eventRegistration.user.uid, testEventRegistration.user.uid);
-      expect(eventRegistration.user.email, testEventRegistration.user.email);
+      expect(eventRegistration.uid, testEventRegistration.uid);
 
       // test Event
-      expect(eventRegistration.event.name, testEventRegistration.event.name);
-      expect(eventRegistration.event.description, testEventRegistration.event.description);
-      expect(eventRegistration.event.location.lat, testEventRegistration.event.location.lat);
-      expect(eventRegistration.event.location.lon, testEventRegistration.event.location.lon);
-      expect(eventRegistration.event.id, testEventRegistration.event.id);
-      expect(eventRegistration.event.route.length, testEventRegistration.event.route.length);
+      expect(eventRegistration.eventId, testEventRegistration.eventId);
     }); // .fromEvent
 
   }); // end group

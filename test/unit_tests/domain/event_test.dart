@@ -1,3 +1,5 @@
+// Shady Boukhary
+
 import 'package:test/test.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/coordinates.dart';
@@ -15,7 +17,8 @@ void main() {
         'location': {
           'lat': '987523245',
           'lon': '985723982',
-          'timestamp': '28753298357293'
+          'timestamp': '28753298357293',
+          'speed': 5345234.0
         },
         'id': '1234567890',
         'route': [
@@ -35,16 +38,25 @@ void main() {
             'lat': '987523245',
             'lon': '985723982',
           },
-        ]
+        ],
+        'imageUrl': 'https://something.com/sme/image',
+        'stops': [
+          {
+            'lat': '987523245',
+            'lon': '985723982',
+          }
+        ],
+        'isFeatured': false
       };
 
       testEvent = Event('Event Lorem Ipsum', 'Lorem ipsum dolor sit amet.',
-          Location('987523245', '985723982', '28753298357293'), '1234567890', [
+          Location('987523245', '985723982', '28753298357293', 5345234.0), '1234567890', false, [
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982'),
         Coordinates('987523245', '985723982')
-      ]);
+      ], 'https://something.com/sme/image',
+        [Coordinates('987523245', '985723982')]);
     });
 
     test('.fromMap(map) creates an Event correctly.', () {
@@ -56,6 +68,8 @@ void main() {
       expect(event.location.lon, '985723982');
       expect(event.location.timestamp, '28753298357293');
       expect(event.id, '1234567890');
+      expect(event.imageUrl, eventMap['imageUrl']);
+      expect(event.isFeatured, eventMap['isFeatured']);
       expect(event.route.length, 4);
       event.route.forEach((coords) {
         expect(coords, TypeMatcher<Coordinates>());
@@ -76,6 +90,9 @@ void main() {
       expect(event.location.lon, testEvent.location.lon);
       expect(event.id, testEvent.id);
       expect(event.route.length, testEvent.route.length);
+      expect(event.imageUrl, testEvent.imageUrl);
+      expect(event.isFeatured, testEvent.isFeatured);
+      expect(event.stops, testEvent.stops);
     }); // .fromEvent
   }); // end group
 } // end main

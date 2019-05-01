@@ -1,5 +1,6 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:hnh/domain/usecases/observer.dart';
+import 'package:logging/logging.dart';
 import 'dart:async';
 
 /// The abstract [UseCase] to be implemented by all usecases.
@@ -8,22 +9,26 @@ import 'dart:async';
 abstract class UseCase<T, Params> {
   /// This contains all the subscriptions to the [Observable]
   CompositeSubscription _disposables;
+  Logger _logger;
+  Logger get logger => _logger;
 
   UseCase() {
     _disposables = CompositeSubscription();
+    _logger = Logger(this.runtimeType.toString());
   }
 
   /// Builds the [Observable] to be subscribed to. [Params] is required
-  /// by the [UseCase] to retrieve the appropraite data from the repository 
+  /// by the [UseCase] to retrieve the appropraite data from the repository
   Future<Observable<T>> buildUseCaseObservable(Params params);
 
   /// Subscribes to the [Observerable] with the [Observer] callback functions.
-  void execute(Observer<T> observer, Params params) async {
-    final StreamSubscription subscription = (await buildUseCaseObservable(params))
-      .listen(observer.onNext, onDone: observer.onComplete, onError: observer.onError);
+  void execute(Observer<T> observer, [Params params]) async {
+    final StreamSubscription subscription =
+        (await buildUseCaseObservable(params)).listen(observer.onNext,
+            onDone: observer.onComplete, onError: observer.onError);
     _addSubscription(subscription);
-
   }
+
   /// Disposes (unsubscribes) from the [Observable]
   void dispose() {
     if (!_disposables.isDisposed) {
