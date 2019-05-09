@@ -2,7 +2,7 @@
 
 import 'package:test/test.dart';
 import 'package:hnh/domain/usecases/get_hhh_usecase.dart';
-import 'package:hnh/domain/usecases/observer.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/repositories/hhh_repository.dart';
 import 'package:hnh/domain/repositories/sponsor_repository.dart';
 import 'package:hnh/domain/entities/hhh.dart';
