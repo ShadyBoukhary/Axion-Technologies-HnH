@@ -13,8 +13,8 @@ class UserEventsController extends Controller {
   User get currentUser => _currentUser;
   List<Event> get events => _events;
 
-  UserEventsController(eventRepository, this._currentUser) {
-    _eventsPresenter = UserEventsPresenter(eventRepository);
+  UserEventsController(eventRepository, this._currentUser)
+      : _eventsPresenter = UserEventsPresenter(eventRepository) {
     _events = List<Event>();
     initListeners();
     loadOnStart();
@@ -22,7 +22,6 @@ class UserEventsController extends Controller {
   }
 
   void initListeners() {
-
     _eventsPresenter.getUserEventsOnNext = (List<Event> events) {
       _events = events;
     };
@@ -39,7 +38,8 @@ class UserEventsController extends Controller {
   }
 
   void openEvent(event) {
-    Navigator.of(getContext()).pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
+    Navigator.of(getContext())
+        .pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
   }
 
   void retrieveData() {

@@ -5,7 +5,7 @@ import 'package:hnh/domain/usecases/get_user_events_usecase.dart';
 import 'package:hnh/domain/usecases/unregister_event_usecase.dart';
 import 'package:meta/meta.dart';
 
-class EventPresenter {
+class EventPresenter extends Presenter {
   Function registerOnComplete;
   Function registerOnError;
 

@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/usecases/location_track_usecase.dart';
 
-class MapPresenter {
+class MapPresenter extends Presenter {
   Function locationOnNext;
   Function locationOnComplete;
   Function locationOnError;

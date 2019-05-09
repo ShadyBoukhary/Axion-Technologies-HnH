@@ -1,9 +1,9 @@
-import 'package:hnh/data/exceptions/authentication_exception.dart';
 import 'package:hnh/domain/repositories/authentication_repository.dart';
 import 'package:hnh/domain/usecases/auth/login_usecase.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter/foundation.dart';
-class LoginPresenter {
+
+class LoginPresenter extends Presenter {
 
   AuthenticationRepository _authenticationRepository;
   LoginUseCase _loginUseCase;

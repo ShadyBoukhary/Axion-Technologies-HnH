@@ -31,8 +31,6 @@ class EventPage extends View {
 }
 
 class _EventPageView extends ViewState<EventPage, EventController> {
-  EventController _controller;
-
   _EventPageView(EventController controller) : super(controller);
 
   @override
@@ -48,7 +46,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Future.delayed(Duration(milliseconds: 300), () {
           setState(() {
-            _controller.finishedLoading = true;
+            controller.finishedLoading = true;
           });
         });
       });
@@ -62,7 +60,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
         key: globalKey,
         body: ModalProgressHUD(
             child: getBody(),
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: 0));
   }
@@ -83,7 +81,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  _controller.event.name,
+                  controller.event.name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -104,7 +102,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
         child: Column(
           children: <Widget>[
             Text(
-              _controller.event.description,
+              controller.event.description,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 15.0,
@@ -120,7 +118,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
 
     // load the map only after the page has already finished loading
     // improve performance on somewhat slow devices
-    if (_controller.finishedLoading) {
+    if (controller.finishedLoading) {
       children.add(Padding(
         padding: const EdgeInsets.all(15.0),
         child: MiniMap(widget.event),
@@ -145,7 +143,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
   Stack get eventHeader => Stack(
         children: <Widget>[
           Image.network(
-            _controller.event.imageUrl,
+            controller.event.imageUrl,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
             alignment: Alignment.center,
@@ -162,11 +160,11 @@ class _EventPageView extends ViewState<EventPage, EventController> {
             right: 10.0,
             child: IconButton(
               icon: Icon(
-                _controller.isRegistered ? Icons.star : Icons.star_border,
+                controller.isRegistered ? Icons.star : Icons.star_border,
               ),
               color: Colors.red,
               iconSize: 40.0,
-              onPressed: _controller.handleRegistration,
+              onPressed: controller.handleRegistration,
             ),
           ),
         ],
@@ -175,8 +173,8 @@ class _EventPageView extends ViewState<EventPage, EventController> {
   GestureDetector getSignupButton() {
     String title = widget.isUserEvent ? 'Start Navigation' : 'Signup';
     var handler = widget.isUserEvent
-        ? _controller.onStartNavigationPressed
-        : _controller.onSignUpPressed;
+        ? controller.onStartNavigationPressed
+        : controller.onSignUpPressed;
     return GestureDetector(
       onTap: handler,
       child: Container(
@@ -196,11 +194,5 @@ class _EventPageView extends ViewState<EventPage, EventController> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

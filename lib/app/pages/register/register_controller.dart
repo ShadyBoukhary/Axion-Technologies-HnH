@@ -13,8 +13,8 @@ class RegisterController extends Controller {
   bool agreedToTOS;
   RegisterPresenter _registerPresenter;
 
-  RegisterController(authRepo) {
-    _registerPresenter = RegisterPresenter(authRepo);
+  RegisterController(authRepo)
+      : _registerPresenter = RegisterPresenter(authRepo) {
     firstName = TextEditingController();
     lastName = TextEditingController();
     email = TextEditingController();
@@ -38,10 +38,10 @@ class RegisterController extends Controller {
   }
 
   void register() {
-
-    _registerPresenter.register(firstName: firstName.text,
-         lastName: lastName.text,
-         email: email.text,
+    _registerPresenter.register(
+        firstName: firstName.text,
+        lastName: lastName.text,
+        email: email.text,
         password: password.text);
   }
 
@@ -59,11 +59,13 @@ class RegisterController extends Controller {
       if (agreedToTOS) {
         register();
       } else {
-        showGenericSnackbar(getStateKey(), Strings.tosNotAccepted, isError: true);
+        showGenericSnackbar(getStateKey(), Strings.tosNotAccepted,
+            isError: true);
       }
     } else {
       logger.shout('Registration failed');
-      showGenericSnackbar(getStateKey(), Strings.registrationFormIncomplete, isError: true);
+      showGenericSnackbar(getStateKey(), Strings.registrationFormIncomplete,
+          isError: true);
     }
   }
 
@@ -72,7 +74,4 @@ class RegisterController extends Controller {
     _registerPresenter.dispose();
     super.dispose();
   }
-
-  
-
 }

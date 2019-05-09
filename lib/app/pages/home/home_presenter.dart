@@ -3,7 +3,7 @@ import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/usecases/get_hhh_usecase.dart';
 import 'package:hnh/domain/usecases/get_current_user_usecase.dart';
 
-class HomePresenter {
+class HomePresenter extends Presenter {
   Function getUserOnNext;
   Function getUserOnComplete;
   Function getUserOnError;

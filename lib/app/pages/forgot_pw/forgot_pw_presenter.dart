@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hnh/domain/usecases/forgot_password_usecase.dart';
-class ForgotPwPresenter {
+class ForgotPwPresenter extends Presenter {
 
   Function forgotOnComplete;
   Function forgotOnError;

@@ -5,7 +5,6 @@ import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/app/utils/constants.dart';
 
-
 class EventController extends Controller {
   EventPresenter _eventPresenter;
   Event _event;
@@ -16,14 +15,15 @@ class EventController extends Controller {
   bool get isRegistered => _isRegistered;
 
   Event get event => _event;
-  EventController(eventRepo, this._event, this._user, this._isUserEvent) {
-    _eventPresenter = EventPresenter(eventRepo);
+  EventController(eventRepo, this._event, this._user, this._isUserEvent)
+      : _eventPresenter = EventPresenter(eventRepo),
+        super() {
     _isRegistered = false;
     finishedLoading = false;
-    initListeners();
     _getIsRegistered();
   }
 
+  @override
   void initListeners() {
     _eventPresenter.isRegisteredOnNext = (bool status) {
       _isRegistered = status;
@@ -49,7 +49,7 @@ class EventController extends Controller {
 
   void handleError(e) {
     dismissLoading();
-    showGenericSnackbar(getStateKey() ,e.message);
+    showGenericSnackbar(getStateKey(), e.message);
   }
 
   void onSignUpPressed() =>
@@ -62,7 +62,8 @@ class EventController extends Controller {
     // navigate to maps page if the event is a race
     // otherwise, try to open Google or Apple maps
     if (event.isRace) {
-      Navigator.of(getContext()).pushReplacementNamed('/map', arguments: {'event': _event});
+      Navigator.of(getContext())
+          .pushReplacementNamed('/map', arguments: {'event': _event});
     } else {
       launchMaps(_event.location, logger, getStateKey());
     }
@@ -81,7 +82,6 @@ class EventController extends Controller {
       _eventPresenter.registerForEvent(uid: _user.uid, eventId: _event.id);
     }
   }
-
 
   @override
   void dispose() {

@@ -6,7 +6,6 @@ import 'package:logging/logging.dart';
 import 'package:hnh/domain/entities/hhh.dart';
 
 class HomeController extends Controller {
-
   HomePresenter _homePresenter;
   User _currentUser;
   HHH _currentHHH;
@@ -17,9 +16,9 @@ class HomeController extends Controller {
   bool userRetrieved;
   bool hhhRetrieved;
 
-  HomeController(hhhRepository, sponsorRepository, authRepository) {
-    _homePresenter = HomePresenter(hhhRepository, sponsorRepository, authRepository);
-    initListeners();
+  HomeController(hhhRepository, sponsorRepository, authRepository)
+      : _homePresenter =
+            HomePresenter(hhhRepository, sponsorRepository, authRepository) {
     isLoading = true;
     userRetrieved = hhhRetrieved = false;
     retrieveData();
@@ -37,8 +36,7 @@ class HomeController extends Controller {
 
     _homePresenter.getHHHOnComplete = () {
       hhhRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
+      if (userRetrieved) dismissLoading();
     };
 
     _homePresenter.getUserOnNext = (User user) {
@@ -53,8 +51,7 @@ class HomeController extends Controller {
 
     _homePresenter.getUserOnComplete = () {
       userRetrieved = true;
-      if (hhhRetrieved)
-        dismissLoading();
+      if (hhhRetrieved) dismissLoading();
     };
   }
 

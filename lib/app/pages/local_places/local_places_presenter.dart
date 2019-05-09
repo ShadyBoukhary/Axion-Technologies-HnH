@@ -2,7 +2,7 @@ import 'package:hnh/domain/entities/local_place.dart';
 import 'package:hnh/domain/usecases/get_local_places_usecase.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-class LocalPlacesPresenter {
+class LocalPlacesPresenter extends Presenter {
 
   Function getLocalPlacesOnNext;
   Function getLocalPlacesOnComplete;

@@ -3,14 +3,13 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/usecases/get_user_events_usecase.dart';
 import 'package:meta/meta.dart';
 
-class UserEventsPresenter {
+class UserEventsPresenter extends Presenter {
 
   Function getUserEventsOnNext;
   Function getUserEventsOnComplete;
   Function getUserEventsOnError;
 
   GetUserEventsUseCase _getUserEventsUseCase;
-
 
   UserEventsPresenter(eventRepo) {
     _getUserEventsUseCase = GetUserEventsUseCase(eventRepo);

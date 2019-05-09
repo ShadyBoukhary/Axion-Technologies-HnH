@@ -19,19 +19,18 @@ class EventsController extends Controller {
   List<Event> get featuredEvents => _featuredEvents;
   List<Event> get upComingEvents => _upcomingEvents;
 
-
-  EventsController(authRepository, eventRepository) {
-    _eventsPresenter = EventsPresenter(authRepository, eventRepository);
+  EventsController(authRepository, eventRepository)
+      : _eventsPresenter = EventsPresenter(authRepository, eventRepository),
+        super() {
     _featuredEvents = List<Event>();
     _upcomingEvents = List<Event>();
-    initListeners();
     loadOnStart();
     userRetrieved = eventsRetrieved = false;
     retrieveData();
   }
 
+  @override
   void initListeners() {
-
     _eventsPresenter.getUserOnNext = (User user) {
       _currentUser = user;
     };
@@ -44,11 +43,11 @@ class EventsController extends Controller {
 
     _eventsPresenter.getUserOnComplete = () {
       userRetrieved = true;
-      if (eventsRetrieved)
-        dismissLoading();
+      if (eventsRetrieved) dismissLoading();
     };
 
-    _eventsPresenter.getEventsOnNext = (List<Event> featuredEvents, List<Event> upcomingEvents) {
+    _eventsPresenter.getEventsOnNext =
+        (List<Event> featuredEvents, List<Event> upcomingEvents) {
       _featuredEvents = featuredEvents;
       _upcomingEvents = upcomingEvents;
     };
@@ -60,13 +59,16 @@ class EventsController extends Controller {
 
     _eventsPresenter.getEventsOnComplete = () {
       eventsRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
+      if (userRetrieved) dismissLoading();
     };
   }
 
   void openEvent(event) {
-    Navigator.of(getContext()).pushNamed('/event', arguments: {'event': event, 'user': _currentUser, 'isUserEvent': false});
+    Navigator.of(getContext()).pushNamed('/event', arguments: {
+      'event': event,
+      'user': _currentUser,
+      'isUserEvent': false
+    });
   }
 
   void retrieveData() {

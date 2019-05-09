@@ -19,7 +19,6 @@ class HomePage extends View {
 }
 
 class HomePageView extends ViewState<HomePage, HomeController> {
-  HomeController _controller;
 
   HomePageView(HomeController controller) : super(controller);
 
@@ -32,7 +31,7 @@ class HomePageView extends ViewState<HomePage, HomeController> {
       appBar: appBar,
       body: ModalProgressHUD(
           child: getbody(),
-          inAsyncCall: _controller.isLoading,
+          inAsyncCall: controller.isLoading,
           opacity: UIConstants.progressBarOpacity,
           color: UIConstants.progressBarColor),
     );
@@ -50,8 +49,8 @@ class HomePageView extends ViewState<HomePage, HomeController> {
       subtitleColumn,
     ];
 
-    if (!_controller.isLoading && _controller.eventTime != null) {
-      children.add(Countdown(_controller.eventTime));
+    if (!controller.isLoading && controller.eventTime != null) {
+      children.add(Countdown(controller.eventTime));
     }
     return ListView(children: children);
   }
@@ -137,10 +136,4 @@ class HomePageView extends ViewState<HomePage, HomeController> {
           ),
         ],
       );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/login/login_controller.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/components/inputField.dart';
 import 'package:hnh/app/utils/constants.dart';
@@ -12,7 +13,7 @@ class LoginPage extends View {
   final String title;
 
   @override
-  LoginPageView createState() => LoginPageView(LoginController());
+  LoginPageView createState() => LoginPageView(LoginController(DataAuthenticationRepository()));
 }
 
 class LoginPageView extends ViewState<LoginPage, LoginController> {

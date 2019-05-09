@@ -19,12 +19,13 @@ class SponsorsController extends Controller {
   bool userRetrieved;
   bool hhhRetrieved;
 
-  SponsorsController(hhhRepository, sponsorRepository, authRepository) {
-    _sponsorsPresenter =  SponsorsPresenter(hhhRepository, sponsorRepository, authRepository);
+  SponsorsController(hhhRepository, sponsorRepository, authRepository)
+      : _sponsorsPresenter = SponsorsPresenter(
+            hhhRepository, sponsorRepository, authRepository) {
     _sponsors = List<Sponsor>();
     initListeners();
     isLoading = true;
-    userRetrieved =hhhRetrieved = false;
+    userRetrieved = hhhRetrieved = false;
     retrieveData();
   }
 
@@ -42,8 +43,7 @@ class SponsorsController extends Controller {
 
     _sponsorsPresenter.getHHHOnComplete = () {
       hhhRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
+      if (userRetrieved) dismissLoading();
     };
 
     _sponsorsPresenter.getUserOnNext = (User user) {
@@ -58,8 +58,7 @@ class SponsorsController extends Controller {
 
     _sponsorsPresenter.getUserOnComplete = () {
       userRetrieved = true;
-      if (hhhRetrieved)
-        dismissLoading();
+      if (hhhRetrieved) dismissLoading();
     };
   }
 

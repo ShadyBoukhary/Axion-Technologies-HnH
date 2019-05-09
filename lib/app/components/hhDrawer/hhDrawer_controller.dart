@@ -12,8 +12,8 @@ class HHDrawerController extends Controller {
   User get user => _currentUser;
   String get info => '${_info.appName} v${_info.version} ${_info.buildNumber}';
 
-  HHDrawerController(authRepository) {
-    _drawerPresenter = HHDrawerPresenter(authRepository);
+  HHDrawerController(authRepository)
+      : _drawerPresenter = HHDrawerPresenter(authRepository) {
     _info = PackageInfo(appName: '', version: '');
     initListeners();
     retrieveData();

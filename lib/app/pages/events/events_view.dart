@@ -17,11 +17,9 @@ class EventsPage extends View {
       EventsController(DataAuthenticationRepository(), DataEventRepository()));
 }
 class _EventsPageView extends ViewState<EventsPage , EventsController> {
-  EventsController _controller;
 
   _EventsPageView(EventsController controller) : super(controller);
   
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +28,7 @@ class _EventsPageView extends ViewState<EventsPage , EventsController> {
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: UIConstants.progressBarOpacity));
   }
@@ -104,7 +102,7 @@ class _EventsPageView extends ViewState<EventsPage , EventsController> {
       child: Container(
         child: InkWell(
           splashColor: Colors.redAccent,
-          onTap: () => {_controller.openEvent(event)},
+          onTap: () => {controller.openEvent(event)},
           child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
@@ -131,8 +129,8 @@ class _EventsPageView extends ViewState<EventsPage , EventsController> {
   }
 
   ListView getFeaturedEvents() {
-    List<EventCard> cards = _controller.featuredEvents
-        .map((event) => EventCard(event, _controller.currentUser))
+    List<EventCard> cards = controller.featuredEvents
+        .map((event) => EventCard(event, controller.currentUser))
         .toList();
     return ListView(
       scrollDirection: Axis.horizontal,
@@ -140,13 +138,7 @@ class _EventsPageView extends ViewState<EventsPage , EventsController> {
     );
   }
 
-  List<Container> get upcomingEvents => _controller.upComingEvents
+  List<Container> get upcomingEvents => controller.upComingEvents
       .map((event) => Container(child: getSmallEventCard(event)))
       .toList();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }

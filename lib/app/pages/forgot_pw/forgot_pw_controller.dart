@@ -2,15 +2,17 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hnh/app/pages/forgot_pw/forgot_pw_presenter.dart';
+
 class ForgotPwController extends Controller {
   TextEditingController email;
   ForgotPwPresenter _forgotPwPresenter;
-  ForgotPwController(authRepo) {
+
+  ForgotPwController(authRepo)
+      : _forgotPwPresenter = ForgotPwPresenter(authRepo) {
     email = TextEditingController();
-    _forgotPwPresenter = ForgotPwPresenter(authRepo);
-    initListeners();
   }
 
+  @override
   void initListeners() {
     _forgotPwPresenter.forgotOnComplete = () {
       dismissLoading();
@@ -34,7 +36,8 @@ class ForgotPwController extends Controller {
       showLoading();
       _forgotPwPresenter.forgotPassword(email: email.text);
     } else {
-      showGenericSnackbar(getStateKey(), Strings.registrationFormIncomplete, isError: true);
+      showGenericSnackbar(getStateKey(), Strings.registrationFormIncomplete,
+          isError: true);
     }
   }
 
@@ -42,7 +45,4 @@ class ForgotPwController extends Controller {
   void dispose() {
     super.dispose();
   }
-
-  
-
 }
