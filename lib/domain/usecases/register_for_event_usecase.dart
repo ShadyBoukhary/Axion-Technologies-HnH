@@ -1,5 +1,5 @@
 import 'package:hnh/domain/repositories/event_repository.dart';
-import 'package:hnh/domain/usecases/usecase.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hnh/domain/entities/event_registration.dart';

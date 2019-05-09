@@ -1,5 +1,5 @@
 import 'package:hnh/domain/repositories/hhh_repository.dart';
-import 'package:hnh/domain/usecases/usecase.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/entities/hhh.dart';
 import 'package:hnh/domain/entities/sponsor.dart';
 import 'package:hnh/domain/repositories/sponsor_repository.dart';
