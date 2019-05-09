@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/events/events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -25,7 +25,7 @@ class EventsController extends Controller {
     _featuredEvents = List<Event>();
     _upcomingEvents = List<Event>();
     initListeners();
-    startLoading();
+    loadOnStart();
     userRetrieved = eventsRetrieved = false;
     retrieveData();
   }
@@ -39,7 +39,7 @@ class EventsController extends Controller {
     _eventsPresenter.getUserOnError = (e) {
       // TODO: show the user the error
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
 
     _eventsPresenter.getUserOnComplete = () {
@@ -55,7 +55,7 @@ class EventsController extends Controller {
 
     _eventsPresenter.getEventsOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
 
     _eventsPresenter.getEventsOnComplete = () {

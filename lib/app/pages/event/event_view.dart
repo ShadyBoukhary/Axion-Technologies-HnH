@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/mini_map.dart';
 import 'package:hnh/app/pages/event/event_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
@@ -10,7 +10,7 @@ import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter/cupertino.dart';
 
-class EventPage extends StatefulWidget {
+class EventPage extends View {
   final Event event;
   final User user;
   final bool isUserEvent;
@@ -30,13 +30,10 @@ class EventPage extends StatefulWidget {
       EventController(DataEventRepository(), event, user, isUserEvent));
 }
 
-class _EventPageView extends View<EventPage> {
+class _EventPageView extends ViewState<EventPage, EventController> {
   EventController _controller;
 
-  _EventPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-  }
+  _EventPageView(EventController controller) : super(controller);
 
   @override
   void initState() {
@@ -62,7 +59,7 @@ class _EventPageView extends View<EventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
+        key: globalKey,
         body: ModalProgressHUD(
             child: getBody(),
             inAsyncCall: _controller.isLoading,

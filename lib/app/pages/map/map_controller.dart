@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/models/race_tracker.dart';
 import 'package:hnh/app/pages/map/map_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/utils/google_maps_mapper.dart';
@@ -134,16 +135,17 @@ class MapController extends Controller {
         patterns: [PatternItem.dot]));
   }
 
-  void initMarkers() {
+  void initMarkers() async{
     if (_event.isRace) {
       // rest stop markers
+      var image = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(16, 16)), Resources.checkpoint);
       _event.stops.forEach((stop) {
         markers.add(Marker(
           markerId: MarkerId(markers.length.toString()),
           position: mapCoordinatesToLatLng(stop),
           icon: stop == _event.hellsGate
               ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
-              : BitmapDescriptor.defaultMarker,
+              : image,
           infoWindow: InfoWindow(
               title: stop == _event.hellsGate
                   ? 'Hells Gate'

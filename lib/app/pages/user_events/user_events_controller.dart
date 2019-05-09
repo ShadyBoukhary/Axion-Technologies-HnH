@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/user_events/user_events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -17,7 +17,7 @@ class UserEventsController extends Controller {
     _eventsPresenter = UserEventsPresenter(eventRepository);
     _events = List<Event>();
     initListeners();
-    startLoading();
+    loadOnStart();
     retrieveData();
   }
 
@@ -29,7 +29,7 @@ class UserEventsController extends Controller {
 
     _eventsPresenter.getUserEventsOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
       print(e);
     };
 
@@ -56,7 +56,7 @@ class UserEventsController extends Controller {
   void didPopNext() {
     // Retrieve data again when user navigates back to this page
     // In case the user removed an event from favorites
-    startLoading();
+    loadOnStart();
     retrieveData();
     super.didPopNext();
   }

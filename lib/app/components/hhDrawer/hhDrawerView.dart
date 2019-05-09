@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/hhDrawer/hhDrawer_controller.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
-class HhDrawer extends StatefulWidget {
+class HhDrawer extends View {
   final HHDrawerController _controller =
       HHDrawerController(DataAuthenticationRepository());
 
@@ -11,31 +11,29 @@ class HhDrawer extends StatefulWidget {
   _HhDrawerView createState() => _HhDrawerView(_controller);
 }
 
-class _HhDrawerView extends View<HhDrawer> {
-  final HHDrawerController _controller;
-  _HhDrawerView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-  }
+class _HhDrawerView extends ViewState<HhDrawer, HHDrawerController> {
+  _HhDrawerView(HHDrawerController controller) : super(controller);
+
 
   @override
   Widget build(BuildContext context) {
-    return Stack(key: scaffoldKey, children: [
+    return Stack(key: globalKey, children: [
       Column(
         children: <Widget>[
           header,
-          createPageTile('Home', Icons.home, () => _controller.navigate('/home', context)),
-          createPageTile('Events', Icons.calendar_today, () => _controller.navigate('/events', context)),
+          createPageTile('Home', Icons.home, () => controller.navigate('/home', context)),
+          createPageTile('Events', Icons.calendar_today, () => controller.navigate('/events', context)),
           createPageTile(
               'My Events',
               Icons.calendar_today,
-              () => _controller.navigateWithArgs(
-                  '/userEvents', context, {'user': _controller.user})),
+              () => controller.navigateWithArgs(
+                  '/userEvents', context, {'user': controller.user})),
           Divider(),
-          createPageTile('Sponsors', Icons.business, () => _controller.navigate('/sponsors', context)),
+          createPageTile('Sponsors', Icons.business, () => controller.navigate('/sponsors', context)),
           createPageTile('Local', Icons.hotel,
-              () => _controller.navigate('/localPlaces', context)),
+              () => controller.navigate('/localPlaces', context)),
           Divider(),
-          createPageTile('Logout', Icons.exit_to_app, _controller.logout),
+          createPageTile('Logout', Icons.exit_to_app, controller.logout),
         ],
       ),
       version
@@ -50,7 +48,7 @@ class _HhDrawerView extends View<HhDrawer> {
           children: <Widget>[
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               Text(
-                '${_controller.info}',
+                '${controller.info}',
                 style: TextStyle(
                     fontSize: 11.0,
                     fontWeight: FontWeight.w300,
@@ -64,11 +62,11 @@ class _HhDrawerView extends View<HhDrawer> {
 
   UserAccountsDrawerHeader get header => UserAccountsDrawerHeader(
         accountName: Text(
-          _controller.user != null ? _controller.user.fullName : 'Guest User',
+          controller.user != null ? controller.user.fullName : 'Guest User',
           style: TextStyle(fontSize: 18.0),
         ),
         accountEmail: Text(
-          _controller.user != null ? _controller.user.email : '',
+          controller.user != null ? controller.user.email : '',
           style: TextStyle(fontSize: 12.0),
         ),
         currentAccountPicture: GestureDetector(
@@ -102,11 +100,5 @@ class _HhDrawerView extends View<HhDrawer> {
       ),
       onTap: handler,
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

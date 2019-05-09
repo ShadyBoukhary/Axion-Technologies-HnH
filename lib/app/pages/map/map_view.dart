@@ -2,13 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/components/gps_details.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/map/map_controller.dart';
 import 'package:hnh/data/repositories/data_weather_repository.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
 import 'package:flutter/cupertino.dart';
-class MapPage extends StatefulWidget {
+
+class MapPage extends View {
   MapPage({Key key, @required this.event}) : super(key: key);
 
   final Event event;
@@ -18,20 +19,13 @@ class MapPage extends StatefulWidget {
       DeviceLocationRepository(), DataWeatherRepository(), event));
 }
 
-class _MapPageView extends View<MapPage> with SingleTickerProviderStateMixin {
-  MapController _controller;
-  _MapPageView(this._controller);
-
-  @override
-  void initState() {
-    _controller.initController(scaffoldKey, callHandler);
-    super.initState();
-  }
+class _MapPageView extends ViewState<MapPage, MapController> with SingleTickerProviderStateMixin {
+  _MapPageView(MapController controller) : super(controller);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      key: scaffoldKey,
+      key: globalKey,
       child: Scaffold(
         appBar: appBar,
         body: SafeArea(
@@ -59,8 +53,8 @@ class _MapPageView extends View<MapPage> with SingleTickerProviderStateMixin {
                   fontSize: 15.0,
                   color: Colors.red,
                   fontWeight: FontWeight.w500),
-                  child: Text(_controller.isNavigating ? 'Unlock Camera' : "Lock Camera"),
-                  onPressed: () => callHandler(_controller.handleStart),
+                  child: Text(controller.isNavigating ? 'Unlock Camera' : "Lock Camera"),
+                  onPressed: () => callHandler(controller.handleStart),
             ),
           ],
         ),
@@ -73,17 +67,17 @@ class _MapPageView extends View<MapPage> with SingleTickerProviderStateMixin {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: GoogleMap(
-          onMapCreated: (controller) {
-            callHandler(_controller.googleMapsOnInit,
-                params: {'controller': controller});
+          onMapCreated: (controller1) {
+            callHandler(controller.googleMapsOnInit,
+                params: {'controller': controller1});
           },
           initialCameraPosition: CameraPosition(
-            target: _controller.initial,
+            target: controller.initial,
             zoom: 11,
           ),
           myLocationEnabled: true,
-          polylines: _controller.polylines,
-          markers: _controller.markers,
+          polylines: controller.polylines,
+          markers: controller.markers,
         ),
       );
 
@@ -93,11 +87,11 @@ class _MapPageView extends View<MapPage> with SingleTickerProviderStateMixin {
         left: 0,
         right: 0,
         child: GPSDetails(
-            _controller.currentLocation,
-            _controller.currentWeather,
+            controller.currentLocation,
+            controller.currentWeather,
             widget.event.name,
-            _controller.remainingDistance,
-            _controller.distanceTravelled));
+            controller.remainingDistance,
+            controller.distanceTravelled));
   }
 
   Future<bool> _showDialog() {
@@ -120,11 +114,5 @@ class _MapPageView extends View<MapPage> with SingleTickerProviderStateMixin {
           },
         ) ??
         false;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/sponsors/sponsors_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/sponsor.dart';
@@ -36,7 +36,7 @@ class SponsorsController extends Controller {
 
     _sponsorsPresenter.getHHHOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
       print(e);
     };
 
@@ -52,7 +52,7 @@ class SponsorsController extends Controller {
 
     _sponsorsPresenter.getUserOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
       print(e);
     };
 

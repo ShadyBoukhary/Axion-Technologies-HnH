@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/event/event_presenter.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -49,7 +49,7 @@ class EventController extends Controller {
 
   void handleError(e) {
     dismissLoading();
-    showGenericSnackbar(getScaffoldKey(), e.message);
+    showGenericSnackbar(getStateKey() ,e.message);
   }
 
   void onSignUpPressed() =>
@@ -64,17 +64,17 @@ class EventController extends Controller {
     if (event.isRace) {
       Navigator.of(getContext()).pushReplacementNamed('/map', arguments: {'event': _event});
     } else {
-      launchMaps(_event.location, logger, getScaffoldKey());
+      launchMaps(_event.location, logger, getStateKey());
     }
   }
 
   void _getIsRegistered() {
-    startLoading();
+    loadOnStart();
     _eventPresenter.isRegistered(uid: _user.uid, eventId: _event.id);
   }
 
   void handleRegistration() {
-    resumeLoading();
+    showLoading();
     if (_isRegistered) {
       _eventPresenter.unRegisterFromEvent(uid: _user.uid, eventId: _event.id);
     } else {

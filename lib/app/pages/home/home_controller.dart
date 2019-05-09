@@ -1,4 +1,4 @@
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/home/home_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -32,7 +32,7 @@ class HomeController extends Controller {
 
     _homePresenter.getHHHOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
 
     _homePresenter.getHHHOnComplete = () {
@@ -47,7 +47,7 @@ class HomeController extends Controller {
 
     _homePresenter.getUserOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
       print(e);
     };
 

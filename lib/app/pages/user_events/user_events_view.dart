@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
-import 'package:hnh/app/components/user_event_card.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';import 'package:hnh/app/components/user_event_card.dart';
 import 'package:hnh/app/pages/user_events/user_events_controller.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -8,46 +7,33 @@ import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
 import 'package:flutter/cupertino.dart';
 
-class UserEventsPage extends StatefulWidget {
-  UserEventsPage(this.routeObserver, {Key key, this.user}) : super(key: key);
-
+class UserEventsPage extends View {
+  UserEventsPage(routeObserver, {Key key, this.user}) : super(routeObserver: routeObserver, key: key);
   final User user;
-  final RouteObserver routeObserver;
 
   @override
   _UserEventsPageView createState() =>
       _UserEventsPageView(UserEventsController(DataEventRepository(), user));
 }
 
-class _UserEventsPageView extends View<UserEventsPage> {
-  UserEventsController _controller;
-
-  _UserEventsPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-  }
-
-  @override
-  void didChangeDependencies() {
-    widget.routeObserver.subscribe(_controller, ModalRoute.of(context));
-    super.didChangeDependencies();
-  }
+class _UserEventsPageView extends ViewState<UserEventsPage, UserEventsController> {
+  _UserEventsPageView(UserEventsController controller) : super(controller);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        drawer: Drawer(elevation: 8.0, child: View.drawer),
+        key: globalKey,
+        drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: UIConstants.progressBarOpacity));
   }
 
   Widget getBody() {
-    Widget child = _controller.events.isNotEmpty
+    Widget child = controller.events.isNotEmpty
         ? getEvents()
         : Center(
             child: Padding(
@@ -77,18 +63,12 @@ class _UserEventsPageView extends View<UserEventsPage> {
       );
 
   ListView getEvents() {
-    List<UserEventCard> cards = _controller.events
-        .map((event) => UserEventCard(event, _controller.currentUser, true))
+    List<UserEventCard> cards = controller.events
+        .map((event) => UserEventCard(event, controller.currentUser, true))
         .toList();
     return ListView(
       scrollDirection: Axis.vertical,
       children: cards,
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

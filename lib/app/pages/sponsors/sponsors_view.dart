@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/sponsor_card.dart';
 import 'package:hnh/app/pages/sponsors/sponsors_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -8,7 +8,7 @@ import 'package:hnh/data/repositories/data_hhh_repository.dart';
 import 'package:hnh/data/repositories/data_sponsor_repository.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
-class SponsorsPage extends StatefulWidget {
+class SponsorsPage extends View {
   SponsorsPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -20,23 +20,18 @@ class SponsorsPage extends StatefulWidget {
       DataAuthenticationRepository()));
 }
 
-class _SponsorsPageView extends View<SponsorsPage> {
-  SponsorsController _controller;
-
-  _SponsorsPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-  }
+class _SponsorsPageView extends ViewState<SponsorsPage, SponsorsController> {
+  _SponsorsPageView(SponsorsController controller) : super(controller);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        drawer: Drawer(elevation: 8.0, child: View.drawer),
+        key: globalKey,
+        drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: UIConstants.progressBarOpacity));
   }
@@ -56,7 +51,7 @@ class _SponsorsPageView extends View<SponsorsPage> {
   }
 
   List<SponsorCard> get sponsorCards =>
-      _controller.sponsors.map((sponsor) => SponsorCard(sponsor)).toList();
+      controller.sponsors.map((sponsor) => SponsorCard(sponsor)).toList();
 
   AppBar get appBar => AppBar(
         title: Text(
@@ -68,10 +63,4 @@ class _SponsorsPageView extends View<SponsorsPage> {
         elevation: 0.0,
         centerTitle: true,
       );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }

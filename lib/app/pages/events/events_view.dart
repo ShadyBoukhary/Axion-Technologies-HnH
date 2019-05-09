@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/event_card.dart';
 import 'package:hnh/app/pages/events/events_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -7,7 +7,7 @@ import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
 
-class EventsPage extends StatefulWidget {
+class EventsPage extends View {
   EventsPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -16,20 +16,17 @@ class EventsPage extends StatefulWidget {
   _EventsPageView createState() => _EventsPageView(
       EventsController(DataAuthenticationRepository(), DataEventRepository()));
 }
-class _EventsPageView extends View<EventsPage> {
+class _EventsPageView extends ViewState<EventsPage , EventsController> {
   EventsController _controller;
+
+  _EventsPageView(EventsController controller) : super(controller);
   
-  _EventsPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-    
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        drawer: Drawer(elevation: 8.0, child: View.drawer),
+        key: globalKey,
+        drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),

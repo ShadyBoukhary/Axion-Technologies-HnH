@@ -1,5 +1,5 @@
 import 'package:flutter/animation.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/splash/splash_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hnh/domain/repositories/location_repository.dart';

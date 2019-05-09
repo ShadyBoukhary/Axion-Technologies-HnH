@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/login/login_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/components/inputField.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/app/components/ensure_focus.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends View {
   LoginPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -15,31 +15,28 @@ class LoginPage extends StatefulWidget {
   LoginPageView createState() => LoginPageView(LoginController());
 }
 
-class LoginPageView extends View<LoginPage> {
+class LoginPageView extends ViewState<LoginPage, LoginController> {
   static const String emailPrompt = 'Email Address';
   static const String passwordPrompt = 'Password';
   static const String loginButtonText = 'Sign In';
   static const String forgotPassswordButtonText = 'Forgot password?';
   static const String registerButtonText = 'No account? Create one.';
 
-  LoginController _controller;
   final FocusNode _emailFocus;
   final FocusNode _passFocus;
 
-  LoginPageView(this._controller)
+  LoginPageView(controller)
       : _emailFocus = FocusNode(),
-        _passFocus = FocusNode() {
-    _controller.initController(scaffoldKey, callHandler);
-  }
+        _passFocus = FocusNode(), super(controller);
 
   @override
   Widget build(BuildContext context) {
     // ModalProgressHUD wraps the entire body with a loading using the controller.isLoading
     return Scaffold(
-        key: scaffoldKey,
+        key: globalKey,
         body: ModalProgressHUD(
             child: body,
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: UIConstants.progressBarOpacity));
   }
@@ -126,7 +123,7 @@ class LoginPageView extends View<LoginPage> {
   /// Email input field
   Widget get emailField => EnsureVisibleWhenFocused(
       child: InputField(
-        _controller.emailTextController,
+        controller.emailTextController,
         emailPrompt,
         _emailFocus,
         type: TextInputType.emailAddress,
@@ -136,13 +133,13 @@ class LoginPageView extends View<LoginPage> {
   /// Password input field
   Widget get passwordField => EnsureVisibleWhenFocused(
         child: InputField(
-            _controller.passwordTextController, passwordPrompt, _passFocus,
+            controller.passwordTextController, passwordPrompt, _passFocus,
             isPassword: true),
         focusNode: _passFocus,
       );
 
   GestureDetector get forgotPasswordButton => GestureDetector(
-        onTap: _controller.forgotPassword,
+        onTap: controller.forgotPassword,
         child: Text(
           forgotPassswordButtonText,
           style: new TextStyle(
@@ -154,7 +151,7 @@ class LoginPageView extends View<LoginPage> {
 
   GestureDetector get loginButton => GestureDetector(
         onTap: () {
-          callHandler(_controller.login);
+          callHandler(controller.login);
         },
         child: Container(
           width: 320.0,
@@ -173,7 +170,7 @@ class LoginPageView extends View<LoginPage> {
       );
 
   GestureDetector get registerButton => GestureDetector(
-        onTap: _controller.register,
+        onTap: controller.register,
         child: Text(
           registerButtonText,
           style: TextStyle(
