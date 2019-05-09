@@ -1,5 +1,5 @@
 import 'package:flutter/animation.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/splash/splash_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hnh/domain/repositories/location_repository.dart';
@@ -7,9 +7,8 @@ import 'package:hnh/domain/repositories/location_repository.dart';
 class SplashController extends Controller {
   SplashPresenter _splashPresenter;
   LocationRepository _locationRepository;
-  SplashController(authRepo, this._locationRepository) {
-    _splashPresenter = SplashPresenter(authRepo);
-    initListeners();
+  SplashController(authRepo, this._locationRepository)
+      : _splashPresenter = SplashPresenter(authRepo) {
     getAuthStatus();
     handlePermissions();
   }
@@ -21,8 +20,7 @@ class SplashController extends Controller {
         controller.stop(canceled: true);
       } else if (status == AnimationStatus.completed) {
         controller.reverse();
-
-      } else if (status == AnimationStatus.dismissed){
+      } else if (status == AnimationStatus.dismissed) {
         controller.forward();
       }
     });
@@ -40,6 +38,7 @@ class SplashController extends Controller {
     Future.delayed(Duration(seconds: 3), _splashPresenter.getAuthStatus);
   }
 
+  @override
   void initListeners() {
     _splashPresenter.getAuthStatusOnNext = authStatusOnNext;
     _splashPresenter.getAuthStatusOnComplete = () => dismissLoading();

@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 import 'package:hnh/domain/entities/location.dart';
 import 'package:hnh/domain/usecases/location_track_usecase.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
-import 'package:hnh/domain/usecases/observer.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:mockito/mockito.dart';
 import 'package:uuid/uuid.dart';
 import 'package:logging/logging.dart';

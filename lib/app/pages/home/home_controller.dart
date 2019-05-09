@@ -1,4 +1,4 @@
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/home/home_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -6,7 +6,6 @@ import 'package:logging/logging.dart';
 import 'package:hnh/domain/entities/hhh.dart';
 
 class HomeController extends Controller {
-
   HomePresenter _homePresenter;
   User _currentUser;
   HHH _currentHHH;
@@ -17,9 +16,9 @@ class HomeController extends Controller {
   bool userRetrieved;
   bool hhhRetrieved;
 
-  HomeController(hhhRepository, sponsorRepository, authRepository) {
-    _homePresenter = HomePresenter(hhhRepository, sponsorRepository, authRepository);
-    initListeners();
+  HomeController(hhhRepository, sponsorRepository, authRepository)
+      : _homePresenter =
+            HomePresenter(hhhRepository, sponsorRepository, authRepository) {
     isLoading = true;
     userRetrieved = hhhRetrieved = false;
     retrieveData();
@@ -32,13 +31,12 @@ class HomeController extends Controller {
 
     _homePresenter.getHHHOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
 
     _homePresenter.getHHHOnComplete = () {
       hhhRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
+      if (userRetrieved) dismissLoading();
     };
 
     _homePresenter.getUserOnNext = (User user) {
@@ -47,14 +45,13 @@ class HomeController extends Controller {
 
     _homePresenter.getUserOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
       print(e);
     };
 
     _homePresenter.getUserOnComplete = () {
       userRetrieved = true;
-      if (hhhRetrieved)
-        dismissLoading();
+      if (hhhRetrieved) dismissLoading();
     };
   }
 

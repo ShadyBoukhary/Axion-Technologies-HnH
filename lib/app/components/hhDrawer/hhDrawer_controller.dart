@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/hhDrawer/hhDrawerPresenter.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:package_info/package_info.dart';
@@ -12,8 +12,8 @@ class HHDrawerController extends Controller {
   User get user => _currentUser;
   String get info => '${_info.appName} v${_info.version} ${_info.buildNumber}';
 
-  HHDrawerController(authRepository) {
-    _drawerPresenter = HHDrawerPresenter(authRepository);
+  HHDrawerController(authRepository)
+      : _drawerPresenter = HHDrawerPresenter(authRepository) {
     _info = PackageInfo(appName: '', version: '');
     initListeners();
     retrieveData();

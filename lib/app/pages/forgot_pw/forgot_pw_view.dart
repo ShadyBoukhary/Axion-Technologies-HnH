@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/forgot_pw/forgot_pw_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class ForgotPwPage extends StatefulWidget {
+class ForgotPwPage extends View {
   ForgotPwPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -15,14 +15,14 @@ class ForgotPwPage extends StatefulWidget {
       _ForgotPwPageView(ForgotPwController(DataAuthenticationRepository()));
 }
 
-class _ForgotPwPageView extends View<ForgotPwPage> {
+class _ForgotPwPageView extends ViewState<ForgotPwPage, ForgotPwController> {
   ForgotPwController _controller;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  _ForgotPwPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-  }
+  _ForgotPwPageView(ForgotPwController controller) : super(controller);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _ForgotPwPageView extends View<ForgotPwPage> {
   }
 
   Widget get body => Scaffold(
-        key: scaffoldKey,
+        key: globalKey,
         appBar: appBar,
         body: Stack(
           children: <Widget>[

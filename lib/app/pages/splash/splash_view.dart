@@ -1,43 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/splash/splash_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
-class SplashPage extends StatefulWidget {
+
+class SplashPage extends View {
   SplashPage();
   @override
   SplashPageView createState() => SplashPageView(SplashController(DataAuthenticationRepository(), DeviceLocationRepository()));
 }
 
-class SplashPageView extends View<SplashPage> with SingleTickerProviderStateMixin {
-  SplashController _controller;
+class SplashPageView extends ViewState<SplashPage, SplashController> with SingleTickerProviderStateMixin {
 
   AnimationController _animationController;
   Animation<double> _animation;
 
-  SplashPageView(this._controller);
+  SplashPageView(SplashController controller) : super(controller);
 
   @override
   void initState() {
     super.initState();
-    _controller.initController(scaffoldKey, callHandler);
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
-    _controller.initAnimation(_animationController, _animation);
-    _controller.refresh = callHandler;
+    controller.initAnimation(_animationController, _animation);
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(key: scaffoldKey, body: body);
+    return Scaffold(key: globalKey, body: body);
   }
 
   // Scaffold body

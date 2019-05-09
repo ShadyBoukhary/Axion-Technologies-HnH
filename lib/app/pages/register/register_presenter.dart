@@ -1,9 +1,9 @@
 import 'package:hnh/domain/repositories/authentication_repository.dart';
 import 'package:hnh/domain/usecases/auth/register_usecase.dart';
-import 'package:hnh/domain/usecases/observer.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter/foundation.dart';
 
-class RegisterPresenter {
+class RegisterPresenter extends Presenter {
 
   AuthenticationRepository _authenticationRepository;
   RegisterUserCase _registerUserCase;

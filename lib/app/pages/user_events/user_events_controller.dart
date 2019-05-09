@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/user_events/user_events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -13,23 +13,22 @@ class UserEventsController extends Controller {
   User get currentUser => _currentUser;
   List<Event> get events => _events;
 
-  UserEventsController(eventRepository, this._currentUser) {
-    _eventsPresenter = UserEventsPresenter(eventRepository);
+  UserEventsController(eventRepository, this._currentUser)
+      : _eventsPresenter = UserEventsPresenter(eventRepository) {
     _events = List<Event>();
     initListeners();
-    startLoading();
+    loadOnStart();
     retrieveData();
   }
 
   void initListeners() {
-
     _eventsPresenter.getUserEventsOnNext = (List<Event> events) {
       _events = events;
     };
 
     _eventsPresenter.getUserEventsOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
       print(e);
     };
 
@@ -39,7 +38,8 @@ class UserEventsController extends Controller {
   }
 
   void openEvent(event) {
-    Navigator.of(getContext()).pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
+    Navigator.of(getContext())
+        .pushNamed('/event', arguments: {'event': event, 'user': _currentUser});
   }
 
   void retrieveData() {
@@ -56,7 +56,7 @@ class UserEventsController extends Controller {
   void didPopNext() {
     // Retrieve data again when user navigates back to this page
     // In case the user removed an event from favorites
-    startLoading();
+    loadOnStart();
     retrieveData();
     super.didPopNext();
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/mini_map.dart';
 import 'package:hnh/app/pages/event/event_controller.dart';
 import 'package:hnh/app/utils/constants.dart';
@@ -10,7 +10,7 @@ import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter/cupertino.dart';
 
-class EventPage extends StatefulWidget {
+class EventPage extends View {
   final Event event;
   final User user;
   final bool isUserEvent;
@@ -30,13 +30,8 @@ class EventPage extends StatefulWidget {
       EventController(DataEventRepository(), event, user, isUserEvent));
 }
 
-class _EventPageView extends View<EventPage> {
-  EventController _controller;
-
-  _EventPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-  }
+class _EventPageView extends ViewState<EventPage, EventController> {
+  _EventPageView(EventController controller) : super(controller);
 
   @override
   void initState() {
@@ -51,7 +46,7 @@ class _EventPageView extends View<EventPage> {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Future.delayed(Duration(milliseconds: 300), () {
           setState(() {
-            _controller.finishedLoading = true;
+            controller.finishedLoading = true;
           });
         });
       });
@@ -62,10 +57,10 @@ class _EventPageView extends View<EventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
+        key: globalKey,
         body: ModalProgressHUD(
             child: getBody(),
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: 0));
   }
@@ -86,7 +81,7 @@ class _EventPageView extends View<EventPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  _controller.event.name,
+                  controller.event.name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -107,7 +102,7 @@ class _EventPageView extends View<EventPage> {
         child: Column(
           children: <Widget>[
             Text(
-              _controller.event.description,
+              controller.event.description,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 15.0,
@@ -123,7 +118,7 @@ class _EventPageView extends View<EventPage> {
 
     // load the map only after the page has already finished loading
     // improve performance on somewhat slow devices
-    if (_controller.finishedLoading) {
+    if (controller.finishedLoading) {
       children.add(Padding(
         padding: const EdgeInsets.all(15.0),
         child: MiniMap(widget.event),
@@ -148,7 +143,7 @@ class _EventPageView extends View<EventPage> {
   Stack get eventHeader => Stack(
         children: <Widget>[
           Image.network(
-            _controller.event.imageUrl,
+            controller.event.imageUrl,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
             alignment: Alignment.center,
@@ -165,11 +160,11 @@ class _EventPageView extends View<EventPage> {
             right: 10.0,
             child: IconButton(
               icon: Icon(
-                _controller.isRegistered ? Icons.star : Icons.star_border,
+                controller.isRegistered ? Icons.star : Icons.star_border,
               ),
               color: Colors.red,
               iconSize: 40.0,
-              onPressed: _controller.handleRegistration,
+              onPressed: controller.handleRegistration,
             ),
           ),
         ],
@@ -178,8 +173,8 @@ class _EventPageView extends View<EventPage> {
   GestureDetector getSignupButton() {
     String title = widget.isUserEvent ? 'Start Navigation' : 'Signup';
     var handler = widget.isUserEvent
-        ? _controller.onStartNavigationPressed
-        : _controller.onSignUpPressed;
+        ? controller.onStartNavigationPressed
+        : controller.onSignUpPressed;
     return GestureDetector(
       onTap: handler,
       child: Container(
@@ -199,11 +194,5 @@ class _EventPageView extends View<EventPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

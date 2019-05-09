@@ -1,4 +1,4 @@
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/register/register_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +13,8 @@ class RegisterController extends Controller {
   bool agreedToTOS;
   RegisterPresenter _registerPresenter;
 
-  RegisterController(authRepo) {
-    _registerPresenter = RegisterPresenter(authRepo);
+  RegisterController(authRepo)
+      : _registerPresenter = RegisterPresenter(authRepo) {
     firstName = TextEditingController();
     lastName = TextEditingController();
     email = TextEditingController();
@@ -28,20 +28,20 @@ class RegisterController extends Controller {
   void initListeners() {
     _registerPresenter.registerOnComplete = () {
       logger.finest("Complete: Registration success.");
-      showGenericSnackbar(getScaffoldKey(), Strings.registrationSuccessful);
+      showGenericSnackbar(getStateKey(), Strings.registrationSuccessful);
       Navigator.of(getContext()).pop();
     };
 
     _registerPresenter.registerOnError = (e) {
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
   }
 
   void register() {
-
-    _registerPresenter.register(firstName: firstName.text,
-         lastName: lastName.text,
-         email: email.text,
+    _registerPresenter.register(
+        firstName: firstName.text,
+        lastName: lastName.text,
+        email: email.text,
         password: password.text);
   }
 
@@ -59,11 +59,13 @@ class RegisterController extends Controller {
       if (agreedToTOS) {
         register();
       } else {
-        showGenericSnackbar(getScaffoldKey(), Strings.tosNotAccepted, isError: true);
+        showGenericSnackbar(getStateKey(), Strings.tosNotAccepted,
+            isError: true);
       }
     } else {
       logger.shout('Registration failed');
-      showGenericSnackbar(getScaffoldKey(), Strings.registrationFormIncomplete, isError: true);
+      showGenericSnackbar(getStateKey(), Strings.registrationFormIncomplete,
+          isError: true);
     }
   }
 
@@ -72,7 +74,4 @@ class RegisterController extends Controller {
     _registerPresenter.dispose();
     super.dispose();
   }
-
-  
-
 }

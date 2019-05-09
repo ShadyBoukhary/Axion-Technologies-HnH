@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/events/events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/user.dart';
@@ -19,19 +19,18 @@ class EventsController extends Controller {
   List<Event> get featuredEvents => _featuredEvents;
   List<Event> get upComingEvents => _upcomingEvents;
 
-
-  EventsController(authRepository, eventRepository) {
-    _eventsPresenter = EventsPresenter(authRepository, eventRepository);
+  EventsController(authRepository, eventRepository)
+      : _eventsPresenter = EventsPresenter(authRepository, eventRepository),
+        super() {
     _featuredEvents = List<Event>();
     _upcomingEvents = List<Event>();
-    initListeners();
-    startLoading();
+    loadOnStart();
     userRetrieved = eventsRetrieved = false;
     retrieveData();
   }
 
+  @override
   void initListeners() {
-
     _eventsPresenter.getUserOnNext = (User user) {
       _currentUser = user;
     };
@@ -39,34 +38,37 @@ class EventsController extends Controller {
     _eventsPresenter.getUserOnError = (e) {
       // TODO: show the user the error
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
 
     _eventsPresenter.getUserOnComplete = () {
       userRetrieved = true;
-      if (eventsRetrieved)
-        dismissLoading();
+      if (eventsRetrieved) dismissLoading();
     };
 
-    _eventsPresenter.getEventsOnNext = (List<Event> featuredEvents, List<Event> upcomingEvents) {
+    _eventsPresenter.getEventsOnNext =
+        (List<Event> featuredEvents, List<Event> upcomingEvents) {
       _featuredEvents = featuredEvents;
       _upcomingEvents = upcomingEvents;
     };
 
     _eventsPresenter.getEventsOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getScaffoldKey(), e.message, isError: true);
+      showGenericSnackbar(getStateKey(), e.message, isError: true);
     };
 
     _eventsPresenter.getEventsOnComplete = () {
       eventsRetrieved = true;
-      if (userRetrieved)
-        dismissLoading();
+      if (userRetrieved) dismissLoading();
     };
   }
 
   void openEvent(event) {
-    Navigator.of(getContext()).pushNamed('/event', arguments: {'event': event, 'user': _currentUser, 'isUserEvent': false});
+    Navigator.of(getContext()).pushNamed('/event', arguments: {
+      'event': event,
+      'user': _currentUser,
+      'isUserEvent': false
+    });
   }
 
   void retrieveData() {

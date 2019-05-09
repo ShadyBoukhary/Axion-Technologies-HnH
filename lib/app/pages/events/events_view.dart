@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/event_card.dart';
 import 'package:hnh/app/pages/events/events_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -7,7 +7,7 @@ import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
 
-class EventsPage extends StatefulWidget {
+class EventsPage extends View {
   EventsPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -16,24 +16,19 @@ class EventsPage extends StatefulWidget {
   _EventsPageView createState() => _EventsPageView(
       EventsController(DataAuthenticationRepository(), DataEventRepository()));
 }
-class _EventsPageView extends View<EventsPage> {
-  EventsController _controller;
-  
-  _EventsPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-    
-  }
+class _EventsPageView extends ViewState<EventsPage , EventsController> {
 
+  _EventsPageView(EventsController controller) : super(controller);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        drawer: Drawer(elevation: 8.0, child: View.drawer),
+        key: globalKey,
+        drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),
         appBar: appBar,
         body: ModalProgressHUD(
             child: getBody(),
-            inAsyncCall: _controller.isLoading,
+            inAsyncCall: controller.isLoading,
             color: UIConstants.progressBarColor,
             opacity: UIConstants.progressBarOpacity));
   }
@@ -107,7 +102,7 @@ class _EventsPageView extends View<EventsPage> {
       child: Container(
         child: InkWell(
           splashColor: Colors.redAccent,
-          onTap: () => {_controller.openEvent(event)},
+          onTap: () => {controller.openEvent(event)},
           child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
@@ -134,8 +129,8 @@ class _EventsPageView extends View<EventsPage> {
   }
 
   ListView getFeaturedEvents() {
-    List<EventCard> cards = _controller.featuredEvents
-        .map((event) => EventCard(event, _controller.currentUser))
+    List<EventCard> cards = controller.featuredEvents
+        .map((event) => EventCard(event, controller.currentUser))
         .toList();
     return ListView(
       scrollDirection: Axis.horizontal,
@@ -143,13 +138,7 @@ class _EventsPageView extends View<EventsPage> {
     );
   }
 
-  List<Container> get upcomingEvents => _controller.upComingEvents
+  List<Container> get upcomingEvents => controller.upComingEvents
       .map((event) => Container(child: getSmallEventCard(event)))
       .toList();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnh/app/components/countdown.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/home/home_controller.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
@@ -8,7 +8,7 @@ import 'package:hnh/data/repositories/data_hhh_repository.dart';
 import 'package:hnh/data/repositories/data_sponsor_repository.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends View {
   HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -18,23 +18,20 @@ class HomePage extends StatefulWidget {
       DataSponsorRepository(), DataAuthenticationRepository()));
 }
 
-class HomePageView extends View<HomePage> {
-  HomeController _controller;
+class HomePageView extends ViewState<HomePage, HomeController> {
 
-  HomePageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-  }
+  HomePageView(HomeController controller) : super(controller);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      drawer: Drawer(elevation: 8.0, child: View.drawer),
+      key: globalKey,
+      drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),
       appBar: appBar,
       body: ModalProgressHUD(
           child: getbody(),
-          inAsyncCall: _controller.isLoading,
+          inAsyncCall: controller.isLoading,
           opacity: UIConstants.progressBarOpacity,
           color: UIConstants.progressBarColor),
     );
@@ -52,8 +49,8 @@ class HomePageView extends View<HomePage> {
       subtitleColumn,
     ];
 
-    if (!_controller.isLoading && _controller.eventTime != null) {
-      children.add(Countdown(_controller.eventTime));
+    if (!controller.isLoading && controller.eventTime != null) {
+      children.add(Countdown(controller.eventTime));
     }
     return ListView(children: children);
   }
@@ -139,10 +136,4 @@ class HomePageView extends View<HomePage> {
           ),
         ],
       );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }

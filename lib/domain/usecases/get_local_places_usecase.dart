@@ -2,7 +2,7 @@ import 'package:hnh/domain/entities/coordinates.dart';
 import 'package:hnh/domain/entities/location.dart';
 import 'package:hnh/domain/repositories/local_places_repository.dart';
 import 'package:hnh/domain/repositories/location_repository.dart';
-import 'package:hnh/domain/usecases/usecase.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/entities/local_place.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:async';

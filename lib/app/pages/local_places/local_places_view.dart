@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/abstract/view.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/local_places/local_places_controller.dart';
 import 'package:hnh/app/pages/local_places/local_places_tabs.dart';
 import 'package:hnh/data/repositories/data_local_places_repository.dart';
@@ -8,7 +8,7 @@ import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
 import 'package:flutter/cupertino.dart';
 
-class LocalPlacesPage extends StatefulWidget {
+class LocalPlacesPage extends View {
   LocalPlacesPage({Key key}) : super(key: key);
 
   @override
@@ -17,26 +17,22 @@ class LocalPlacesPage extends StatefulWidget {
           DataLocalPlacesRepository(), DeviceLocationRepository()));
 }
 
-class _LocalPlacesPageView extends View<LocalPlacesPage> {
-  LocalPlacesController _controller;
+class _LocalPlacesPageView extends ViewState<LocalPlacesPage, LocalPlacesController> {
 
-  _LocalPlacesPageView(this._controller) {
-    _controller.initController(scaffoldKey, callHandler);
-    WidgetsBinding.instance.addObserver(_controller);
-  }
+  _LocalPlacesPageView(LocalPlacesController controller) : super(controller);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      key: scaffoldKey,
+      key: globalKey,
       length: 2,
       initialIndex: 0,
       child: Scaffold(
-          drawer: Drawer(elevation: 8.0, child: View.drawer),
+          drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),
           appBar: appBar,
           body: ModalProgressHUD(
               child: getBody(),
-              inAsyncCall: _controller.isLoading,
+              inAsyncCall: controller.isLoading,
               color: UIConstants.progressBarColor,
               opacity: UIConstants.progressBarOpacity)),
     );
@@ -45,8 +41,8 @@ class _LocalPlacesPageView extends View<LocalPlacesPage> {
   Widget getBody() {
     return TabBarView(
       children: [
-        RestaurantsTab(_controller.restaurants),
-        HotelsTab(_controller.hotels),
+        RestaurantsTab(controller.restaurants),
+        HotelsTab(controller.hotels),
       ],
     );
   }
@@ -68,10 +64,4 @@ class _LocalPlacesPageView extends View<LocalPlacesPage> {
           ],
         ),
       );
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 }

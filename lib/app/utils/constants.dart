@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hnh/app/components/hhDrawer/hhDrawerView.dart';
 import 'package:hnh/domain/entities/coordinates.dart';
 import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,6 +23,7 @@ class Strings {
 
 class HHHConstants {
   static const String registrationUrl = 'https://www.hh100.org/sign-up';
+  static HhDrawer drawer = HhDrawer();
 }
 
 class Resources {
@@ -31,6 +33,7 @@ class Resources {
   static const String event_race = 'assets/img/event_race.jpg';
   static const String event_spaghetti = 'assets/img/event_spaghetti.jpg';
   static const String event_consumer = 'assets/img/event_consumer.jpg';
+  static const String checkpoint = 'assets/img/checkpoint_16x16.bmp';
 }
 
 /// Returns the app's default snackbar with a [text].

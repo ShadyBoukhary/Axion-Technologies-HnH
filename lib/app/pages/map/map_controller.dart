@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hnh/app/abstract/controller.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/models/race_tracker.dart';
 import 'package:hnh/app/pages/map/map_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/utils/google_maps_mapper.dart';
@@ -32,9 +33,10 @@ class MapController extends Controller {
   String get remainingDistance => _remainingDistance.toStringAsPrecision(3);
   String get distanceTravelled => _distanceTravelled.toStringAsFixed(1);
 
-  MapController(locationRepository, weatherRepository, Event event) {
+  MapController(locationRepository, weatherRepository, Event event)
+      : _mapPresenter = MapPresenter(locationRepository, weatherRepository) {
     _event = RaceTracker.fromEvent(event);
-    _mapPresenter = MapPresenter(locationRepository, weatherRepository);
+
     _currentLocation = _initialPosition = Location.wichitaFalls();
     _currentWeather = Weather.empty();
     _totalDistance = _remainingDistance = _distanceTravelled = 0;
@@ -81,7 +83,7 @@ class MapController extends Controller {
       _currentWeather = weather;
     }
     _remainingDistance = _event.advancePosition(location.toCoordinates());
-    _distanceTravelled = 0.0242;//_event.distanceTravelled;
+    _distanceTravelled = 0.0242; //_event.distanceTravelled;
     double distanceToHG = _event.distanceToHellsGate(location.toCoordinates());
     if (_remainingDistance == 0) {
       // race completed
@@ -93,7 +95,8 @@ class MapController extends Controller {
   void setInitialPosition(Location location, LatLng latlng) {
     _isInitialSet = true;
     _initialPosition = location;
-    _googleMapController?.animateCamera(CameraUpdate.newLatLngZoom(initial, 11));
+    _googleMapController
+        ?.animateCamera(CameraUpdate.newLatLngZoom(initial, 11));
     polylines.add(Polyline(
         polylineId: PolylineId('navigation'),
         color: Colors.green,
@@ -134,16 +137,18 @@ class MapController extends Controller {
         patterns: [PatternItem.dot]));
   }
 
-  void initMarkers() {
+  void initMarkers() async {
     if (_event.isRace) {
       // rest stop markers
+      var image = await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(16, 16)), Resources.checkpoint);
       _event.stops.forEach((stop) {
         markers.add(Marker(
           markerId: MarkerId(markers.length.toString()),
           position: mapCoordinatesToLatLng(stop),
           icon: stop == _event.hellsGate
               ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
-              : BitmapDescriptor.defaultMarker,
+              : image,
           infoWindow: InfoWindow(
               title: stop == _event.hellsGate
                   ? 'Hells Gate'
@@ -174,7 +179,10 @@ class MapController extends Controller {
     isNavigating = !isNavigating;
     if (isNavigating) {
       _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: mapCoordinatesToLatLng(_currentLocation.toCoordinates()), zoom: 18.5, tilt: 45)));
+          CameraPosition(
+              target: mapCoordinatesToLatLng(_currentLocation.toCoordinates()),
+              zoom: 18.5,
+              tilt: 45)));
     }
   }
 }
