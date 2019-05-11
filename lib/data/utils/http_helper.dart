@@ -89,4 +89,5 @@ class HttpHelper {
   }
 }
 
+// types used by the helper
 enum RequestType { get, post, put, delete }
