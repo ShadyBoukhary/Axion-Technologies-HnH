@@ -84,6 +84,11 @@ export async function getCurrentHHH(req: Request, res: Response, next: NextFunct
 }
 
 
+/**
+ * Creates all HHHs and populates the database using the data present in files.
+ * @param req 
+ * @param res 
+ */
 export async function createHHHs(req: Request, res: Response) {
 
     // check for the password
