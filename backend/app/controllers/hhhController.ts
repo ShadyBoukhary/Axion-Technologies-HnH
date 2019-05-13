@@ -46,6 +46,12 @@ export async function getHHHs(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+/**
+ * GET: Gets the current HHH based on the year
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export async function getCurrentHHH(req: Request, res: Response, next: NextFunction) {
     
     let year = getCurrentYear();
