@@ -13,6 +13,12 @@ import { getCurrentYear } from '../utils/utils';
 
 const HHH = model<IHHH, IHHHModel>('HHH', HHHSchema);
 
+/**
+ * GET: Gets all HHHs throughout all the years
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export async function getHHHs(req: Request, res: Response, next: NextFunction) {
     try {
 
