@@ -68,10 +68,7 @@ export function createUser(req: Request, res: Response, next: NextFunction) {
 };
 
 export function getUser(req: Request, res: Response) {
-    console.log('*********************************************************');
     User.findById(req.params.userId, function (err, user) {
-        console.log(err);
-        console.log(user);
         if (err) {
             res.send(err);
         } else if (user === null) {
