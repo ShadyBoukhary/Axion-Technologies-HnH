@@ -18,7 +18,6 @@ class MapController extends Controller {
   Weather _currentWeather;
   double _totalDistance;
   double _remainingDistance;
-  double _distanceTravelled;
   bool _isInitialSet;
   bool isNavigating;
   Set<Polyline> polylines;
@@ -31,7 +30,7 @@ class MapController extends Controller {
   Weather get currentWeather => _currentWeather;
   String get totalDistance => _totalDistance.toStringAsFixed(2);
   String get remainingDistance => _remainingDistance.toStringAsPrecision(3);
-  String get distanceTravelled => _distanceTravelled.toStringAsFixed(1);
+  String get distanceTravelled => _event.distanceTravelled.toStringAsFixed(1);
 
   MapController(locationRepository, weatherRepository, Event event)
       : _mapPresenter = MapPresenter(locationRepository, weatherRepository) {
@@ -39,7 +38,7 @@ class MapController extends Controller {
 
     _currentLocation = _initialPosition = Location.wichitaFalls();
     _currentWeather = Weather.empty();
-    _totalDistance = _remainingDistance = _distanceTravelled = 0;
+    _totalDistance = _remainingDistance  = 0;
     polylines = Set<Polyline>();
     markers = Set<Marker>();
     _isInitialSet = false;
@@ -83,7 +82,6 @@ class MapController extends Controller {
       _currentWeather = weather;
     }
     _remainingDistance = _event.advancePosition(location.toCoordinates());
-    _distanceTravelled = 0.0242; //_event.distanceTravelled;
     double distanceToHG = _event.distanceToHellsGate(location.toCoordinates());
     if (_remainingDistance == 0) {
       // race completed
