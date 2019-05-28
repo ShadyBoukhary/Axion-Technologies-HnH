@@ -144,9 +144,7 @@ class MapController extends Controller {
         markers.add(Marker(
           markerId: MarkerId(markers.length.toString()),
           position: mapCoordinatesToLatLng(stop),
-          icon: stop == _event.hellsGate
-              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
-              : image,
+          icon:  BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
           infoWindow: InfoWindow(
               title: stop == _event.hellsGate
                   ? 'Hells Gate'
