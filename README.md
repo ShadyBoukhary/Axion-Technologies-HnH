@@ -7,6 +7,7 @@ The Hotter'n Hell Mobile Application
 ## Getting Started
 
 Become familiar with the Clean Architecture.
+The package used for the clean architecture is [this](https://github.com/ShadyBoukhary/flutter_clean_architecture).
 
 Documentation
 
