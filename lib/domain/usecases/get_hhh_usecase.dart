@@ -1,10 +1,10 @@
-import 'package:hnh/domain/repositories/hhh_repository.dart';
+import 'dart:async';
+
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/entities/hhh.dart';
 import 'package:hnh/domain/entities/sponsor.dart';
+import 'package:hnh/domain/repositories/hhh_repository.dart';
 import 'package:hnh/domain/repositories/sponsor_repository.dart';
-import 'package:rxdart/rxdart.dart';
-import 'dart:async';
 
 /// Retrieves this year's [HHH]
 class GetHHHUseCase extends UseCase<GetHHHUseCaseResponse, void> {
@@ -14,8 +14,9 @@ class GetHHHUseCase extends UseCase<GetHHHUseCaseResponse, void> {
   GetHHHUseCase(this._hhhRepository, this._sponsorRepository);
 
   @override
-  Future<Observable<GetHHHUseCaseResponse>> buildUseCaseObservable(void ignore) async {
-    final StreamController<GetHHHUseCaseResponse> controller = StreamController();
+  Future<Stream<GetHHHUseCaseResponse>> buildUseCaseStream(void ignore) async {
+    final StreamController<GetHHHUseCaseResponse> controller =
+        StreamController();
     try {
       // get current HHH and Sponsors in parallel
       List<Future> futures = List<Future>();
@@ -24,10 +25,11 @@ class GetHHHUseCase extends UseCase<GetHHHUseCaseResponse, void> {
       var result = await Future.wait(futures);
 
       // debug mode only
-      assert (result[0] is HHH);
-      assert (result[1] is List<Sponsor>);
+      assert(result[0] is HHH);
+      assert(result[1] is List<Sponsor>);
 
-      GetHHHUseCaseResponse response = GetHHHUseCaseResponse(result[0], result[1]);
+      GetHHHUseCaseResponse response =
+          GetHHHUseCaseResponse(result[0], result[1]);
       controller.add(response);
       logger.finest('GetHHHUseCase successful.');
       controller.close();
@@ -36,7 +38,7 @@ class GetHHHUseCase extends UseCase<GetHHHUseCaseResponse, void> {
       logger.severe('GetHHHUseCase unsuccessful.');
       controller.addError(e);
     }
-    return Observable(controller.stream);
+    return controller.stream;
   }
 }
 
@@ -48,7 +50,4 @@ class GetHHHUseCaseResponse {
   List<Sponsor> get sponsors => _sponsors;
 
   GetHHHUseCaseResponse(this._hhh, this._sponsors);
-
 }
-
-

@@ -1,28 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/local_places/local_places_controller.dart';
 import 'package:hnh/app/pages/local_places/local_places_tabs.dart';
-import 'package:hnh/data/repositories/data_local_places_repository.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/data/repositories/data_local_places_repository.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LocalPlacesPage extends View {
   LocalPlacesPage({Key key}) : super(key: key);
 
   @override
-  _LocalPlacesPageView createState() =>
-      _LocalPlacesPageView(LocalPlacesController(
-          DataLocalPlacesRepository(), DeviceLocationRepository()));
+  _LocalPlacesPageView createState() => _LocalPlacesPageView();
 }
 
-class _LocalPlacesPageView extends ViewState<LocalPlacesPage, LocalPlacesController> {
-
-  _LocalPlacesPageView(LocalPlacesController controller) : super(controller);
+class _LocalPlacesPageView
+    extends ViewState<LocalPlacesPage, LocalPlacesController> {
+  _LocalPlacesPageView()
+      : super(LocalPlacesController(
+            DataLocalPlacesRepository(), DeviceLocationRepository()));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return DefaultTabController(
       key: globalKey,
       length: 2,
@@ -46,7 +46,6 @@ class _LocalPlacesPageView extends ViewState<LocalPlacesPage, LocalPlacesControl
       ],
     );
   }
-
 
   AppBar get appBar => AppBar(
         title: Text(

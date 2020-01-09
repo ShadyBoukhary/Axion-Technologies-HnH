@@ -1,8 +1,8 @@
-import 'package:hnh/domain/repositories/authentication_repository.dart';
+import 'dart:async';
+
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/entities/user.dart';
-import 'package:rxdart/rxdart.dart';
-import 'dart:async';
+import 'package:hnh/domain/repositories/authentication_repository.dart';
 
 /// Retrieves the currently authenticated [User]
 class GetCurrentUserUseCase extends UseCase<User, void> {
@@ -10,7 +10,7 @@ class GetCurrentUserUseCase extends UseCase<User, void> {
   GetCurrentUserUseCase(this._authenticationRepository);
 
   @override
-  Future<Observable<User>> buildUseCaseObservable(void ignore) async {
+  Future<Stream<User>> buildUseCaseStream(void ignore) async {
     final StreamController<User> controller = StreamController();
     try {
       User user = await _authenticationRepository.getCurrentUser();
@@ -22,6 +22,6 @@ class GetCurrentUserUseCase extends UseCase<User, void> {
       logger.severe('GetCurrentUserUseCase unsuccessful.');
       controller.addError(e);
     }
-    return Observable(controller.stream);
+    return controller.stream;
   }
 }

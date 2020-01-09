@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/events/events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
 
 class EventsController extends Controller {
@@ -24,7 +24,6 @@ class EventsController extends Controller {
         super() {
     _featuredEvents = List<Event>();
     _upcomingEvents = List<Event>();
-    loadOnStart();
     userRetrieved = eventsRetrieved = false;
     retrieveData();
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -8,7 +9,6 @@ import 'package:hnh/data/repositories/data_event_repository.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:flutter/cupertino.dart';
 
 class EventPage extends View {
   final Event event;
@@ -26,12 +26,12 @@ class EventPage extends View {
   final String title;
 
   @override
-  _EventPageView createState() => _EventPageView(
-      EventController(DataEventRepository(), event, user, isUserEvent));
+  _EventPageView createState() => _EventPageView(event, user, isUserEvent);
 }
 
 class _EventPageView extends ViewState<EventPage, EventController> {
-  _EventPageView(EventController controller) : super(controller);
+  _EventPageView(event, user, isUserEvent)
+      : super(EventController(DataEventRepository(), event, user, isUserEvent));
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
     // has completely finished. The future delay is just an extra measure
     // to prevent any jittering when calling setstate
     // this makes the page load faster since the google map
-    // is only displayed and the UI updated after the page has 
+    // is only displayed and the UI updated after the page has
     // already loaded
     if (SchedulerBinding.instance.schedulerPhase ==
         SchedulerPhase.persistentCallbacks) {
@@ -55,7 +55,7 @@ class _EventPageView extends ViewState<EventPage, EventController> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(
         key: globalKey,
         body: ModalProgressHUD(

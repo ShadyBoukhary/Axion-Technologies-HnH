@@ -11,8 +11,7 @@ class ForgotPwPage extends View {
   final String title;
 
   @override
-  _ForgotPwPageView createState() =>
-      _ForgotPwPageView(ForgotPwController(DataAuthenticationRepository()));
+  _ForgotPwPageView createState() => _ForgotPwPageView();
 }
 
 class _ForgotPwPageView extends ViewState<ForgotPwPage, ForgotPwController> {
@@ -20,12 +19,11 @@ class _ForgotPwPageView extends ViewState<ForgotPwPage, ForgotPwController> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  _ForgotPwPageView(ForgotPwController controller) : super(controller);
-
-
+  _ForgotPwPageView()
+      : super(ForgotPwController(DataAuthenticationRepository()));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return ModalProgressHUD(
         child: body,
         inAsyncCall: _controller.isLoading,
@@ -82,10 +80,9 @@ class _ForgotPwPageView extends ViewState<ForgotPwPage, ForgotPwController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             RawMaterialButton(
-                              onPressed: () =>
-                                  callHandler(_controller.checkForm, params: {
-                                    'formKey': _formKey,
-                                  }),
+                              onPressed: () => _controller.checkForm({
+                                'formKey': _formKey,
+                              }),
                               child: Container(
                                 width: 320.0,
                                 height: 50.0,

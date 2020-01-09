@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/event_card.dart';
 import 'package:hnh/app/pages/events/events_controller.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class EventsPage extends View {
   EventsPage({Key key, this.title}) : super(key: key);
@@ -13,15 +13,16 @@ class EventsPage extends View {
   final String title;
 
   @override
-  _EventsPageView createState() => _EventsPageView(
-      EventsController(DataAuthenticationRepository(), DataEventRepository()));
+  _EventsPageView createState() => _EventsPageView();
 }
-class _EventsPageView extends ViewState<EventsPage , EventsController> {
 
-  _EventsPageView(EventsController controller) : super(controller);
-  
+class _EventsPageView extends ViewState<EventsPage, EventsController> {
+  _EventsPageView()
+      : super(EventsController(
+            DataAuthenticationRepository(), DataEventRepository()));
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(
         key: globalKey,
         drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),

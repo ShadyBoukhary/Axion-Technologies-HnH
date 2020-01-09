@@ -1,11 +1,11 @@
+import 'dart:async';
+
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/domain/entities/coordinates.dart';
+import 'package:hnh/domain/entities/location.dart';
 import 'package:hnh/domain/entities/weather.dart';
 import 'package:hnh/domain/repositories/location_repository.dart';
 import 'package:hnh/domain/repositories/weather_repository.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:hnh/domain/entities/location.dart';
-import 'package:rxdart/rxdart.dart';
-import 'dart:async';
 
 /// Tracks a user's [Location] and provides [Weather] every time it changed until the [UseCase] is disposed.
 class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
@@ -22,7 +22,7 @@ class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
         super();
 
   @override
-  Future<Observable<LocationTrackResponse>> buildUseCaseObservable(_) async {
+  Future<Stream<LocationTrackResponse>> buildUseCaseStream(_) async {
     return _locationRepository
         // on location change observable
         .onLocationChanged()
@@ -44,7 +44,7 @@ class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
   }
 
   /// Converts location data to `LocationTrackResponse` observable
-  Observable<LocationTrackResponse> convertToResponse(data) {
+  Stream<LocationTrackResponse> convertToResponse(data) {
     // parse location data
     Location location = Location.withoutTime(
         data.latitude.toString(), data.longitude.toString(), data.speed);
@@ -55,7 +55,7 @@ class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
       logger.info('Did not update location. Identical to last known location');
     }
     // map every location to `LocationTrackResponse` [[response], [response], [response]]
-    return Observable.fromFuture(getWeather(location));
+    return Stream.fromFuture(getWeather(location));
   }
 
   /// retrieves new weather data as long as 10 or more minutes have elapsed

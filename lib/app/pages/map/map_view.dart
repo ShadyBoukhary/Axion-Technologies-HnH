@@ -1,13 +1,14 @@
 import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hnh/app/components/gps_details.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/map/map_controller.dart';
 import 'package:hnh/data/repositories/data_weather_repository.dart';
-import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/device/repositories/device_location_repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:hnh/domain/entities/event.dart';
 
 class MapPage extends View {
   MapPage({Key key, @required this.event}) : super(key: key);
@@ -15,15 +16,17 @@ class MapPage extends View {
   final Event event;
 
   @override
-  _MapPageView createState() => _MapPageView(MapController(
-      DeviceLocationRepository(), DataWeatherRepository(), event));
+  _MapPageView createState() => _MapPageView(event);
 }
 
-class _MapPageView extends ViewState<MapPage, MapController> with SingleTickerProviderStateMixin {
-  _MapPageView(MapController controller) : super(controller);
+class _MapPageView extends ViewState<MapPage, MapController>
+    with SingleTickerProviderStateMixin {
+  _MapPageView(event)
+      : super(MapController(
+            DeviceLocationRepository(), DataWeatherRepository(), event));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return WillPopScope(
       key: globalKey,
       child: Scaffold(
@@ -53,8 +56,9 @@ class _MapPageView extends ViewState<MapPage, MapController> with SingleTickerPr
                   fontSize: 15.0,
                   color: Colors.red,
                   fontWeight: FontWeight.w500),
-                  child: Text(controller.isNavigating ? 'Unlock Camera' : "Lock Camera"),
-                  onPressed: () => callHandler(controller.handleStart),
+              child: Text(
+                  controller.isNavigating ? 'Unlock Camera' : "Lock Camera"),
+              onPressed: () => controller.handleStart(),
             ),
           ],
         ),
@@ -68,8 +72,7 @@ class _MapPageView extends ViewState<MapPage, MapController> with SingleTickerPr
         width: MediaQuery.of(context).size.width,
         child: GoogleMap(
           onMapCreated: (controller1) {
-            callHandler(controller.googleMapsOnInit,
-                params: {'controller': controller1});
+            controller.googleMapsOnInit({'controller': controller1});
           },
           initialCameraPosition: CameraPosition(
             target: controller.initial,
