@@ -6,6 +6,7 @@ import 'package:hnh/domain/entities/location.dart';
 import 'package:hnh/domain/entities/weather.dart';
 import 'package:hnh/domain/repositories/location_repository.dart';
 import 'package:hnh/domain/repositories/weather_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Tracks a user's [Location] and provides [Weather] every time it changed until the [UseCase] is disposed.
 class LocationTrackUseCase extends UseCase<LocationTrackResponse, void> {
