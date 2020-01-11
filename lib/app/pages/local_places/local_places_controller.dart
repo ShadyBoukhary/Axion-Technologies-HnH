@@ -6,6 +6,7 @@ import 'package:hnh/domain/entities/local_place.dart';
 class LocalPlacesController extends Controller {
   LocalPlacesPresenter _placesPresenter;
   List<LocalPlace> _places;
+  bool isLoading = false;
   List<LocalPlace> get places => _places;
   List<LocalPlace> get restaurants => _places
       .where((place) => place.type == LocalPlaceType.restaurant)
@@ -17,7 +18,7 @@ class LocalPlacesController extends Controller {
       : _placesPresenter = LocalPlacesPresenter(localPlacesRepo, locationRepo) {
     _places = List<LocalPlace>();
     initListeners();
-    loadOnStart();
+    isLoading = true;
     retrieveData();
   }
 
@@ -31,6 +32,10 @@ class LocalPlacesController extends Controller {
     };
 
     _placesPresenter.getLocalPlacesOnComplete = () => dismissLoading();
+  }
+
+  void dismissLoading() {
+    isLoading = false;
   }
 
   void retrieveData() {

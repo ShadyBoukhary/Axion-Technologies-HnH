@@ -1,10 +1,11 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/splash/splash_presenter.dart';
-import 'package:flutter/material.dart';
 import 'package:hnh/domain/repositories/location_repository.dart';
 
 class SplashController extends Controller {
+  bool isLoading;
   SplashPresenter _splashPresenter;
   LocationRepository _locationRepository;
   SplashController(authRepo, this._locationRepository)
@@ -41,7 +42,7 @@ class SplashController extends Controller {
   @override
   void initListeners() {
     _splashPresenter.getAuthStatusOnNext = authStatusOnNext;
-    _splashPresenter.getAuthStatusOnComplete = () => dismissLoading();
+    _splashPresenter.getAuthStatusOnComplete = () => isLoading = false;
   }
 
   void handlePermissions() {

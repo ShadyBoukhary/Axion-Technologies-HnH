@@ -155,7 +155,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
 
   GestureDetector get loginButton => GestureDetector(
         onTap: () {
-          callHandler(controller.login);
+          controller.login();
         },
         child: Container(
           width: 320.0,

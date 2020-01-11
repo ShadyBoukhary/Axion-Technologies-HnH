@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/event/event_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/domain/entities/event.dart';
 import 'package:hnh/domain/entities/user.dart';
-import 'package:hnh/app/utils/constants.dart';
 
 class EventController extends Controller {
   EventPresenter _eventPresenter;
   Event _event;
   User _user;
+  bool isLoading = false;
   bool _isRegistered;
   final bool _isUserEvent;
   bool finishedLoading; // flag to display map
@@ -52,6 +53,11 @@ class EventController extends Controller {
     showGenericSnackbar(getStateKey(), e.message);
   }
 
+  void dismissLoading() {
+    isLoading = false;
+    refreshUI();
+  }
+
   void onSignUpPressed() =>
       Navigator.of(getContext()).pushNamed('/web', arguments: {
         'title': 'Registration',
@@ -70,12 +76,14 @@ class EventController extends Controller {
   }
 
   void _getIsRegistered() {
-    loadOnStart();
+    isLoading = true;
+    refreshUI();
     _eventPresenter.isRegistered(uid: _user.uid, eventId: _event.id);
   }
 
   void handleRegistration() {
-    showLoading();
+    isLoading = true;
+    refreshUI();
     if (_isRegistered) {
       _eventPresenter.unRegisterFromEvent(uid: _user.uid, eventId: _event.id);
     } else {

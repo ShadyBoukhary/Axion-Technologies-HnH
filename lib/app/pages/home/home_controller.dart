@@ -1,9 +1,9 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/home/home_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/domain/entities/hhh.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
-import 'package:hnh/domain/entities/hhh.dart';
 
 class HomeController extends Controller {
   HomePresenter _homePresenter;
@@ -15,6 +15,7 @@ class HomeController extends Controller {
   Logger logger;
   bool userRetrieved;
   bool hhhRetrieved;
+  bool isLoading;
 
   HomeController(hhhRepository, sponsorRepository, authRepository)
       : _homePresenter =
@@ -53,6 +54,11 @@ class HomeController extends Controller {
       userRetrieved = true;
       if (hhhRetrieved) dismissLoading();
     };
+  }
+
+  void dismissLoading() {
+    isLoading = false;
+    refreshUI();
   }
 
   void retrieveData() {

@@ -12,6 +12,7 @@ class EventsController extends Controller {
   List<Event> _upcomingEvents;
   User _currentUser;
   Logger logger;
+  bool isLoading = false;
   bool userRetrieved;
   bool eventsRetrieved;
 
@@ -25,6 +26,7 @@ class EventsController extends Controller {
     _featuredEvents = List<Event>();
     _upcomingEvents = List<Event>();
     userRetrieved = eventsRetrieved = false;
+    isLoading = true;
     retrieveData();
   }
 
@@ -60,6 +62,11 @@ class EventsController extends Controller {
       eventsRetrieved = true;
       if (userRetrieved) dismissLoading();
     };
+  }
+
+  void dismissLoading() {
+    isLoading = false;
+    refreshUI();
   }
 
   void openEvent(event) {

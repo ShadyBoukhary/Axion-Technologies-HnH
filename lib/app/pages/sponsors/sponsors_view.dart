@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/components/sponsor_card.dart';
 import 'package:hnh/app/pages/sponsors/sponsors_controller.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/data/repositories/data_hhh_repository.dart';
 import 'package:hnh/data/repositories/data_sponsor_repository.dart';
-import 'package:hnh/data/repositories/data_authentication_repository.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class SponsorsPage extends View {
   SponsorsPage({Key key, this.title}) : super(key: key);
@@ -14,17 +14,16 @@ class SponsorsPage extends View {
   final String title;
 
   @override
-  _SponsorsPageView createState() => _SponsorsPageView(SponsorsController(
-      DataHHHRepository(),
-      DataSponsorRepository(),
-      DataAuthenticationRepository()));
+  _SponsorsPageView createState() => _SponsorsPageView();
 }
 
 class _SponsorsPageView extends ViewState<SponsorsPage, SponsorsController> {
-  _SponsorsPageView(SponsorsController controller) : super(controller);
+  _SponsorsPageView()
+      : super(SponsorsController(DataHHHRepository(), DataSponsorRepository(),
+            DataAuthenticationRepository()));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(
         key: globalKey,
         drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),

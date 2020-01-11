@@ -9,6 +9,7 @@ class UserEventsController extends Controller {
   UserEventsPresenter _eventsPresenter;
   List<Event> _events;
   User _currentUser;
+  bool isLoading = false;
 
   User get currentUser => _currentUser;
   List<Event> get events => _events;
