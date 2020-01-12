@@ -8,7 +8,7 @@ import 'package:hnh/domain/utils/utils.dart';
 void main() {
   group('DataSponsorRepository', () {
     DataSponsorRepository dataSponsorRepository;
-    String validYear = '2019';
+    String validYear = '2020';
     String currentYear = Utils.currentYear;
     String invalidYear = Utils.uuidRandom();
 
