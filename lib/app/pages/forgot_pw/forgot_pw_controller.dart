@@ -1,11 +1,12 @@
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:hnh/app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/forgot_pw/forgot_pw_presenter.dart';
+import 'package:hnh/app/utils/constants.dart';
 
 class ForgotPwController extends Controller {
   TextEditingController email;
   ForgotPwPresenter _forgotPwPresenter;
+  bool isLoading = false;
 
   ForgotPwController(authRepo)
       : _forgotPwPresenter = ForgotPwPresenter(authRepo) {
@@ -33,12 +34,18 @@ class ForgotPwController extends Controller {
     assert(formKey is GlobalKey<FormState>);
 
     if (formKey.currentState.validate()) {
-      showLoading();
+      isLoading = true;
+      refreshUI();
       _forgotPwPresenter.forgotPassword(email: email.text);
     } else {
       showGenericSnackbar(getStateKey(), Strings.registrationFormIncomplete,
           isError: true);
     }
+  }
+
+  void dismissLoading() {
+    isLoading = false;
+    refreshUI();
   }
 
   @override

@@ -1,17 +1,18 @@
-import 'package:hnh/domain/repositories/authentication_repository.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:hnh/domain/entities/user.dart';
-import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 
-/// A `UseCase` for requesting a password reset.
-class ForgotPasswordUseCase extends CompletableUseCase<ForgotPasswordUseCaseParams> {
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:hnh/domain/entities/user.dart';
+import 'package:hnh/domain/repositories/authentication_repository.dart';
 
+/// A `UseCase` for requesting a password reset.
+class ForgotPasswordUseCase
+    extends CompletableUseCase<ForgotPasswordUseCaseParams> {
   AuthenticationRepository _authenticationRepository;
-  ForgotPasswordUseCase(this._authenticationRepository):super();
+  ForgotPasswordUseCase(this._authenticationRepository) : super();
 
   @override
-  Future<Observable<User>> buildUseCaseObservable(ForgotPasswordUseCaseParams params) async {
+  Future<Stream<User>> buildUseCaseStream(
+      ForgotPasswordUseCaseParams params) async {
     final StreamController<User> controller = StreamController();
     try {
       await _authenticationRepository.forgotPassword(params.email);
@@ -21,7 +22,7 @@ class ForgotPasswordUseCase extends CompletableUseCase<ForgotPasswordUseCasePara
       logger.shout('ForgortPasswordUseCase unsuccessful.', e);
       controller.addError(e);
     }
-    return Observable(controller.stream);
+    return controller.stream;
   }
 }
 

@@ -1,7 +1,7 @@
-import 'package:hnh/domain/repositories/authentication_repository.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:rxdart/rxdart.dart';
 import 'dart:async';
+
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:hnh/domain/repositories/authentication_repository.dart';
 
 /// Retrieves the current authentication status of the [User]
 class GetAuthStatusUseCase extends UseCase<bool, void> {
@@ -9,10 +9,9 @@ class GetAuthStatusUseCase extends UseCase<bool, void> {
   GetAuthStatusUseCase(this._authenticationRepository);
 
   @override
-  Future<Observable<bool>> buildUseCaseObservable(void ignore) async {
+  Future<Stream<bool>> buildUseCaseStream(void ignore) async {
     final StreamController<bool> controller = StreamController();
     try {
-
       bool isAuth = await _authenticationRepository.isAuthenticated();
       controller.add(isAuth);
       logger.finest('GetAuthStatusUseCase successful.');
@@ -22,10 +21,6 @@ class GetAuthStatusUseCase extends UseCase<bool, void> {
       logger.severe('GetAuthStatusUseCase unsuccessful.');
       controller.addError(e);
     }
-    return Observable(controller.stream);
+    return controller.stream;
   }
 }
-
-
-
-

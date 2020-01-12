@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:hnh/app/components/ensure_focus.dart';
+import 'package:hnh/app/components/inputField.dart';
 import 'package:hnh/app/pages/login/login_controller.dart';
+import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:hnh/app/components/inputField.dart';
-import 'package:hnh/app/utils/constants.dart';
-import 'package:hnh/app/components/ensure_focus.dart';
 
 class LoginPage extends View {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -13,7 +13,7 @@ class LoginPage extends View {
   final String title;
 
   @override
-  LoginPageView createState() => LoginPageView(LoginController(DataAuthenticationRepository()));
+  LoginPageView createState() => LoginPageView();
 }
 
 class LoginPageView extends ViewState<LoginPage, LoginController> {
@@ -26,12 +26,13 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
   final FocusNode _emailFocus;
   final FocusNode _passFocus;
 
-  LoginPageView(controller)
+  LoginPageView()
       : _emailFocus = FocusNode(),
-        _passFocus = FocusNode(), super(controller);
+        _passFocus = FocusNode(),
+        super(LoginController(DataAuthenticationRepository()));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     // ModalProgressHUD wraps the entire body with a loading using the controller.isLoading
     return Scaffold(
         key: globalKey,
@@ -57,8 +58,9 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding:
-                               EdgeInsets.only(top: MediaQuery.of(context).size.height / 8, bottom: 10.0),
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height / 8,
+                              bottom: 10.0),
                           child: Image(
                             image: AssetImage(Resources.logo),
                             width: 200.0,
@@ -77,7 +79,8 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                     ),
                   ),
                   Padding(
-                    padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 8),
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +155,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
 
   GestureDetector get loginButton => GestureDetector(
         onTap: () {
-          callHandler(controller.login);
+          controller.login();
         },
         child: Container(
           width: 320.0,

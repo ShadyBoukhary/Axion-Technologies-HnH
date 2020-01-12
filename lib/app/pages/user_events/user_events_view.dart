@@ -1,26 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';import 'package:hnh/app/components/user_event_card.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:hnh/app/components/user_event_card.dart';
 import 'package:hnh/app/pages/user_events/user_events_controller.dart';
-import 'package:hnh/domain/entities/user.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
 import 'package:hnh/data/repositories/data_event_repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:hnh/domain/entities/user.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class UserEventsPage extends View {
-  UserEventsPage(routeObserver, {Key key, this.user}) : super(routeObserver: routeObserver, key: key);
+  UserEventsPage(routeObserver, {Key key, this.user})
+      : super(routeObserver: routeObserver, key: key);
   final User user;
 
   @override
-  _UserEventsPageView createState() =>
-      _UserEventsPageView(UserEventsController(DataEventRepository(), user));
+  _UserEventsPageView createState() => _UserEventsPageView(user);
 }
 
-class _UserEventsPageView extends ViewState<UserEventsPage, UserEventsController> {
-  _UserEventsPageView(UserEventsController controller) : super(controller);
+class _UserEventsPageView
+    extends ViewState<UserEventsPage, UserEventsController> {
+  _UserEventsPageView(user)
+      : super(UserEventsController(DataEventRepository(), user));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(
         key: globalKey,
         drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),

@@ -8,21 +8,25 @@ import 'package:hnh/device/repositories/device_location_repository.dart';
 class SplashPage extends View {
   SplashPage();
   @override
-  SplashPageView createState() => SplashPageView(SplashController(DataAuthenticationRepository(), DeviceLocationRepository()));
+  SplashPageView createState() => SplashPageView();
 }
 
-class SplashPageView extends ViewState<SplashPage, SplashController> with SingleTickerProviderStateMixin {
-
+class SplashPageView extends ViewState<SplashPage, SplashController>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
 
-  SplashPageView(SplashController controller) : super(controller);
+  SplashPageView()
+      : super(SplashController(
+            DataAuthenticationRepository(), DeviceLocationRepository()));
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     controller.initAnimation(_animationController, _animation);
   }
 
@@ -33,7 +37,7 @@ class SplashPageView extends ViewState<SplashPage, SplashController> with Single
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(key: globalKey, body: body);
   }
 

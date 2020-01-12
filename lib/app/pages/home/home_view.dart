@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hnh/app/components/countdown.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:hnh/app/components/countdown.dart';
 import 'package:hnh/app/pages/home/home_controller.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/data/repositories/data_authentication_repository.dart';
 import 'package:hnh/data/repositories/data_hhh_repository.dart';
 import 'package:hnh/data/repositories/data_sponsor_repository.dart';
-import 'package:hnh/data/repositories/data_authentication_repository.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class HomePage extends View {
   HomePage({Key key, this.title}) : super(key: key);
@@ -14,17 +14,16 @@ class HomePage extends View {
   final String title;
 
   @override
-  HomePageView createState() => HomePageView(HomeController(DataHHHRepository(),
-      DataSponsorRepository(), DataAuthenticationRepository()));
+  HomePageView createState() => HomePageView();
 }
 
 class HomePageView extends ViewState<HomePage, HomeController> {
-
-  HomePageView(HomeController controller) : super(controller);
-
+  HomePageView()
+      : super(HomeController(DataHHHRepository(), DataSponsorRepository(),
+            DataAuthenticationRepository()));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(
       key: globalKey,
       drawer: Drawer(elevation: 8.0, child: HHHConstants.drawer),

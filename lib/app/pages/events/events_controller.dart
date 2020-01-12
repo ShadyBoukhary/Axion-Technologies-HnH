@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/events/events_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
-import 'package:hnh/domain/entities/user.dart';
 import 'package:hnh/domain/entities/event.dart';
+import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
 
 class EventsController extends Controller {
@@ -12,6 +12,7 @@ class EventsController extends Controller {
   List<Event> _upcomingEvents;
   User _currentUser;
   Logger logger;
+  bool isLoading = false;
   bool userRetrieved;
   bool eventsRetrieved;
 
@@ -24,8 +25,8 @@ class EventsController extends Controller {
         super() {
     _featuredEvents = List<Event>();
     _upcomingEvents = List<Event>();
-    loadOnStart();
     userRetrieved = eventsRetrieved = false;
+    isLoading = true;
     retrieveData();
   }
 
@@ -61,6 +62,11 @@ class EventsController extends Controller {
       eventsRetrieved = true;
       if (userRetrieved) dismissLoading();
     };
+  }
+
+  void dismissLoading() {
+    isLoading = false;
+    refreshUI();
   }
 
   void openEvent(event) {

@@ -10,18 +10,17 @@ class RegisterPage extends View {
   final String title;
 
   @override
-  _RegisterPageView createState() =>
-      _RegisterPageView(RegisterController(DataAuthenticationRepository()));
+  _RegisterPageView createState() => _RegisterPageView();
 }
 
 class _RegisterPageView extends ViewState<RegisterPage, RegisterController> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  _RegisterPageView(RegisterController controller) : super(controller);
+  _RegisterPageView()
+      : super(RegisterController(DataAuthenticationRepository()));
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Scaffold(
       key: globalKey,
       appBar: appBar,
@@ -120,7 +119,7 @@ class _RegisterPageView extends ViewState<RegisterPage, RegisterController> {
                                   'I agree to the Terms of Service and Privacy Policy'),
                               value: controller.agreedToTOS,
                               onChanged: (state) {
-                                callHandler(controller.setAgreedToTOS);
+                                controller.setAgreedToTOS();
                               },
                               activeColor: Colors.red,
                               controlAffinity: ListTileControlAffinity.leading,
@@ -155,12 +154,11 @@ class _RegisterPageView extends ViewState<RegisterPage, RegisterController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           RawMaterialButton(
-                            onPressed: () => callHandler(controller.checkForm,
-                                    params: {
-                                      'context': context,
-                                      'formKey': _formKey,
-                                      'globalKey': globalKey
-                                    }),
+                            onPressed: () => controller.checkForm({
+                              'context': context,
+                              'formKey': _formKey,
+                              'globalKey': globalKey
+                            }),
                             child: Container(
                               width: 320.0,
                               height: 50.0,

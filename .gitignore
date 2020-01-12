@@ -79,3 +79,4 @@ mongoConfig.ts
 
 # Sensitive
 sensitive.dart
+.flutter-plugins-dependencies

@@ -1,15 +1,16 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:hnh/app/pages/sponsors/sponsors_presenter.dart';
 import 'package:hnh/app/utils/constants.dart';
+import 'package:hnh/domain/entities/hhh.dart';
 import 'package:hnh/domain/entities/sponsor.dart';
 import 'package:hnh/domain/entities/user.dart';
 import 'package:logging/logging.dart';
-import 'package:hnh/domain/entities/hhh.dart';
 
 class SponsorsController extends Controller {
   SponsorsPresenter _sponsorsPresenter;
   User _currentUser;
   HHH _currentHHH;
+  bool isLoading;
   List<Sponsor> _sponsors;
 
   DateTime get eventTime => _currentHHH?.eventTime;
@@ -60,6 +61,10 @@ class SponsorsController extends Controller {
       userRetrieved = true;
       if (hhhRetrieved) dismissLoading();
     };
+  }
+
+  void dismissLoading() {
+    isLoading = false;
   }
 
   void retrieveData() {

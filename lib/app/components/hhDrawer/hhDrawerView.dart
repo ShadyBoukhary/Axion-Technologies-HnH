@@ -14,22 +14,24 @@ class HhDrawer extends View {
 class _HhDrawerView extends ViewState<HhDrawer, HHDrawerController> {
   _HhDrawerView(HHDrawerController controller) : super(controller);
 
-
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage() {
     return Stack(key: globalKey, children: [
       Column(
         children: <Widget>[
           header,
-          createPageTile('Home', Icons.home, () => controller.navigate('/home', context)),
-          createPageTile('Events', Icons.calendar_today, () => controller.navigate('/events', context)),
+          createPageTile(
+              'Home', Icons.home, () => controller.navigate('/home', context)),
+          createPageTile('Events', Icons.calendar_today,
+              () => controller.navigate('/events', context)),
           createPageTile(
               'My Events',
               Icons.calendar_today,
               () => controller.navigateWithArgs(
                   '/userEvents', context, {'user': controller.user})),
           Divider(),
-          createPageTile('Sponsors', Icons.business, () => controller.navigate('/sponsors', context)),
+          createPageTile('Sponsors', Icons.business,
+              () => controller.navigate('/sponsors', context)),
           createPageTile('Local', Icons.hotel,
               () => controller.navigate('/localPlaces', context)),
           Divider(),
